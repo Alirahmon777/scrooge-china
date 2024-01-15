@@ -1,4 +1,3 @@
-import React from 'react';
 import playIcon from '@svgs/play.svg';
 
 interface IProps {

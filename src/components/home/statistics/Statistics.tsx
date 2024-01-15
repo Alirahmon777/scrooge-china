@@ -1,4 +1,3 @@
-import React from 'react';
 import comment from '@svgs/statistics/comment.svg';
 import commentAlt from '@svgs/statistics/comment-alt.svg';
 import happyUser from '@svgs/statistics/happy-user.svg';
