@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils';
 import { IChildProps } from '@/types/interfaces';
-import React from 'react';
 
 interface IProps extends IChildProps {
   badgeContent: string;
