@@ -1,7 +1,7 @@
 import React from 'react';
 import AboutSliderCard from './AboutSliderCard';
 import Slider, { Settings } from 'react-slick';
-import { SampleNextArrow, SamplePrevArrow } from '@/components/ui/SwiperBtns';
+import { SliderBtn } from '@/components/ui/SwiperBtns';
 import '@styles/slider.css';
 
 const AboutSlider: React.FC = () => {
@@ -14,8 +14,8 @@ const AboutSlider: React.FC = () => {
     initialSlide: 1.78,
     slidesToShow: 2.25,
     slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: <SliderBtn customClass='right-[64px]' />,
+    prevArrow: <SliderBtn customClass='-left-[30px] rotate-180' />,
   };
 
   return (

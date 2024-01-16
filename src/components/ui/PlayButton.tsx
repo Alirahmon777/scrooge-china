@@ -7,7 +7,7 @@ const PlayButton = ({ label }: IProps) => {
   return (
     <div className='flex items-center gap-2'>
       <button className='rounded-full w-[52px] h-[52px] flex items-center justify-center bg-success'>
-        <img src={playIcon} alt={label} />
+        <img src={playIcon} alt={label} className='!w-[17px] ml-1' />
       </button>
       {label && <p className='font-bold'>{label}</p>}
     </div>
