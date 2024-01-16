@@ -29,14 +29,14 @@ const Recommendation = () => {
             className='!pb-[60px]'
             coverflowEffect={{
               rotate: 20,
-              stretch: -110,
-              depth: 1300,
+              stretch: -130,
+              depth: 1450,
               modifier: 1,
               slideShadows: true,
             }}
           >
-            <SwiperBtn customClass='left-[225px] rotate-180' prev={true} />
-            <SwiperBtn customClass='right-[225px]' prev={false} />
+            <SwiperBtn customClass='left-[200px] rotate-180' prev={true} />
+            <SwiperBtn customClass='right-[200px]' prev={false} />
             <SwiperSlide>
               <RecommendationCard />
             </SwiperSlide>

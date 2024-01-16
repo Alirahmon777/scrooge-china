@@ -3,14 +3,19 @@ import { useLocation } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import HeaderItem from './HeaderItem';
 import { useTranslation } from 'react-i18next';
+
+const linkClass = 'font-semibold leading-6 text-gray text-sm xl:text-base hover:text-success transition-all';
+
 const HeaderNav = () => {
-  const lang = localStorage.getItem('i18nextLng');
   const { pathname } = useLocation();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language: lang },
+  } = useTranslation();
   const nav = [
-    { name: 'Пополнить', href: `/${lang}` },
+    { name: 'payment', href: `/${lang}` },
     {
-      name: 'Наши проекты',
+      name: 'our_projects',
       children: [
         { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#' },
         { name: 'Engagement', description: 'Speak directly to your customers', href: '#' },
@@ -19,12 +24,12 @@ const HeaderNav = () => {
         { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#' },
       ],
     },
-    { name: t('review', { ns: 'layout' }), href: `/${lang}/reviews` },
-    { name: 'Достижения', href: `/${lang}/statistics` },
+    { name: 'review', href: `/${lang}/reviews` },
+    { name: 'rating', href: `/${lang}/statistics` },
   ];
 
   return (
-    <nav>
+    <nav className='tablet:block hidden'>
       <ul className='flex items-center gap-[20px]'>
         {nav.map(({ name, href, children }, idx) => {
           if (children) {
@@ -35,11 +40,11 @@ const HeaderNav = () => {
             <li key={idx}>
               <NavLink
                 to={href}
-                className={cn('font-semibold leading-6 text-gray', {
+                className={cn(linkClass, {
                   'text-success': pathname == href,
                 })}
               >
-                {name}
+                {t(name, 'layout')}
               </NavLink>
             </li>
           );
@@ -47,11 +52,11 @@ const HeaderNav = () => {
         <li>
           <NavLink
             to={`/${lang}/help`}
-            className={cn('font-semibold leading-6 text-gray', {
+            className={cn(linkClass, {
               'text-success': pathname.includes('help') || pathname.includes('contacts'),
             })}
           >
-            Помощь
+            {t('help', 'layout')}
           </NavLink>
         </li>
       </ul>

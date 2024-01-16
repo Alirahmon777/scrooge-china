@@ -1,6 +1,6 @@
 import { Popover, Transition } from '@headlessui/react';
 import { ILanguage } from './types/interface';
-import globe from '@svgs/globe.svg';
+import globe from '@svgs/layout/globe.svg';
 import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

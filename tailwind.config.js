@@ -2,37 +2,17 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      base: '300px',
+      sm: '640px',
+      md: '768px',
+      tablet: '820px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
+
     extend: {
-      fontSize: {
-        default: [
-          '12px',
-          {
-            lineHeight: '144%',
-            fontFamily: ['SF Pro Display', 'sans-serif'],
-          },
-        ],
-        small: [
-          '10px',
-          {
-            lineHeight: '144%',
-            fontFamily: ['SF Pro Display', 'sans-serif'],
-          },
-        ],
-        medium: [
-          '11px',
-          {
-            lineHeight: '144%',
-            fontFamily: ['SF Pro Display', 'sans-serif'],
-          },
-        ],
-        big: [
-          '14px',
-          {
-            lineHeight: '144%',
-            fontFamily: ['SF Pro Display', 'sans-serif'],
-          },
-        ],
-      },
       container: {
         center: true,
         padding: '1rem',
@@ -48,7 +28,6 @@ export default {
       fontFamily: {
         inter: ['var(--font-inter)'],
         sfPro: ['var(--font-sf-pro)'],
-        ttInterfaces: ['var(--font-tt-interfaces)'],
       },
     },
   },

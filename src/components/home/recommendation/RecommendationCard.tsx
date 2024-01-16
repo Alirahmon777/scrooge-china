@@ -1,9 +1,9 @@
 import PlayButton from '@/components/ui/PlayButton';
-import youtubeIcon from '@svgs/home/youtube.svg';
+import youtubeIcon from '@svgs/youtube.svg';
 const RecommendationCard = () => {
   return (
     <div className='bg-header rounded-[20px] overflow-hidden'>
-      <div className='flex'>
+      <div className='flex justify-between gap-[60px]'>
         <div className='flex  p-10 flex-col gap-[68px]'>
           <div className=''>
             <div className='w-[100px] h-[100px] rounded-[10px] bg-[#d9d9d9]' />
