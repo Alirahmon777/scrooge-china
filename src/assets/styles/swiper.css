@@ -24,5 +24,10 @@
 
 .swiper-pagination-bullet-active {
   background: #52ea73;
-  width: 10px;
+}
+
+@media screen and (max-width: 425px) {
+  .swiper-pagination-bullet {
+    width: 10px;
+  }
 }

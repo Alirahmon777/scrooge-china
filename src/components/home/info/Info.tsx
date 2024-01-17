@@ -16,9 +16,9 @@ const infos = [
 ];
 const Info = () => {
   return (
-    <section className='mt-[120px]'>
+    <section className='mt-5 tablet:mt-[120px]'>
       <div className='container'>
-        <div className='grid grid-cols-1 sm:max-w-[70%] md:max-w-none md:grid-cols-2 xl:grid-cols-3 gap-[30px] md:gap-[47px] md:justify-between'>
+        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[30px] lg:gap-[47px] max-xl:justify-items-center'>
           {infos.map(({ title, desc }, idx) => (
             <InfoCard desc={desc} title={title} key={idx} />
           ))}

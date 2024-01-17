@@ -12,7 +12,7 @@ const Recommendation = () => {
   return (
     <section className='mt-[150px]'>
       <div className='container max-w-[1240px] flex flex-col gap-[60px]'>
-        <h2 className='text-center text-6xl font-bold'>Нас Рекомендуют</h2>
+        <h2 className='text-center font-bold leading-[120%]'>Нас Рекомендуют</h2>
         <div className='overflow-hidden'>
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, Autoplay]}

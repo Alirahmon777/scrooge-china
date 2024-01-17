@@ -4,6 +4,7 @@ export default {
   theme: {
     screens: {
       base: '300px',
+      mobile: '425px',
       sm: '640px',
       md: '768px',
       tablet: '820px',

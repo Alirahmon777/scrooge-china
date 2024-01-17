@@ -6,7 +6,7 @@ const StatisticsPage = () => {
   return (
     <section className='mt-[100px] pb-[162px]'>
       <div className='container  text-center'>
-        <h2 className='text-6xl'>Достижения</h2>
+        <h2 className=' '>Достижения</h2>
         <ul className='grid grid-cols-2 gap-5 mt-[30px] max-w-[575px] mx-auto'>
           {statistics.map(({ desc, isBadge, badgeColor, badgeContent }, idx) => {
             if (isBadge) {

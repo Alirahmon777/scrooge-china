@@ -1,0 +1,27 @@
+@media not all and (min-width: 425px) {
+  h1,
+  h2 {
+    font-size: 34px;
+  }
+}
+
+@media (min-width: 425px) {
+  h1,
+  h2 {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1,
+  h2 {
+    font-size: 50px;
+  }
+}
+
+@media (min-width: 1280px) {
+  h1,
+  h2 {
+    font-size: 60px;
+  }
+}

@@ -6,7 +6,7 @@ const ReviewPage = () => {
   return (
     <section className='my-[60px]'>
       <div className='container flex flex-col gap-[30px] items-start'>
-        <h2 className='text-6xl font-bold'>Отзывы</h2>
+        <h2 className='  font-bold'>Отзывы</h2>
         <div className='flex items-center justify-between w-full'>
           <div className='flex gap-[67px] items-center'>
             <div className='text-2xl font-bold flex'>

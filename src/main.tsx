@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './global.css';
+import './assets/styles/media.css'
 import AppContextProvider from './context/AppContextProvider.tsx';
 import { Toaster } from 'react-hot-toast';
 import { I18nextProvider } from 'react-i18next';

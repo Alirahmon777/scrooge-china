@@ -1,9 +1,9 @@
-import { CustomArrowProps } from 'react-slick';
 import right from '@svgs/right.svg';
 import { cn } from '@/lib/utils';
 import { useSwiper } from 'swiper/react';
-interface ISliderBtnProps extends CustomArrowProps {
+interface ISliderBtnProps {
   customClass: string;
+  slideHandler: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 interface ISwiperProps {
@@ -11,10 +11,10 @@ interface ISwiperProps {
   customClass: string;
 }
 
-export function SliderBtn({ onClick, customClass }: ISliderBtnProps) {
+export function SliderBtn({ slideHandler, customClass }: ISliderBtnProps) {
   return (
     <button
-      onClick={onClick}
+      onClick={slideHandler}
       className={cn('rounded-[50%] p-[14px] bg-[#1D1F1E] absolute z-10 top-1/2 -translate-y-1/2', customClass)}
     >
       <img src={right} alt='arrow right' />

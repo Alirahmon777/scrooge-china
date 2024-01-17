@@ -4,7 +4,7 @@ import { guarantees_data } from '@components/help/guarantees/guarantees-data';
 const page = () => {
   return (
     <section className='flex-grow'>
-      <h2 className='text-6xl font-bold text-white mb-[40px]'>Гарантии</h2>
+      <h2 className='  font-bold text-white mb-[40px]'>Гарантии</h2>
       <div className='flex flex-col gap-10'>
         {guarantees_data.map(({ icon, title, content }, idx) => (
           <GuaranteesCard title={title} icon={icon} content={content} key={idx} />
