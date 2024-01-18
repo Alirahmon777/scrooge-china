@@ -19,7 +19,7 @@ const HelpAccordion = ({ idx, expanded, content, setExpanded, title }: IProps) =
           'text-success': isOpen,
         })}
       >
-        <h2>{title}</h2>
+        <h3>{title}</h3>
         <svg
           width='24'
           height='24'

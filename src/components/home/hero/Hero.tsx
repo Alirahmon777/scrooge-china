@@ -24,7 +24,7 @@ const Hero = () => {
             Пополни свой аккаунт buff163 и купи скины CSGO, Dota 2, RUST, TF2 на 30% дешевле чем в Steam.
           </motion.p>
           <motion.div
-            className='max-tablet:grid-cols-2 max-sm:grid-cols-1 grid gap-5 tablet:gap-[32px] text-start'
+            className='max-tablet:grid-cols-2 max-sm:grid-cols-1 max-tablet:grid flex gap-5 tablet:gap-[20px] lg:gap-[32px] text-start'
             initial={{ y: 250, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ ease: 'easeOut', duration: 1, delay: 0.4 }}
@@ -34,7 +34,7 @@ const Hero = () => {
               leftIcon={market}
               className='px-6 py-[14px] rounded-[10px] max-tablet:justify-center'
             />
-            <PlayButton label='Видео инструкция о сайте' className='max-sm:justify-center' />
+            <PlayButton label='Видео инструкция о сайте' className='max-sm:justify-center text-nowrap' />
           </motion.div>
         </div>
         <motion.div
@@ -43,7 +43,7 @@ const Hero = () => {
           transition={{ ease: 'easeOut', duration: 1, delay: 0.2 }}
           className='hero__bg-box max-tablet:max-w-[400px]'
         >
-          <img src={'/images/hero-bg.png'} alt='hero image' loading='lazy'/>
+          <img src={'/images/hero-bg.png'} alt='hero image' loading='lazy' />
         </motion.div>
       </div>
     </section>

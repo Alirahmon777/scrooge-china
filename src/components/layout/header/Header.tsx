@@ -8,18 +8,36 @@ import HeaderLang from './HeaderLang';
 import Button from '@components/ui/Button';
 import { Link } from 'react-router-dom';
 import { AppContext } from '@/context/AppContextProvider';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import HeaderMobileMenu from './HeaderMobileMenu';
+import { useLockedBody, useMediaQuery } from 'usehooks-ts';
+import { AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const { appState } = useContext(AppContext);
+  const [_, setLocked] = useLockedBody(false, 'root');
+  const notMobile = useMediaQuery('(min-width: 820px)');
+  const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
   return (
-    <header className='bg-header py-[14px] '>
-      <div className='container flex items-center justify-between'>
-        <Button leftIcon={menu} className='max-tablet:flex bg-transparent hidden' />
+    <header className='bg-header'>
+      <AnimatePresence>
+        {openMobileMenu && !notMobile && (
+          <HeaderMobileMenu setOpenMobileMenu={setOpenMobileMenu} openMobileMenu={openMobileMenu} />
+        )}
+      </AnimatePresence>
+      <div className='container flex items-center justify-between py-[14px]'>
+        <Button
+          leftIcon={menu}
+          className='max-tablet:flex bg-transparent hidden'
+          onClick={() => {
+            setOpenMobileMenu(!openMobileMenu);
+            setLocked(true);
+          }}
+        />
         <Link to={''}>
           <img src={logo} alt='logo' className='w-[170px] mobile:w-auto tablet:w-[160px] xl:w-auto' />
         </Link>
-        <HeaderNav />
+        {notMobile && <HeaderNav />}
         <div className='tablet:flex hidden gap-[10px] items-center text-sm xl:text-base [&_img]:w-5 [&_img]:xl:w-6'>
           <HeaderCurrency />
           <HeaderLang />

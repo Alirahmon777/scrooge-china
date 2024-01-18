@@ -11,7 +11,7 @@ const stats = [
 ];
 const Statistics = () => {
   return (
-    <section className='mt-[120px] mb-[120px]'>
+    <section className='tablet:my-[120px] my-[50px]'>
       <div className='container'>
         <ul className='grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-[60px] xl:gap-[83px]'>
           {stats.map(({ count, desc, icon, symbol }, idx) => (
