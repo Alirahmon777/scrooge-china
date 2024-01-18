@@ -1,41 +1,24 @@
 import { Link } from 'react-router-dom';
 import logo from '@svgs/layout/footer-logo.svg';
-import { footer_nav, footer_socials } from './footer_data';
+import { useMediaQuery } from 'usehooks-ts';
+import FooterSocials from './FooterSocials';
+import FooterNav from './FooterNav';
 const Footer = () => {
+  const tablet = useMediaQuery('(min-width:640px) and (max-width: 1023.9px)');
+  const mobile = useMediaQuery('(max-width: 424.9px)');
   return (
-    <footer className='bg-header py-[73px]'>
-      <div className='container flex items-start justify-between'>
-        <Link to={''} onClick={() => window.scrollTo({ top: 0 })}>
-          <img src={logo} alt='footer logo' />
-        </Link>
-        <ul className='flex gap-[79px]'>
-          {footer_nav.map(({ title, children }, idx) => (
-            <li className='flex flex-col gap-[30px]' key={idx}>
-              <h3 className='text-2xl font-bold'>{title}</h3>
-              <ul className='flex flex-col gap-5'>
-                {children.map(({ name, href }, idx) => (
-                  <li key={idx} className='text-gray text-2xl hover:text-white transition-all'>
-                    <Link to={href} className='w-full block'>
-                      {name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-        <div>
-          <h3 className='text-2xl font-bold'>Следите за нами</h3>
-          <ul className='mt-5 flex gap-5 items-center'>
-            {footer_socials.map(({ icon, href }, idx) => (
-              <li key={idx}>
-                <Link to={href}>
-                  <img src={icon} alt='social icon' />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <footer className='bg-header py-[25px] mobile:py-[73px]'>
+      <div className='container grid grid-cols-1 sm:grid-cols-3 lg:flex gap-5 mobile:gap-10 sm:gap-y-10 sm:gap-[20px] items-start justify-center lg:justify-between lg:gap-[40px]  xl:gap-[79px]'>
+        {!mobile && (
+          <div className='sm:col-span-3 flex items-center justify-between'>
+            <Link to={''} onClick={() => window.scrollTo({ top: 0 })} className='max-w-[75px] min-w-[75px]'>
+              <img src={logo} alt='footer logo' />
+            </Link>
+            {tablet && <FooterSocials />}
+          </div>
+        )}
+        <FooterNav />
+        {!tablet && !mobile && <FooterSocials />}
       </div>
     </footer>
   );

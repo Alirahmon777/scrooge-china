@@ -4,11 +4,7 @@ export interface IFooterNav {
 }
 
 export interface IFooterItem {
-  name: string;
+  name?: string;
   href: string;
-}
-
-export interface IFooterSocial {
-  icon: string;
-  href: string;
+  icon?: string;
 }

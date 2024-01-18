@@ -1,6 +1,6 @@
 import youtube from '@svgs/layout/youtube.svg';
 import vk from '@svgs/layout/vk.svg';
-import { IFooterNav, IFooterSocial } from './types/interface';
+import { IFooterItem, IFooterNav } from './types/interface';
 
 export const footer_nav: IFooterNav[] = [
   {
@@ -56,7 +56,7 @@ export const footer_nav: IFooterNav[] = [
   },
 ];
 
-export const footer_socials: IFooterSocial[] = [
+export const footer_socials: IFooterItem[] = [
   { icon: vk, href: '' },
   { icon: youtube, href: '' },
 ];

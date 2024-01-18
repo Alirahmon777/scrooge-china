@@ -10,7 +10,7 @@ const HelpPage = () => {
   const [expanded, setExpanded] = useState<false | number | null>(null);
   return (
     <section className='flex-grow'>
-      <h2 className='  font-bold text-white mb-[40px]'>Помощь</h2>
+      <h2 className='font-bold text-white mb-[40px]'>Помощь</h2>
 
       <div className='flex flex-col items-center gap-[60px]'>
         <div className='flex flex-col gap-10 w-full'>
