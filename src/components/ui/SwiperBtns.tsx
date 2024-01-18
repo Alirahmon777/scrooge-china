@@ -32,7 +32,7 @@ export function SwiperBtn({ prev, customClass }: ISwiperProps) {
         }
         swiper.slideNext();
       }}
-      className={cn('rounded-[50%] p-[14px] bg-[#1D1F1E] absolute z-10 top-[43%] -translate-y-1/2', customClass)}
+      className={cn('rounded-[50%] p-[14px] bg-[#1D1F1E] absolute z-10 top-[50%] -translate-y-1/2', customClass)}
     >
       <img src={right} alt='arrow icon' />
     </button>

@@ -1,7 +1,10 @@
 import Button from '@/components/ui/Button';
-import AboutSlider from './AboutSlider';
+import AboutDesktopSlider from './AboutSlider';
+import AboutSwiper from './AboutSwiper';
+import { useMediaQuery } from 'usehooks-ts';
 
 const About = () => {
+  const desktop = useMediaQuery('(min-width: 1280px)');
   return (
     <section className='max-xl:mt-[50px] mt-[120px] overflow-hidden relative'>
       <div className='container flex items-center justify-between max-xl:flex-col gap-[30px]'>
@@ -14,7 +17,8 @@ const About = () => {
         </div>
         <div className='max-xl:static max-xl:w-full absolute right-0 z-10'>
           <div className='relative overflow-hidden xl:pl-[37px]'>
-            <AboutSlider />
+            {desktop && <AboutDesktopSlider />}
+            {!desktop && <AboutSwiper />}
           </div>
         </div>
       </div>
