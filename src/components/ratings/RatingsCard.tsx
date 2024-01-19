@@ -23,7 +23,7 @@ const RatingsCard = ({ desc = '25000¥', title = 'Ник Нэйм', ratings }: I
         <div className='min-w-16 min-h-16 bg-[#D9D9D9] rounded-[10px]' />
         <div className='text-start'>
           <h3 className='text-2xl font-bold'>{title}</h3>
-          <p className='text-gray max-mobile:text-sm text-nowrap max-base:text-wrap'>
+          <p className='text-gray max-mobile:text-sm text-nowrap max-320:text-wrap'>
             Пополнить buff.163: <span>{desc}</span>
           </p>
         </div>

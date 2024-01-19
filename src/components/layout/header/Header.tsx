@@ -8,7 +8,7 @@ import HeaderLang from './HeaderLang';
 import Button from '@components/ui/Button';
 import { Link } from 'react-router-dom';
 import { AppContext } from '@/context/AppContextProvider';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import HeaderMobileMenu from './HeaderMobileMenu';
 import { useLockedBody, useMediaQuery } from 'usehooks-ts';
 import { AnimatePresence } from 'framer-motion';
@@ -18,6 +18,11 @@ const Header = () => {
   const [_, setLocked] = useLockedBody(false, 'root');
   const notMobile = useMediaQuery('(min-width: 820px)');
   const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
+  useEffect(() => {
+    if (!openMobileMenu) {
+      setLocked(false);
+    }
+  }, [openMobileMenu]);
   return (
     <header className='bg-header'>
       <AnimatePresence>

@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { IHeaderNav } from './types/interface';
 import { headerFuncNav } from '@/utils/header-nav';
 import HeaderAccordion from './HeaderAccordion';
+import { v4 } from 'uuid';
 
 const linkClass = 'text-2xl font-bold px-[14px] py-2 hover:bg-[#1D1F1E] transition-all w-full text-gray w-full block';
 
@@ -29,10 +30,10 @@ const HeaderMobileNav = ({ setOpenMobileMenu }: IProps) => {
       <ul className='flex flex-col gap-[10px] '>
         {nav.map(({ name, href, children }) => {
           if (children) {
-            return <HeaderAccordion title={name} items={children} handleClose={handleClose} />;
+            return <HeaderAccordion title={name} items={children} handleClose={handleClose} key={v4()} />;
           }
           return (
-            <li>
+            <li key={v4()}>
               <NavLink
                 onClick={handleClose}
                 to={{ pathname: href }}

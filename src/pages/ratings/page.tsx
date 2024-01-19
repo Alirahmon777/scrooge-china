@@ -1,7 +1,7 @@
 import RatingsCard from '@/components/ratings/RatingsCard';
 import Button from '@/components/ui/Button';
 
-const StatisticsPage = () => {
+const RatingsPage = () => {
   return (
     <section className='mt-5 mb-10 lg:my-[60px] xl:my-[100px]'>
       <div className='container text-center'>
@@ -9,7 +9,7 @@ const StatisticsPage = () => {
         <ul className='flex flex-wrap max-sm:[&_li]:flex-grow justify-center xl:grid xl:grid-cols-3 gap-5 my-10 mx-auto'>
           {statistics.map(({ desc }, idx) => {
             if (idx == 0 || idx == 1 || idx == 2) {
-              return <RatingsCard desc={desc} ratings={idx} />;
+              return <RatingsCard desc={desc} ratings={idx} key={idx} />;
             }
           })}
         </ul>
@@ -39,4 +39,4 @@ const statistics = [
   ...new Array(6).fill({ desc: undefined }),
 ];
 
-export default StatisticsPage;
+export default RatingsPage;

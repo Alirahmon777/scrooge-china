@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 
 const HomePage = lazy(() => import('../pages/home/page'));
 const ReviewPage = lazy(() => import('../pages/review/page'));
-const StatisticsPage = lazy(() => import('../pages/ratings/page'));
+const RatingsPage = lazy(() => import('../pages/ratings/page'));
 const ProfilePage = lazy(() => import('../pages/profile/page'));
 const ContactsPage = lazy(() => import('../pages/contacts/page'));
 const HelpPage = lazy(() => import('../pages/help/page'));
@@ -40,7 +40,7 @@ export const routes: IRoutes[] = [
         ],
       },
       { path: 'reviews', component: ReviewPage },
-      { path: 'statistics', component: StatisticsPage },
+      { path: 'ratings', component: RatingsPage },
       { path: 'profile', component: ProfilePage },
       {
         path: 'contacts',
@@ -75,7 +75,7 @@ export const routes: IRoutes[] = [
         ],
       },
       { path: 'reviews', component: ReviewPage },
-      { path: 'statistics', component: StatisticsPage },
+      { path: 'ratings', component: RatingsPage },
       { path: 'profile', component: ProfilePage },
       {
         path: 'contacts',

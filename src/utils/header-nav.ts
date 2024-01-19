@@ -12,7 +12,7 @@ export function headerFuncNav(lng: string, isMobile?: boolean): IHeaderNav[] {
       ],
     },
     { name: 'review', href: `/${lng}/reviews` },
-    { name: 'rating', href: `/${lng}/statistics` },
+    { name: 'rating', href: `/${lng}/ratings` },
   ];
   if (isMobile) {
     return [{ name: 'home', href: `/${lng}` }, ...nav];

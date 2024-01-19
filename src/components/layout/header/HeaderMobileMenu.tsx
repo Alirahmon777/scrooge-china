@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const HeaderMobileMenu = ({ setOpenMobileMenu }: IProps) => {
-  const [_, setLocked] = useLockedBody(true, 'root');
+  const [_, setLocked] = useLockedBody(false, 'root');
   return (
     <motion.div
       className='bg-header w-[282px] sm:w-[72%] fixed h-full z-[999] px-5 pt-4 overflow-y-auto pb-5'
