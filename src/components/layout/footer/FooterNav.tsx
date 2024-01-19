@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { footer_nav, footer_socials } from './footer_data';
+import { footer_nav, footer_socials } from './footer-data';
 import { useMediaQuery } from 'usehooks-ts';
 import FooterAccordion from './FooterAccordion';
 import { useState } from 'react';

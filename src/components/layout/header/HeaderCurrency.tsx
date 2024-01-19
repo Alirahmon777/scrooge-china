@@ -1,17 +1,9 @@
-import RUB from '@svgs/currencies/rub.svg';
-import KZT from '@svgs/currencies/kzt.svg';
-import USD from '@svgs/currencies/usd.svg';
 import { useState } from 'react';
-import { ICurrency } from './types/interface';
 import { Popover, Transition } from '@headlessui/react';
 import { cn } from '@/lib/utils';
-
-const currencies: ICurrency[] = [
-  { name: 'rub', icon: RUB },
-  { name: 'usd', icon: USD },
-  { name: 'kzt', icon: KZT },
-];
-const HeaderCurrency = () => {
+import { currencies } from './header-data';
+import { ILangCurrencyProps } from './types/interface';
+const HeaderCurrency = ({ position = 'bottom' }: ILangCurrencyProps) => {
   const storedCurrency = localStorage.getItem('currency');
   const [activeCur, setActiveCur] = useState<string>(storedCurrency ?? 'rub');
 
@@ -39,7 +31,13 @@ const HeaderCurrency = () => {
         leaveFrom='opacity-100 translate-y-0'
         leaveTo='opacity-0 translate-y-1'
       >
-        <Popover.Panel className='absolute -left-3 w-24 top-full z-10 mt-3 overflow-hidden rounded-md bg-header shadow-lg ring-1 ring-success'>
+        <Popover.Panel
+          className={cn(
+            { 'bottom-full mb-3': position == 'top' },
+            { 'top-full mt-3': position == 'bottom' },
+            'absolute -left-3 w-24 z-10 overflow-hidden rounded-md bg-header shadow-lg ring-1 ring-success'
+          )}
+        >
           <div className='flex flex-col gap-[10px] px-[10px] py-[10px]'>
             {currencies.map((item, idx) => (
               <button

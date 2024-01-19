@@ -1,16 +1,12 @@
 import { Popover, Transition } from '@headlessui/react';
-import { ILanguage } from './types/interface';
 import globe from '@svgs/layout/globe.svg';
 import { cn } from '@/lib/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { languages } from './header-data';
+import { ILangCurrencyProps } from './types/interface';
 
-const languages: ILanguage[] = [
-  { id: 0, label: 'rus', lang: 'ru' },
-  { id: 1, label: 'eng', lang: 'en' },
-];
-
-const HeaderLang = () => {
+const HeaderLang = ({ position = 'bottom' }: ILangCurrencyProps) => {
   const { i18n } = useTranslation();
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -34,7 +30,13 @@ const HeaderLang = () => {
         leaveFrom='opacity-100 translate-y-0'
         leaveTo='opacity-0 translate-y-1'
       >
-        <Popover.Panel className='absolute -left-3 w-24 top-full z-10 mt-3 overflow-hidden rounded-md bg-header shadow-lg ring-1 ring-success'>
+        <Popover.Panel
+          className={cn(
+            'absolute -left-3 w-24 z-10 overflow-hidden rounded-md bg-header shadow-lg ring-1 ring-success',
+            { 'top-full mt-3': position == 'bottom' },
+            { 'bottom-full mb-3': position == 'top' }
+          )}
+        >
           <div className='flex flex-col gap-1 px-[10px] py-[8px]'>
             {languages.map((item) => (
               <button

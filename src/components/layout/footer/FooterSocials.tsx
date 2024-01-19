@@ -1,4 +1,4 @@
-import { footer_socials } from './footer_data';
+import { footer_socials } from './footer-data';
 import { Link } from 'react-router-dom';
 
 const FooterSocials = () => {

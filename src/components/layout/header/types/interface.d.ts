@@ -14,3 +14,7 @@ export interface IHeaderNav {
   href?: string;
   children?: IHeaderNav[];
 }
+
+export interface ILangCurrencyProps {
+  position: 'top' | 'bottom' | 'right' | 'left';
+}

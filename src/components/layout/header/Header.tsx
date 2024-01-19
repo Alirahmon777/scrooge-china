@@ -21,9 +21,7 @@ const Header = () => {
   return (
     <header className='bg-header'>
       <AnimatePresence>
-        {openMobileMenu && !notMobile && (
-          <HeaderMobileMenu setOpenMobileMenu={setOpenMobileMenu} openMobileMenu={openMobileMenu} />
-        )}
+        {openMobileMenu && !notMobile && <HeaderMobileMenu setOpenMobileMenu={setOpenMobileMenu} />}
       </AnimatePresence>
       <div className='container flex items-center justify-between py-[14px]'>
         <Button
@@ -39,8 +37,8 @@ const Header = () => {
         </Link>
         {notMobile && <HeaderNav />}
         <div className='tablet:flex hidden gap-[10px] items-center text-sm xl:text-base [&_img]:w-5 [&_img]:xl:w-6'>
-          <HeaderCurrency />
-          <HeaderLang />
+          <HeaderCurrency position='bottom' />
+          <HeaderLang position='bottom' />
           {appState.isAuth && <Button className='rounded-full w-8 h-8 ml-[27px]' />}
         </div>
         {!appState.isAuth && (

@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 
 const HomePage = lazy(() => import('../pages/home/page'));
 const ReviewPage = lazy(() => import('../pages/review/page'));
-const StatisticsPage = lazy(() => import('../pages/statistics/page'));
+const StatisticsPage = lazy(() => import('../pages/ratings/page'));
 const ProfilePage = lazy(() => import('../pages/profile/page'));
 const ContactsPage = lazy(() => import('../pages/contacts/page'));
 const HelpPage = lazy(() => import('../pages/help/page'));

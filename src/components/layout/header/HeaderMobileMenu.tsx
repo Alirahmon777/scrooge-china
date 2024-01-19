@@ -33,8 +33,8 @@ const HeaderMobileMenu = ({ setOpenMobileMenu }: IProps) => {
       </div>
       <HeaderMobileNav setOpenMobileMenu={setOpenMobileMenu} />
       <div className='flex mt-[50px] gap-4'>
-        <HeaderCurrency />
-        <HeaderLang />
+        <HeaderCurrency position='top' />
+        <HeaderLang position='top' />
       </div>
     </motion.div>
   );
