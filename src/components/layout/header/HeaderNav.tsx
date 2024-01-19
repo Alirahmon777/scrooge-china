@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import HeaderItem from './HeaderItem';
 import { useTranslation } from 'react-i18next';
+import { IHeaderNav } from './types/interface';
+import { headerFuncNav } from '@/utils/header-nav';
 
 const linkClass = 'font-semibold leading-6 text-gray text-sm xl:text-base hover:text-success transition-all';
 
@@ -12,21 +14,7 @@ const HeaderNav = () => {
     t,
     i18n: { language: lang },
   } = useTranslation();
-  const nav = [
-    { name: 'payment', href: `/${lang}` },
-    {
-      name: 'our_projects',
-      children: [
-        { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#' },
-        { name: 'Engagement', description: 'Speak directly to your customers', href: '#' },
-        { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#' },
-        { name: 'Integrations', description: 'Connect with third-party tools', href: '#' },
-        { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#' },
-      ],
-    },
-    { name: 'review', href: `/${lang}/reviews` },
-    { name: 'rating', href: `/${lang}/statistics` },
-  ];
+  const nav: IHeaderNav[] = headerFuncNav(lang);
 
   return (
     <nav className='tablet:block hidden'>
@@ -39,7 +27,7 @@ const HeaderNav = () => {
           return (
             <li key={idx}>
               <NavLink
-                to={href}
+                to={{ pathname: href }}
                 className={cn(linkClass, {
                   'text-success': pathname == href,
                 })}

@@ -7,7 +7,6 @@ import { useLockedBody } from 'usehooks-ts';
 import HeaderLang from './HeaderLang';
 import HeaderCurrency from './HeaderCurrency';
 interface IProps {
-  openMobileMenu: boolean;
   setOpenMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -32,7 +31,7 @@ const HeaderMobileMenu = ({ setOpenMobileMenu }: IProps) => {
           <img src={close} alt='close icon' width={40} />
         </button>
       </div>
-      <HeaderMobileNav />
+      <HeaderMobileNav setOpenMobileMenu={setOpenMobileMenu} />
       <div className='flex mt-[50px] gap-4'>
         <HeaderCurrency />
         <HeaderLang />

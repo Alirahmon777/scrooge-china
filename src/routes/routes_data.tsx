@@ -1,5 +1,6 @@
 import HelpLayout from '@/layout/HelpLayout';
 import Layout from '@/layout/layout';
+import NotFoundPage from '@/pages/not-found/page';
 import { IRoutes } from '@/types/interfaces';
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
@@ -87,4 +88,5 @@ export const routes: IRoutes[] = [
     ],
   },
   { path: '/', element: <Navigate to={'/ru'} replace /> },
+  { path: '*', element: <NotFoundPage /> },
 ];

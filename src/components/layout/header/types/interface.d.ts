@@ -8,3 +8,9 @@ export interface ILanguage {
   lang: string;
   label: string;
 }
+
+export interface IHeaderNav {
+  name: string;
+  href?: string;
+  children?: IHeaderNav[];
+}

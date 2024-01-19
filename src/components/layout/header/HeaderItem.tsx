@@ -2,22 +2,12 @@ import { cn } from '@/lib/utils';
 import { Popover, Transition } from '@headlessui/react';
 import { Fragment, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import chevronDown from '@svgs/chevron-down.svg';
 import { useTranslation } from 'react-i18next';
+import { IHeaderNav } from './types/interface';
 
-interface IProps {
-  name: string;
-  children?: IPropsChildren[];
-}
-
-interface IPropsChildren {
-  name: string;
-  href: string;
-  description?: string;
-}
 const timeoutDuration = 120;
 
-const HeaderItem = ({ name, children }: IProps) => {
+const HeaderItem = ({ name, children }: IHeaderNav) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const timeOutRef = useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
@@ -38,15 +28,25 @@ const HeaderItem = ({ name, children }: IProps) => {
       {({ open }) => (
         <div onMouseEnter={() => handleEnter(open)} onMouseLeave={() => handleLeave(open)}>
           <Popover.Button
-            className='flex items-center gap-x-1 font-semibold leading-6 text-gray text-sm xl:text-base'
+            className={cn(
+              'flex items-center gap-x-1 font-semibold leading-6 text-gray text-sm xl:text-base transition-all',
+              { 'text-success': open }
+            )}
             ref={triggerRef}
           >
             {t(name, 'layout')}
-            <img
-              src={chevronDown}
-              alt='arrow down'
-              className={cn({ 'rotate-180': open }, 'transition-all w-5 xl:w-6')}
-            />
+            <svg
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+              className={cn({ 'rotate-180 !stroke-success': open }, 'transition-all w-5 xl:w-6 stroke-[#68716c]')}
+            >
+              <g id='chevron-down'>
+                <path id='Vector' d='M6 9L12 15L18 9' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+              </g>
+            </svg>
           </Popover.Button>
 
           <Transition
@@ -58,19 +58,20 @@ const HeaderItem = ({ name, children }: IProps) => {
             leaveFrom='opacity-100 translate-y-0'
             leaveTo='opacity-0 translate-y-1'
           >
-            <Popover.Panel className='absolute -left-8 top-full z-50 mt-3 w-screen max-w-md overflow-hidden rounded-xl bg-header shadow-lg ring-1 ring-success'>
+            <Popover.Panel className='absolute -left-4 top-full z-50 mt-3 w-[220px] rounded-xl bg-header shadow-lg ring-1 ring-success'>
               <div className='p-4'>
                 {children?.map((item) => (
                   <div
                     key={item.name}
-                    className='group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50'
+                    className='group relative flex items-center gap-x-6 rounded-lg leading-6 hover:bg-gray-50'
                   >
                     <div className='flex-auto'>
-                      <Link to={item.href} className='block font-semibold text-gray'>
-                        {item.name}
-                        <span className='absolute inset-0' />
+                      <Link
+                        to={{ pathname: item.href }}
+                        className='block font-semibold text-gray transition-all hover:text-white py-4'
+                      >
+                        {t(item.name, 'layout')}
                       </Link>
-                      <p className='mt-1 text-success'>{item.description}</p>
                     </div>
                   </div>
                 ))}
