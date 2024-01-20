@@ -10,8 +10,9 @@ const StatisticsPage = () => {
   return (
     <section className='my-[45px] mr-[32px] flex flex-col items-start gap-5'>
       <Info activeTab={activeTab} setActiveTab={setActiveTab} />
-      {charts.map(({ chartColor, data, title, xaxis, yaxis }) => (
+      {charts.map(({ chartColor, data, title, xaxis, yaxis }, idx) => (
         <ExchangeChart
+          key={idx}
           title={title}
           yaxis={yaxis}
           xaxis={xaxis}

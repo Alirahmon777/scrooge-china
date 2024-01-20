@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const AdminLayout = () => {
   return (
-    <div className='flex flex-grow items-start gap-[32px]'>
+    <div className='flex flex-grow items-stretch gap-[32px]'>
       <aside className='relative w-[350px] overflow-y-auto'>
         <div className='fixed px-[32px] w-[350px] pt-10 pb-20 bg-header overflow-y-auto flex flex-col justify-between gap-10 h-full min-h-screen'>
           <div className='flex flex-col gap-[36px] items-start'>
@@ -44,7 +44,7 @@ const AdminLayout = () => {
           </button>
         </div>
       </aside>
-      <main>
+      <main className='min-h-full'>
         <Outlet />
       </main>
     </div>

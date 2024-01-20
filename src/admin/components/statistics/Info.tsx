@@ -18,8 +18,9 @@ const Info = ({ activeTab, setActiveTab }: IProps) => {
         <InfoItem title={'Все посещения'} icon={usersIcon} content='5.531' />
       </div>
       <div className='flex items-center gap-5'>
-        {tabs.map(({ label, tab }) => (
+        {tabs.map(({ label, tab }, idx) => (
           <Button
+            key={idx}
             label={label}
             onClick={() => setActiveTab(tab)}
             className={cn('p-[5px] bg-[#1D1F1E] rounded-[5px] [&_p]:text-gray font-normal', {
