@@ -10,6 +10,7 @@ const HomePage = lazy(() => import('../pages/home/page'));
 const ReviewPage = lazy(() => import('../pages/review/page'));
 const RatingsPage = lazy(() => import('../pages/ratings/page'));
 const ProfilePage = lazy(() => import('../pages/profile/page'));
+const PaymentPage = lazy(() => import('../pages/payment/page'));
 const ContactsPage = lazy(() => import('../pages/contacts/page'));
 const HelpPage = lazy(() => import('../pages/help/page'));
 const HowItWorks = lazy(() => import('../pages/help/how-it-works/page'));
@@ -30,6 +31,7 @@ const baseRoutes = [
   { path: 'reviews', component: ReviewPage },
   { path: 'ratings', component: RatingsPage },
   { path: 'profile', component: ProfilePage },
+  { path: 'payment', component: PaymentPage },
   {
     path: 'contacts',
     element: (

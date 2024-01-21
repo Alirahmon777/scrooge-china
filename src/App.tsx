@@ -32,7 +32,7 @@ function App() {
     }
   };
   const changeLng = (lng: string) => {
-    if (pathname.includes(lng)) {
+    if (pathname.includes(`/${lng}`)) {
       return i18n.changeLanguage(lng);
     }
   };
