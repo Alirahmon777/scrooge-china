@@ -38,3 +38,12 @@ export interface IExchangeChartCategories {
   week: StringOrNumberArray;
   day: StringOrNumberArray;
 }
+
+export interface ISettingTemplateProps {
+  title: string;
+  items: {
+    title: string;
+    link?: string;
+    requisites?: string;
+  }[];
+}

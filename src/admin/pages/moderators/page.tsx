@@ -1,4 +1,4 @@
-import Button from '@/components/ui/Button';
+import AdminButton from '@/admin/components/Button';
 
 const ModeratorsPage = () => {
   return (
@@ -13,10 +13,7 @@ const ModeratorsPage = () => {
               placeholder='Введите e-mail пользователя'
               className='p-[10px] placeholder:text-gray bg-[#1d1f1e] rounded-[10px] flex-grow'
             />
-            <Button
-              label='Добавить'
-              className='px-[25px] py-[10px] [&_p]:text-gray bg-[#1d1f1e] rounded-[10px] font-normal w-[120px] gap-0 justify-center'
-            />
+            <AdminButton label='Добавить' />
           </div>
         </form>
         <div className='mt-5'>
@@ -26,19 +23,13 @@ const ModeratorsPage = () => {
               <div className='bg-[#1d1f1e] p-[10px] rounded-[10px] flex-grow'>
                 <p>emailexample@gmail.com</p>
               </div>
-              <Button
-                label='Удалить'
-                className='px-[25px] py-[10px] [&_p]:text-gray bg-[#1d1f1e] rounded-[10px] font-normal w-[120px] gap-0 justify-center'
-              />
+              <AdminButton label='Удалить' />
             </li>
             <li className='flex gap-5 justify-between'>
               <div className='bg-[#1d1f1e] p-[10px] rounded-[10px] flex-grow'>
                 <p>emailexample@gmail.com</p>
               </div>
-              <Button
-                label='Удалить'
-                className='px-[25px] py-[10px] [&_p]:text-gray bg-[#1d1f1e] rounded-[10px] font-normal w-[120px] gap-0 justify-center'
-              />
+              <AdminButton label='Удалить' />
             </li>
           </ul>
         </div>

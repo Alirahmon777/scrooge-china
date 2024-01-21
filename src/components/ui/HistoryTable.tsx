@@ -16,10 +16,10 @@ const HistoryTable = () => {
       <tbody>
         <tr className='[&_td]:bg-header'>
           <td className='py-3 pl-6 rounded-l-[10px]'>14</td>
-          <td className='rounded-l-[10px]'>2024.01.17/00:00</td>
-          <td className='rounded-l-[10px]'>Tinkoff</td>
-          <td className='rounded-l-[10px] text-center'>2200 7009 3558 9290</td>
-          <td className='rounded-l-[10px]'>1000¥ - 13000₽</td>
+          <td className=''>2024.01.17/00:00</td>
+          <td className=''>Tinkoff</td>
+          <td className=' text-center'>2200 7009 3558 9290</td>
+          <td className=''>1000¥ - 13000₽</td>
           <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
             <img src={decline} alt='' />
             Отклонен
@@ -27,13 +27,13 @@ const HistoryTable = () => {
         </tr>
         <tr className='[&_td]:bg-header'>
           <td className='py-3 pl-6 rounded-l-[10px]'>13</td>
-          <td className='rounded-l-[10px]'>2024.01.17/00:00</td>
-          <td className='rounded-l-[10px]'>Tinkoff</td>
-          <td className='rounded-l-[10px] text-center'>2200 7009 3558 9290</td>
-          <td className='rounded-l-[10px]'>1000¥ - 13000₽</td>
+          <td className=''>2024.01.17/00:00</td>
+          <td className=''>Tinkoff</td>
+          <td className=' text-center'>2200 7009 3558 9290</td>
+          <td className=''>1000¥ - 13000₽</td>
           <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
             <img src={success} alt='' />
-            Отклонен
+            Успешно
           </td>
         </tr>
       </tbody>
