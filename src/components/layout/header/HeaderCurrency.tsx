@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { Popover, Transition } from '@headlessui/react';
-import { cn } from '@/lib/utils';
 import { currencies } from './header-data';
-import { ILangCurrencyProps } from './types/interface';
-const HeaderCurrency = ({ position = 'bottom' }: ILangCurrencyProps) => {
+import { PositionTypes } from '@/types/types';
+import HeaderPopover from './HeaderPopover';
+
+interface IProps {
+  position: PositionTypes;
+}
+
+const HeaderCurrency = ({ position = 'bottom' }: IProps) => {
   const storedCurrency = localStorage.getItem('currency');
   const [activeCur, setActiveCur] = useState<string>(storedCurrency ?? 'rub');
 
@@ -13,49 +17,22 @@ const HeaderCurrency = ({ position = 'bottom' }: ILangCurrencyProps) => {
   };
 
   return (
-    <Popover className='relative' as='ul'>
-      <Popover.Button as='li' className='flex items-center font-semibold leading-6 cursor-pointer'>
-        <img
-          src={currencies.find((c) => c.name == storedCurrency)?.icon ?? currencies[0].icon}
-          alt={currencies.find((c) => c.name == storedCurrency)?.name ?? currencies[0].name}
-        />
-        <p className='uppercase'>{currencies.find((c) => c.name == storedCurrency)?.name ?? currencies[0].name}</p>
-      </Popover.Button>
-
-      <Transition
-        as={'li'}
-        enter='transition ease-out duration-200'
-        enterFrom='opacity-0 translate-y-1'
-        enterTo='opacity-100 translate-y-0'
-        leave='transition ease-in duration-150'
-        leaveFrom='opacity-100 translate-y-0'
-        leaveTo='opacity-0 translate-y-1'
-      >
-        <Popover.Panel
-          className={cn(
-            { 'bottom-full mb-3': position == 'top' },
-            { 'top-full mt-3': position == 'bottom' },
-            'absolute -left-3 w-24 z-10 overflow-hidden rounded-md bg-header shadow-lg ring-1 ring-success'
-          )}
+    <HeaderPopover
+      items={currencies}
+      onClickItem={(item) => handleCurrency(item.label)}
+      position={position}
+      isActive={(item) => item.label == activeCur}
+    >
+      {(showPopover, setShowPopover) => (
+        <button
+          className={'flex items-center gap-1 cursor-pointer font-semibold leading-6 uppercase'}
+          onClick={() => setShowPopover(!showPopover)}
         >
-          <div className='flex flex-col gap-[10px] px-[10px] py-[10px]'>
-            {currencies.map((item, idx) => (
-              <button
-                key={idx}
-                className={cn(
-                  'group relative flex items-center rounded-lg text-sm py-[5px] leading-6 hover:bg-gray-50 hover:bg-gray px-[10px]',
-                  { 'bg-gray': activeCur == item.name }
-                )}
-                onClick={() => handleCurrency(item.name)}
-              >
-                <img src={item.icon} alt={item.name} />
-                <p className='uppercase'>{item.name}</p>
-              </button>
-            ))}
-          </div>
-        </Popover.Panel>
-      </Transition>
-    </Popover>
+          <img src={currencies.find((c) => c.label == activeCur)?.icon} alt={'header icon'} />
+          {activeCur}
+        </button>
+      )}
+    </HeaderPopover>
   );
 };
 

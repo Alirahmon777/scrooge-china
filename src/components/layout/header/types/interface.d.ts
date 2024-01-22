@@ -1,20 +1,13 @@
-export interface ICurrency {
-  name: string;
-  icon: string;
-}
-
-export interface ILanguage {
-  id: number;
-  lang: string;
+export interface ILanguageCurrencyNav {
+  lang?: string;
   label: string;
+  icon?: string;
+  href?: string;
+  items?: ILanguageCurrencyNav[];
 }
 
-export interface IHeaderNav {
+interface IHeaderNav {
   name: string;
   href?: string;
-  children?: IHeaderNav[];
-}
-
-export interface ILangCurrencyProps {
-  position: 'top' | 'bottom' | 'right' | 'left';
+  children?: ILanguageCurrencyNav[];
 }

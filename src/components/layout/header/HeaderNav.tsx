@@ -21,7 +21,7 @@ const HeaderNav = () => {
       <ul className='flex items-center gap-[20px]'>
         {nav.map(({ name, href, children }, idx) => {
           if (children) {
-            return <HeaderItem name={name} children={children} key={idx} />;
+            return <HeaderItem label={name} items={children} key={idx} />;
           }
 
           return (

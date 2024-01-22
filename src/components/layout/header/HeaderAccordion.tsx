@@ -1,12 +1,12 @@
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { IHeaderNav } from './types/interface';
+import { ILanguageCurrencyNav } from './types/interface';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 interface IProps {
   title: string;
-  items: IHeaderNav[];
+  items: ILanguageCurrencyNav[];
   contentParentClass?: string;
   handleClose: () => void;
 }
@@ -50,10 +50,14 @@ const HeaderAccordion = ({ items, title, contentParentClass, handleClose }: IPro
             }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            {items.map(({ href, name }, idx) => (
-              <li key={idx} className={'text-gray hover:text-white w-full text-xl transition-all'} onClick={handleClose}>
+            {items.map(({ href, label }, idx) => (
+              <li
+                key={idx}
+                className={'text-gray hover:text-white w-full text-xl transition-all'}
+                onClick={handleClose}
+              >
                 <Link to={{ pathname: href }} className={'w-full block'}>
-                  {t(name, 'layout')}
+                  {t(label, 'layout')}
                 </Link>
               </li>
             ))}

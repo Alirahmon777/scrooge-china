@@ -1,15 +1,15 @@
-import { ICurrency, ILanguage } from './types/interface';
 import RUB from '@svgs/currencies/rub.svg';
 import KZT from '@svgs/currencies/kzt.svg';
 import USD from '@svgs/currencies/usd.svg';
+import { ILanguageCurrency } from './types/interface';
 
-export const currencies: ICurrency[] = [
-  { name: 'rub', icon: RUB },
-  { name: 'usd', icon: USD },
-  { name: 'kzt', icon: KZT },
+export const currencies: ILanguageCurrency[] = [
+  { label: 'rub', icon: RUB },
+  { label: 'usd', icon: USD },
+  { label: 'kzt', icon: KZT },
 ];
 
-export const languages: ILanguage[] = [
-  { id: 0, label: 'rus', lang: 'ru' },
-  { id: 1, label: 'eng', lang: 'en' },
+export const languages: ILanguageCurrency[] = [
+  { label: 'rus', lang: 'ru' },
+  { label: 'eng', lang: 'en' },
 ];

@@ -6,9 +6,9 @@ export function headerFuncNav(lng: string, isMobile?: boolean): IHeaderNav[] {
     {
       name: 'our_projects',
       children: [
-        { name: 'payment', href: '' },
-        { name: 'earning', href: '' },
-        { name: 'free_skins', href: '' },
+        { label: 'payment', href: '' },
+        { label: 'earning', href: '' },
+        { label: 'free_skins', href: '' },
       ],
     },
     { name: 'review', href: `/${lng}/reviews` },
