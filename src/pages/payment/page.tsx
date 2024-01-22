@@ -1,4 +1,5 @@
 import PaymentCard from '@/components/payment/PaymentCard';
+import PaymentChat from '@/components/payment/PaymentChat';
 
 const PaymentPage = () => {
   return (
@@ -7,8 +8,9 @@ const PaymentPage = () => {
         <h2 className='text-center'>
           Пополнение на <span className='text-success'>buff.163</span>
         </h2>
-        <div className='flex justify-between mt-[55px]'>
+        <div className='flex justify-between items-stretch mt-[55px]'>
           <PaymentCard />
+          <PaymentChat />
         </div>
       </div>
     </section>

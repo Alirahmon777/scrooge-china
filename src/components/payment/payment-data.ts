@@ -25,3 +25,26 @@ export const paymentMethods = [
   { title: 'Банковские карты - KZ', buttons: [{ label: 'Kaspi Bank', leftIcon: kaspibank }] },
   { title: 'Криптовалюта', buttons: [{ label: 'USDT', leftIcon: usdt }] },
 ];
+
+export const paymentMessages = [
+  {
+    userId: 1,
+    isModerator: true,
+    content: `Уважаемый пользователь переведите средства по реквизитам и нажмите кнопку “Оплачено“ если вы хотите изменить способ оплаты или просто передумали нажмите кнопку "Отменить заказ"`,
+  },
+  {
+    userId: 1,
+    isModerator: true,
+    content: 'Реквизиты Тинькофф: 2200 7009 3558 9290 | Бакитгалей И',
+  },
+  {
+    userId: 2,
+    isModerator: false,
+    content: 'Я сделал перевод, жду юани',
+  },
+  {
+    userId: 2,
+    isModerator: false,
+    content: 'Сейчас скину qr код от buff',
+  },
+];
