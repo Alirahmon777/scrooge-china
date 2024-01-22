@@ -4,12 +4,12 @@ import { guarantees_data } from '@components/help/guarantees/guarantees-data';
 const page = () => {
   return (
     <section className='flex-grow'>
-      <h2 className='  font-bold text-white mb-[40px]'>Гарантии</h2>
+      <h2 className='font-bold text-white mb-5 md:mb-10'>Гарантии</h2>
       <div className='flex flex-col gap-10'>
         {guarantees_data.map(({ icon, title, content }, idx) => (
           <GuaranteesCard title={title} icon={icon} content={content} key={idx} />
         ))}
-        <div className='text-2xl font-medium [&_span]:text-success flex-col flex gap-5'>
+        <div className='md:text-2xl font-medium [&_span]:text-success flex-col flex gap-5'>
           <p>
             <span>Криптовалюты:</span> Bitcoin Wallet, Ethereum Wallet, Tether, Monero & другие.
           </p>
