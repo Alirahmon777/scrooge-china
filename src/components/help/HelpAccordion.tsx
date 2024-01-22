@@ -15,9 +15,12 @@ const HelpAccordion = ({ idx, expanded, content, setExpanded, title }: IProps) =
       <motion.button
         initial={false}
         onClick={() => setExpanded(isOpen ? false : idx)}
-        className={cn('cursor-pointer text-white text-2xl font-bold w-full flex items-center justify-between', {
-          'text-success': isOpen,
-        })}
+        className={cn(
+          'cursor-pointer text-white text-left sm:text-2xl font-medium sm:font-bold w-full flex items-center justify-between',
+          {
+            'text-success': isOpen,
+          }
+        )}
       >
         <h3>{title}</h3>
         <svg
@@ -26,13 +29,15 @@ const HelpAccordion = ({ idx, expanded, content, setExpanded, title }: IProps) =
           viewBox='0 0 24 24'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
-          className={cn('transition-transform duration-200 ease-in-out', { 'rotate-180': isOpen })}
+          className={cn('transition-transform duration-200 ease-in-out min-w-5 w-5 h-5 mobile:w-6 mobile:h-6', {
+            'rotate-180': isOpen,
+          })}
         >
           <g id='chevron-down'>
             <path
               id='Vector'
               d='M6 9L12 15L18 9'
-              className={isOpen ? 'stroke-success' : 'stroke-gray'}
+              className={isOpen ? 'stroke-success' : 'stroke-white'}
               strokeWidth='2'
               strokeLinecap='round'
               strokeLinejoin='round'
@@ -57,7 +62,7 @@ const HelpAccordion = ({ idx, expanded, content, setExpanded, title }: IProps) =
             <motion.p
               variants={{ collapsed: { scale: 0.8 }, open: { scale: 1 } }}
               transition={{ duration: 0.4 }}
-              className='content-placeholder text-2xl text-gray'
+              className='content-placeholder sm:text-2xl text-gray'
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(content, { ALLOWED_ATTR: ['class'] }),
               }}
