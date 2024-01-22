@@ -37,12 +37,12 @@ const PaymentCalc = () => {
         />
         <img src={rubIcon} alt='rub currency' width={30} />
       </div>
-      <div className='flex justify-between items-center w-full'>
+      <div className='flex justify-between items-center w-full flex-wrap gap-4'>
         {paymentIncrementButtons.map(({ increment_data, label }) => (
           <Button
             label={label}
             onClick={() => incrementValue(increment_data)}
-            className='border border-solid px-[17px] border-gray bg-transparent [&_p]:text-gray rounded-[10px] py-[5px] justify-center [&_p]:hover:text-success hover:border-success transition-all [&_p]:transition-all font-normal duration-300'
+            className='border border-solid px-[17px] border-gray bg-transparent [&_p]:text-gray rounded-[10px] py-[5px] justify-center [&_p]:hover:text-success hover:border-success transition-all [&_p]:transition-all font-normal duration-300 flex-grow'
           />
         ))}
       </div>

@@ -1,10 +1,13 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { Routes as BrowserRoutes, Route } from 'react-router-dom';
 import { routes } from './routes_data';
 import { v4 } from 'uuid';
 import { IRoutes } from '@/types/interfaces';
 import Loader from '@/components/ui/Loader';
 import Layout from '@/layout/layout';
+import { useMediaQuery } from 'usehooks-ts';
+
+const ChatPage = lazy(() => import('../pages/payment/chat/page'));
 
 const renderRoutes = (routes: IRoutes[]): React.ReactNode => {
   return routes.map(({ path, component, children, element }) => (
@@ -15,6 +18,7 @@ const renderRoutes = (routes: IRoutes[]): React.ReactNode => {
 };
 
 export const Routes = () => {
+  const notTablet = useMediaQuery('(min-width: 1024px)');
   return (
     <Suspense
       fallback={
@@ -23,7 +27,29 @@ export const Routes = () => {
         </Layout>
       }
     >
-      <BrowserRoutes>{renderRoutes(routes)}</BrowserRoutes>
+      <BrowserRoutes>
+        {renderRoutes(routes)}
+        {!notTablet && (
+          <>
+            <Route
+              path='ru/payment-chat'
+              element={
+                <Layout hasChildren>
+                  <ChatPage />
+                </Layout>
+              }
+            />
+            <Route
+              path='en/payment-chat'
+              element={
+                <Layout hasChildren>
+                  <ChatPage />
+                </Layout>
+              }
+            />
+          </>
+        )}
+      </BrowserRoutes>
     </Suspense>
   );
 };

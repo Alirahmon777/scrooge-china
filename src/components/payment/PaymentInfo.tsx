@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PaymentInfo = () => {
   return (
     <div className='flex items-start gap-[10px]'>

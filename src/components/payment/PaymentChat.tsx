@@ -5,7 +5,7 @@ import PaymentInfo from './PaymentInfo';
 
 const PaymentChat = () => {
   return (
-    <div className='px-[55px] pt-[49px] pb-[38px] bg-header rounded-[10px] max-w-[564px] flex-1 min-h-full'>
+    <div className='px-[40px] py-10 xl:px-[55px] xl:pt-[49px] xl:pb-[38px] bg-header rounded-[10px] flex-1 max-w-[564px] min-h-full'>
       <div className='flex flex-col gap-5 h-full'>
         <PaymentInfo />
         <div className='w-full h-[1px] bg-gray' />

@@ -13,7 +13,7 @@ const PaymentMethods = () => {
             <div className='flex gap-[5px] flex-wrap'>
               {buttons.map(({ label, leftIcon }) => (
                 <Button
-                  className={'py-2 bg-[#1D1F1E] flex-grow justify-center rounded-[10px] [&_p]:text-white'}
+                  className={'py-2 px-2 bg-[#1D1F1E] flex-grow justify-center rounded-[10px] [&_p]:text-white'}
                   label={label}
                   leftIcon={leftIcon}
                 />
