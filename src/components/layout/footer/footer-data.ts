@@ -30,7 +30,7 @@ export const footer_nav: IFooterNav[] = [
       },
       {
         name: 'Достижения',
-        href: 'statistics',
+        href: 'ratings',
       },
     ],
   },

@@ -1,23 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useEffect, useRef, useState } from 'react';
-import { ILanguageCurrencyNav } from './types/interface';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { ILanguageCurrencyNav, IPopoverProps } from './types/interface';
 import { PositionTypes } from '@/types/types';
 import { useTranslation } from 'react-i18next';
-
-interface IProps {
-  position: PositionTypes;
-  isHover?: boolean;
-  isActive?: (item: ILanguageCurrencyNav) => boolean;
-  items?: ILanguageCurrencyNav[];
-  onClickItem: (item: ILanguageCurrencyNav) => void;
-  children: (
-    isOpen: boolean,
-    setShowPopover: React.Dispatch<React.SetStateAction<boolean>>
-  ) => React.ReactNode | React.ReactNode;
-  contentClass?: string;
-  hasLang?: boolean;
-}
 
 const timeoutDuration = 120;
 
@@ -30,10 +16,10 @@ const HeaderPopover = ({
   isHover,
   contentClass,
   hasLang,
-}: IProps) => {
+  triggerRef,
+}: IPopoverProps) => {
   const [showPopover, setShowPopover] = useState<boolean>(false);
   const componentRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
   const timeOutRef = useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const handleClickOutside = (event: MouseEvent) => {
@@ -44,12 +30,12 @@ const HeaderPopover = ({
 
   const handleEnter = () => {
     clearTimeout(timeOutRef.current);
-    !showPopover && triggerRef.current?.click();
+    !showPopover && triggerRef?.current?.click();
   };
 
   const handleLeave = () => {
     timeOutRef.current = setTimeout(() => {
-      showPopover && triggerRef.current?.click();
+      showPopover && triggerRef?.current?.click();
     }, timeoutDuration);
   };
 

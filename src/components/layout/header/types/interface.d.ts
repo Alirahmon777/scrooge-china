@@ -6,8 +6,23 @@ export interface ILanguageCurrencyNav {
   items?: ILanguageCurrencyNav[];
 }
 
-interface IHeaderNav {
+export interface IHeaderNav {
   name: string;
   href?: string;
   children?: ILanguageCurrencyNav[];
+}
+
+export interface IPopoverProps {
+  position: PositionTypes;
+  isHover?: boolean;
+  isActive?: (item: ILanguageCurrencyNav) => boolean;
+  items?: ILanguageCurrencyNav[];
+  onClickItem: (item: ILanguageCurrencyNav) => void;
+  children: (
+    isOpen: boolean,
+    setShowPopover: React.Dispatch<React.SetStateAction<boolean>>
+  ) => React.ReactNode | React.ReactNode;
+  contentClass?: string;
+  hasLang?: boolean;
+  triggerRef?: RefObject<HTMLButtonElement>;
 }

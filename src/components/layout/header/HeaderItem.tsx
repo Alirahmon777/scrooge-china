@@ -3,15 +3,17 @@ import { ILanguageCurrencyNav } from './types/interface';
 import HeaderPopover from './HeaderPopover';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { useRef } from 'react';
 
 const HeaderItem = ({ label, items }: ILanguageCurrencyNav) => {
   const { t } = useTranslation();
-
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
   //
   return (
     <HeaderPopover
       items={items}
+      triggerRef={triggerRef}
       onClickItem={(item) => navigate(item.href as string)}
       position='bottom'
       isHover
@@ -24,6 +26,7 @@ const HeaderItem = ({ label, items }: ILanguageCurrencyNav) => {
             'flex items-center gap-x-1 font-semibold leading-6 text-gray text-sm xl:text-base transition-all',
             { 'text-success': isOpen }
           )}
+          ref={triggerRef}
           onClick={() => setShowPopover(!isOpen)}
         >
           {t(label, 'layout')}
