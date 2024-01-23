@@ -1,8 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { ILanguageCurrencyNav, IPopoverProps } from './types/interface';
-import { PositionTypes } from '@/types/types';
+import { useEffect, useRef, useState } from 'react';
+import { IPopoverProps } from './types/interface';
 import { useTranslation } from 'react-i18next';
 
 const timeoutDuration = 120;
