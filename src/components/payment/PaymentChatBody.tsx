@@ -5,7 +5,7 @@ const PaymentChatBody = () => {
     <div className='min-h-[330px] flex-grow'>
       <div className='flex flex-col gap-5'>
         <div className='flex items-start gap-[10px]'>
-          <span className='w-6 h-6 bg-success rounded-sm' />
+          <span className='min-w-5 min-h-5 mobile:min-w-6 mobile:min-h-6 bg-success rounded-sm' />
           <ul className='flex flex-col gap-[10px]'>
             <li>
               <Message
@@ -19,9 +19,9 @@ const PaymentChatBody = () => {
           </ul>
         </div>
         <div className='flex items-start gap-[10px] flex-row-reverse'>
-          <span className='w-6 h-6 bg-success rounded-sm' />
-          <ul className='flex flex-col gap-[10px]'>
-            <li>
+          <span className='min-w-5 min-h-5 mobile:min-w-6 mobile:min-h-6 bg-success rounded-sm' />
+          <ul className='flex flex-grow flex-col gap-[10px]'>
+            <li className='flex items-end justify-end'>
               <Message content='Хорошо, сейчас все переведу' isCurrentUser={true} />
             </li>
           </ul>

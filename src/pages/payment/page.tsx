@@ -13,7 +13,7 @@ const PaymentPage = () => {
             Пополнение на <span className='text-success'>buff.163</span>
           </h2>
         )}
-        <div className='flex justify-center lg:justify-between items-stretch mt-[55px] gap-5'>
+        <div className='flex lg:grid lg:grid-cols-2 justify-center lg:justify-between mt-[55px] gap-5'>
           <PaymentCard />
           {notTable && <PaymentChat />}
         </div>

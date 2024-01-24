@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IFooterItem } from './types/interface';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 interface IProps {
   title: string;
   idx: number;
@@ -12,6 +13,9 @@ interface IProps {
 }
 const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentParentClass }: IProps) => {
   const isOpen = idx === expanded;
+  const {
+    i18n: { language: lng },
+  } = useTranslation();
 
   return (
     <div className=''>
@@ -29,14 +33,11 @@ const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentPare
           height='16'
           viewBox='0 0 16 12'
           fill='none'
-          className={cn('transition-transform duration-200 ease-in-out stroke-white', { 'rotate-180 stroke-success': isOpen })}
+          className={cn('transition-transform duration-200 ease-in-out stroke-white', {
+            'rotate-180 stroke-success': isOpen,
+          })}
         >
-          <path
-            d='M4 5.5L8 9.5L12 5.5'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          />
+          <path d='M4 5.5L8 9.5L12 5.5' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
         </svg>
       </motion.button>
       <AnimatePresence initial={false}>
@@ -55,7 +56,7 @@ const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentPare
           >
             {items.map(({ href, name, icon }, idx) => (
               <li key={idx} className={'text-gray text-xl transition-all'}>
-                <Link to={href} className={'w-full block'}>
+                <Link to={`/${lng}/${href}`} className={'w-full block'}>
                   {name}
                   {icon && <img src={icon} alt='icon' width={40} />}
                 </Link>

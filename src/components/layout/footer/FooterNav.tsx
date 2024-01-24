@@ -3,10 +3,14 @@ import { footer_nav, footer_socials } from './footer-data';
 import { useMediaQuery } from 'usehooks-ts';
 import FooterAccordion from './FooterAccordion';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const FooterNav = () => {
   const [expanded, setExpanded] = useState<false | number | null>(null);
   const mobile = useMediaQuery('(max-width: 424.9px)');
+  const {
+    i18n: { language: lng },
+  } = useTranslation();
 
   if (mobile) {
     const accordionComponents = footer_nav.map(({ children, title }, idx) => (
@@ -40,7 +44,7 @@ const FooterNav = () => {
       <ul className='flex flex-col gap-5 lg:text-nowrap'>
         {children.map(({ name, href }, idx) => (
           <li key={idx} className='text-gray text-2xl hover:text-white transition-all'>
-            <Link to={href} className='w-full block'>
+            <Link to={`/${lng}/${href}`} onClick={() => window.scroll({ top: 0 })} className='w-full block'>
               {name}
             </Link>
           </li>

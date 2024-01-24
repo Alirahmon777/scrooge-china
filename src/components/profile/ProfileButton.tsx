@@ -14,7 +14,7 @@ const ProfileButton = ({ icon, label, imageClass }: IProps) => {
       label={isMobile ? undefined : label}
       imageClass={isMobile ? undefined : imageClass}
       leftIcon={icon}
-      className='bg-transparent gap-[10px] items-center [&_p]:text-gray font-medium'
+      variant='ghost'
     />
   );
 };

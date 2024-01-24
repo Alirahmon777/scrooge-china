@@ -9,7 +9,7 @@ export const footer_nav: IFooterNav[] = [
     children: [
       {
         name: 'Пополнить',
-        href: '',
+        href: 'payment',
       },
       {
         name: 'Заработок на buff.163',
