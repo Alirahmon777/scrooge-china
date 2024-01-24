@@ -1,10 +1,7 @@
 import HelpAccordion from '@/components/help/HelpAccordion';
 import { accordions } from '@/components/help/help-data';
 import { useState } from 'react';
-import telegramIcon from '@svgs/help/telegram.svg';
 import chatBotIcon from '@svgs/help/chatbot.svg';
-import commentAltIcon from '@svgs/help/comment-alt.svg';
-import Button from '@/components/ui/Button';
 import HelpButtons from '@/components/help/HelpButtons';
 
 const HelpPage = () => {
