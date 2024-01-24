@@ -5,6 +5,7 @@ import telegramIcon from '@svgs/help/telegram.svg';
 import chatBotIcon from '@svgs/help/chatbot.svg';
 import commentAltIcon from '@svgs/help/comment-alt.svg';
 import Button from '@/components/ui/Button';
+import HelpButtons from '@/components/help/HelpButtons';
 
 const HelpPage = () => {
   const [expanded, setExpanded] = useState<false | number | null>(null);
@@ -31,13 +32,8 @@ const HelpPage = () => {
           <p className='text-gray sm:text-xl lg:text-2xl'>
             Вы можете обратиться в наш online чат, в котором вам помогут с вашим вопросом. Или напишите нам в Telegram
           </p>
-          <div className='flex flex-grow w-full gap-[10px] justify-between mobile:justify-center mobile:gap-[30px] font-bold items-center'>
-            <Button label='Чат' leftIcon={commentAltIcon} className='py-2 lg:py-[14px] px-6 rounded-[10px] gap-2' />
-            <Button
-              label='Телеграм'
-              leftIcon={telegramIcon}
-              className='py-2 lg:py-[14px] px-6 bg-header [&_p]:text-white rounded-[10px] gap-2'
-            />
+          <div className='flex flex-grow w-full gap-[10px] justify-evenly mobile:justify-center mobile:gap-[30px] font-bold items-center'>
+            <HelpButtons label='Чат' />
           </div>
         </div>
       </div>

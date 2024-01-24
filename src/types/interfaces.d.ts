@@ -36,3 +36,12 @@ export interface IUserResponse {
   }[];
   data: IUser;
 }
+
+export interface IHistory {
+  date_time: string;
+  order_number: string;
+  payment_method: string;
+  details: string;
+  amount: string;
+  isSuccessfully?: boolean;
+}

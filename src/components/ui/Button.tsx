@@ -5,14 +5,15 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   leftIcon?: string;
   rightIcon?: string;
   label?: string;
+  imageClass?: string;
 }
 
-const Button = ({ leftIcon, rightIcon, label, className, ...props }: IProps) => {
+const Button = ({ leftIcon, rightIcon, label, className, imageClass, ...props }: IProps) => {
   return (
     <button className={cn('bg-[#52EA73] flex gap-1 items-center font-bold', className)} {...props}>
-      {leftIcon && <img src={leftIcon} alt={label} />}
+      {leftIcon && <img src={leftIcon} alt={'button left icon'} className={imageClass} />}
       {label && <p className='text-black'>{label}</p>}
-      {rightIcon && <img src={rightIcon} alt={label} />}
+      {rightIcon && <img src={rightIcon} alt={'button right icon'} className={imageClass} />}
     </button>
   );
 };

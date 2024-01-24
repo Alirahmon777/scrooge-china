@@ -27,7 +27,7 @@ const HelpLayout = ({ hasChildren, children }: IProps) => {
   return (
     <div className='container flex mt-5 lg:mt-[60px] gap-[23px] mb-10 lg:mb-[60px] flex-col lg:flex-row'>
       <AnimatePresence>
-        {showMenu && (
+        {(showMenu || notTablet) && (
           <motion.aside
             className='min-w-[270px] max-lg:py-5 fixed h-full max-lg:overflow-y-auto lg:sticky top-0 left-0 lg:left-auto lg:top-5 max-lg:bg-header max-lg:px-5'
             initial={notTablet ? false : { x: -400 }}
@@ -35,17 +35,19 @@ const HelpLayout = ({ hasChildren, children }: IProps) => {
             exit={notTablet ? undefined : { x: -400 }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
           >
-            <div className='flex justify-between items-center mb-10'>
-              <img src={logo} alt='menu logo' width={40} />
-              <button
-                onClick={() => {
-                  setShowMenu(false);
-                  setLocked(false);
-                }}
-              >
-                <img src={close} alt='close icon' width={40} />
-              </button>
-            </div>
+            {!notTablet && (
+              <div className='flex justify-between items-center mb-10'>
+                <img src={logo} alt='menu logo' width={40} />
+                <button
+                  onClick={() => {
+                    setShowMenu(false);
+                    setLocked(false);
+                  }}
+                >
+                  <img src={close} alt='close icon' width={40} />
+                </button>
+              </div>
+            )}
             <HelpLayoutNav setShowMenu={setShowMenu} />
           </motion.aside>
         )}

@@ -35,7 +35,7 @@ const FooterNav = () => {
   }
 
   return footer_nav.map(({ title, children }, idx) => (
-    <div className='flex flex-col mobile:gap-5 sm:gap-[30px] sm:justify-self-center' key={idx}>
+    <div className='flex flex-col mobile:gap-5 md:gap-[30px] md:justify-self-center' key={idx}>
       <h3 className='text-2xl font-bold'>{title}</h3>
       <ul className='flex flex-col gap-5 lg:text-nowrap'>
         {children.map(({ name, href }, idx) => (
