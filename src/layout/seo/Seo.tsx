@@ -36,12 +36,10 @@ const Seo: React.FC<SeoProps> = ({
           ))}
         <title>{metaTitle}</title>
 
-        <link rel='icon' type='image/svg' href={favicon} />
-        <link rel='shortcut icon' href={favicon} type='image/svg' />
+        <link rel='icon' type='image/svg+xml' href={favicon} />
+        <link rel='shortcut icon' href={favicon} type='image/svg+xml' />
         <link rel='apple-touch-icon-precomposed' href={favicon} />
-        <link rel='apple-touch-icon' sizes='152x152' href={favicon} />
         <link rel='apple-touch-icon' sizes='180x180' href={favicon} />
-        <link rel='apple-touch-icon' sizes='167x167' href={favicon} />
 
         <meta httpEquiv='X-UA-Compatible' content='ie=edge' />
         <meta name='keyword' content={metaKeyword} />
