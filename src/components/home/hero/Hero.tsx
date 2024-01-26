@@ -2,7 +2,11 @@ import Button from '@/components/ui/Button';
 import PlayButton from '@/components/ui/PlayButton';
 import market from '@svgs/market.svg';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 const Hero = () => {
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
   return (
     <section className='base:mt-5 tablet:mt-[73px]'>
       <div className='container flex flex-col gap-5 text-center items-center justify-between tablet:flex-row  tablet:text-start'>
@@ -31,6 +35,7 @@ const Hero = () => {
           >
             <Button
               label='Пополнить'
+              onClick={() => navigate(`/${i18n.language}/payment`)}
               leftIcon={market}
               className='px-6 py-[14px] rounded-[10px] max-tablet:justify-center'
             />

@@ -45,3 +45,16 @@ export interface IHistory {
   amount: string;
   isSuccessfully?: boolean;
 }
+
+export interface SeoProps extends IChildProps {
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeyword?: string;
+  ogImage?: string;
+  home?: string;
+  favicon?: string;
+  locale?: string;
+  ogType?: string;
+  ogURL?: string;
+  ogSiteName?: string;
+}

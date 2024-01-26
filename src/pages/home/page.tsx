@@ -4,18 +4,25 @@ import Info from '@/components/home/info/Info';
 import LiveRibbon from '@/components/home/live/LiveRibbon';
 import Recommendation from '@/components/home/recommendation/Recommendation';
 import Statistics from '@/components/home/statistics/Statistics';
+import Seo from '@/layout/seo/Seo';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'usehooks-ts';
 const HomePage = () => {
   const mobile = useMediaQuery('(max-width: 540px)');
+  const {
+    i18n: { language: lng },
+  } = useTranslation();
+  const { pathname } = useLocation();
   return (
-    <>
+    <Seo home={`/${lng}`} ogURL={pathname}>
       <Hero />
       <Info />
       {!mobile && <LiveRibbon />}
       <About />
       <Recommendation />
       <Statistics />
-    </>
+    </Seo>
   );
 };
 
