@@ -3,7 +3,7 @@ import Seo from '@/layout/seo/Seo';
 
 const ModeratorsPage = () => {
   return (
-    <Seo favicon='/admin/favicon.svg' metaTitle='Scrooge China - Moderators' ogURL='/admin/moderators'>
+    <Seo faviconPath='favicon/admin' metaTitle='Scrooge China - Moderators' ogURL='/admin/moderators'>
       <section className='my-[45px]'>
         <h3 className='text-[32px] font-medium'>Модераторы</h3>
         <div className='p-6 bg-header rounded-[10px] max-w-[700px] mt-5'>
