@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+		<!--	created with www.mysitemapgenerator.com	-->
+		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!-- ru -->
+<url>
+	<loc>https://scrooge-china.vercel.app/ru</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/payment</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/reviews</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/ratings</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/contacts</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/help</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/help/how-it-works</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/help/guarantees</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/help/privacy</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/help/terms</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/profile</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/ru/payment-chat</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+
+<!-- en -->
+<url>
+	<loc>https://scrooge-china.vercel.app/en</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/payment</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/reviews</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/ratings</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/contacts</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/help</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/help/how-it-works</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/help/guarantees</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/help/privacy</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/help/terms</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/profile</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://scrooge-china.vercel.app/en/payment-chat</loc>
+	<lastmod>2024-01-26T20:07:18+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+</urlset>
