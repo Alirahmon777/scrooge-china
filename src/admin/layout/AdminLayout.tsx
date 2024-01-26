@@ -9,7 +9,7 @@ import Seo from '@/layout/seo/Seo';
 
 const AdminLayout = () => {
   return (
-    <Seo favicon='/admin/favicon.svg' home='/statistics'>
+    <Seo faviconPath='favicon/admin' home='/statistics'>
       <div className='flex flex-grow items-stretch gap-4 xl:gap-[32px]'>
         <aside className='relative min-w-[300px] xl:w-[350px] overflow-y-auto z-10'>
           <div className='fixed px-[32px] w-[300px] xl:w-[350px] pt-10 pb-20 bg-header overflow-y-auto flex flex-col justify-between gap-10 h-full min-h-screen'>
