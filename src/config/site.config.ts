@@ -12,5 +12,5 @@ export const siteConfig = {
   },
   logo: '/favicon.svg',
   logoText: 'scrooge china',
-  favicon: '/favicon.svg',
+  faviconPath: 'favicon',
 };

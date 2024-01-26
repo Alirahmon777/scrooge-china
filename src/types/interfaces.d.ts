@@ -52,7 +52,7 @@ export interface SeoProps extends IChildProps {
   metaKeyword?: string;
   ogImage?: string;
   home?: string;
-  favicon?: string;
+  faviconPath?: string;
   locale?: string;
   ogType?: string;
   ogURL?: string;

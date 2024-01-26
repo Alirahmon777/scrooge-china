@@ -12,7 +12,7 @@ const Seo: React.FC<SeoProps> = ({
   metaKeyword = siteConfig.metaData.keyword,
   ogImage = siteConfig.metaData.ogImage,
   ogType = siteConfig.metaData.ogType,
-  favicon = siteConfig.favicon,
+  faviconPath = siteConfig.faviconPath,
   locale = siteConfig.metaData.locale,
   alternates,
 }) => {
@@ -22,24 +22,43 @@ const Seo: React.FC<SeoProps> = ({
   const { pathname } = useLocation();
   const origin = window.location.origin;
   const lang = lng == 'ru' ? 'ru_RU' : lng == 'en' ? 'en_US' : 'ru_RU';
+
+  const iconSizes = ['57x57', '60x60', '72x72', '76x76', '114x114', '120x120', '144x144', '152x152', '180x180'];
+
   return (
     <>
       <Helmet
         htmlAttributes={{ lang: lang, 'xml:lang': lang, prefix: 'og: https://ogp.me/ns#' }}
         defaultTitle='Scrooge China - Быстрое пополнение сайта Buff.163'
-        prioritizeSeoTags
+        prioritizeSeoTags={true}
       >
         <link rel='canonical' href={`${origin}${pathname}`} />
         {alternates &&
-          alternates.map(({ href, hrefLang }) => (
-            <link rel='alternate' href={`${origin}${href}`} hrefLang={hrefLang} />
+          alternates.map(({ href, hrefLang }, idx) => (
+            <link rel='alternate' href={`${origin}${href}`} hrefLang={hrefLang} key={idx} />
           ))}
         <title>{metaTitle}</title>
+        {/* apple touch icon */}
 
-        <link rel='icon' type='image/svg+xml' href={favicon} />
-        <link rel='shortcut icon' href={favicon} type='image/svg+xml' />
-        <link rel='apple-touch-icon-precomposed' href={favicon} />
-        <link rel='apple-touch-icon' sizes='180x180' href={favicon} />
+        {iconSizes.map((size, idx) => (
+          <React.Fragment key={idx}>
+            <link
+              rel='apple-touch-icon-precomposed'
+              sizes={size}
+              href={`/${faviconPath}/apple-touch-icon-${size}-precomposed.png`}
+            />
+            <link rel='apple-touch-icon' sizes={size} href={`/${faviconPath}/apple-touch-icon-${size}.png`} />
+          </React.Fragment>
+        ))}
+
+        {/* icon  */}
+        <link rel='apple-touch-icon' sizes='180x180' href={`/${faviconPath}/apple-touch-icon.png`} />
+        <link rel='icon' type='image/png' sizes='32x32' href={`/${faviconPath}/favicon-32x32.png`} />
+        <link rel='icon' type='image/png' sizes='16x16' href={`/${faviconPath}/favicon-16x16.png`} />
+        <link rel='manifest' href={`/${faviconPath}/site.webmanifest`} />
+        <link rel='mask-icon' href={`/${faviconPath}/safari-pinned-tab.svg`} color='#53ab77' />
+        <meta name='msapplication-TileColor' content='#00aba9' />
+        <meta name='msapplication-TileImage' content={`/${faviconPath}/mstile-144x144.png`} />
 
         <meta httpEquiv='X-UA-Compatible' content='ie=edge' />
         <meta name='keyword' content={metaKeyword} />
@@ -49,8 +68,6 @@ const Seo: React.FC<SeoProps> = ({
         <meta property='og:title' name='og:title' content={metaTitle} />
         <meta property='og:description' name='og:description' content={metaDescription} />
         <meta property='og:image' name='og:image' content={ogImage} />
-        <meta property='og:image:height' name='og:image:height' content='440' />
-        <meta property='og:image:width' name='og:image:width' content='510' />
         <meta property='og:locale' name='og:locale' content={locale} />
         <meta property='og:locale:alternate' name='og:locale:alternate' content={'ru_RU'} />
         <meta property='og:locale:alternate' name='og:locale:alternate' content={'en_US'} />
