@@ -1,3 +1,4 @@
+import OrderCard from '@/admin/components/moderators/OrderCard';
 import Seo from '@/layout/seo/Seo';
 
 const ModeratorOrderPage = () => {
@@ -7,6 +8,9 @@ const ModeratorOrderPage = () => {
         <div className='container'>
           <h1 className='sr-only'>Страница модератора - Перейти к заказам</h1>
           <h2 className='text-[32px] font-medium'>Перейти к заказам</h2>
+          <ul>
+            <OrderCard />
+          </ul>
         </div>
       </section>
     </Seo>
