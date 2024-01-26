@@ -19,6 +19,7 @@ const HeaderLang = ({ position = 'bottom' }: IProps) => {
   const handleLang = (lang: string | undefined) => {
     changeLanguage(lang);
     navigate(pathname.replace(/^(\/en|\/ru)(|$)/, `/${lang}`));
+    window.location.reload();
   };
 
   return (

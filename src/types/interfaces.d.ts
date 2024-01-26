@@ -57,4 +57,8 @@ export interface SeoProps extends IChildProps {
   ogType?: string;
   ogURL?: string;
   ogSiteName?: string;
+  alternates?: {
+    href: string;
+    hrefLang: string;
+  }[];
 }

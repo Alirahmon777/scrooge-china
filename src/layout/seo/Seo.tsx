@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { siteConfig } from '../../config/site.config';
 import { SeoProps } from '@/types/interfaces';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 const Seo: React.FC<SeoProps> = ({
   children,
@@ -11,23 +12,36 @@ const Seo: React.FC<SeoProps> = ({
   metaKeyword = siteConfig.metaData.keyword,
   ogImage = siteConfig.metaData.ogImage,
   ogType = siteConfig.metaData.ogType,
-  ogSiteName = siteConfig.metaData.ogSiteName,
-  home = siteConfig.route,
   favicon = siteConfig.favicon,
   locale = siteConfig.metaData.locale,
-  ogURL = siteConfig.metaData.ogURL,
+  alternates,
 }) => {
   const {
     i18n: { language: lng },
   } = useTranslation();
+  const { pathname } = useLocation();
+  const origin = window.location.origin;
   const lang = lng == 'ru' ? 'ru_RU' : lng == 'en' ? 'en_US' : 'ru_RU';
   return (
     <>
-      <Helmet htmlAttributes={{ lang: lang, 'xml:lang': lang, prefix: 'og: https://ogp.me/ns#' }}>
-        <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=5' />
-        <link rel='icon' type='image/png' href={favicon} />
+      <Helmet
+        htmlAttributes={{ lang: lang, 'xml:lang': lang, prefix: 'og: https://ogp.me/ns#' }}
+        defaultTitle='Scrooge China - Быстрое пополнение сайта Buff.163'
+        prioritizeSeoTags
+      >
+        <link rel='canonical' href={`${origin}${pathname}`} />
+        {alternates &&
+          alternates.map(({ href, hrefLang }) => (
+            <link rel='alternate' href={`${origin}${href}`} hrefLang={hrefLang} />
+          ))}
         <title>{metaTitle}</title>
+
+        <link rel='icon' type='image/svg' href={favicon} />
+        <link rel='shortcut icon' href={favicon} type='image/svg' />
+        <link rel='apple-touch-icon-precomposed' href={favicon} />
+        <link rel='apple-touch-icon' sizes='152x152' href={favicon} />
+        <link rel='apple-touch-icon' sizes='180x180' href={favicon} />
+        <link rel='apple-touch-icon' sizes='167x167' href={favicon} />
 
         <meta httpEquiv='X-UA-Compatible' content='ie=edge' />
         <meta name='keyword' content={metaKeyword} />
@@ -43,17 +57,13 @@ const Seo: React.FC<SeoProps> = ({
         <meta property='og:locale:alternate' name='og:locale:alternate' content={'ru_RU'} />
         <meta property='og:locale:alternate' name='og:locale:alternate' content={'en_US'} />
         <meta property='og:type' name='og:type' content={ogType} />
-        <meta property='og:site_name' name='og:site_name' content={ogSiteName} />
-        <meta property='og:url' name='og:url' content={ogURL} />
+        <meta property='og:site_name' name='og:site_name' content={metaTitle} />
+        <meta property='og:url' name='og:url' content={`${origin}${pathname}`} />
 
         <meta name='twitter:title' content={metaTitle} />
         <meta name='twitter:image' content={ogImage} />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:description' content={metaDescription} />
-        <link rel='shortcut icon' href={favicon} type='image/x-icon' />
-        <link rel='canonical' href={home} />
-        <link rel='alternate' href='/en' hrefLang='en_US' />
-        <link rel='alternate' href='/ru' hrefLang='ru_RU' />
       </Helmet>
       <>{children}</>
     </>

@@ -19,14 +19,14 @@ const Hero = () => {
           >
             <span>Пополни</span> свой аккаунт buff.163 <span>за 5 минут.</span>
           </motion.h1>
-          <motion.p
-            className='max-mobile:text-xl text-2xl mb-[10px] text-gray text-wrap'
+          <motion.h2
+            className='max-mobile:text-xl text-2xl mb-[10px] font-normal text-gray text-wrap'
             initial={{ y: 220, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ ease: 'easeOut', duration: 1, delay: 0.1 }}
           >
             Пополни свой аккаунт buff163 и купи скины CSGO, Dota 2, RUST, TF2 на 30% дешевле чем в Steam.
-          </motion.p>
+          </motion.h2>
           <motion.div
             className='max-tablet:grid-cols-2 max-sm:grid-cols-1 max-tablet:grid flex gap-5 tablet:gap-[20px] lg:gap-[32px] text-start'
             initial={{ y: 250, opacity: 0 }}

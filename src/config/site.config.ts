@@ -8,12 +8,9 @@ export const siteConfig = {
       'Scrooge china, scrooge, china online market, scrooge market, cs2 market, csgo market, Counter-Strike 2 market, Counter-Strike Global Offensive market, Counter-Strike GO market, DOTA 2 market, dota market, game market, Скрудж Китай, скрудж, китайский онлайн-рынок, скрудж-рынок, cs2-рынок, csgo-рынок, рынок Counter-Strike 2, рынок Counter-Strike Global Offensive, рынок Counter-Strike GO, рынок DOTA 2, рынок Dota, рынок игр, buff.163',
     ogImage: '/images/hero-bg.png',
     ogType: 'website',
-    ogSiteName: 'Scrooge China (Market Skins)',
     locale: 'ru_RU',
-    ogURL: '/ru',
   },
   logo: '/favicon.svg',
   logoText: 'scrooge china',
   favicon: '/favicon.svg',
-  route: '/ru',
 };

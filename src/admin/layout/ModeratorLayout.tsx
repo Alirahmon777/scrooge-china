@@ -4,11 +4,10 @@ import logo from '@svgs/admin/admin-logo.svg';
 import { Link } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Icons } from '../components/Icons';
-import Seo from '@/layout/seo/Seo';
 
 const ModeratorLayout = ({ children }: Partial<IChildProps>) => {
   return (
-    <Seo favicon='/admin/favicon.svg' metaTitle=''>
+    <>
       <header className='bg-[#151716]'>
         <div className='max-w-[1380px] mx-auto py-[10px] flex items-center justify-between'>
           <Link to={'/moderator'}>
@@ -21,7 +20,7 @@ const ModeratorLayout = ({ children }: Partial<IChildProps>) => {
         <Outlet />
         {children && children}
       </main>
-    </Seo>
+    </>
   );
 };
 

@@ -14,9 +14,9 @@ const About = () => {
       <div className='container flex items-center justify-between max-xl:flex-col gap-[30px]'>
         <div className='flex flex-col max-xl:gap-[15px] gap-[30px] max-xl:text-center max-xl:items-center items-start max-sm:max-w-none max-tablet:max-w-[80%] tablet:max-w-[543px]'>
           <h2 className='font-bold leading-[120%]'>Что о нас пишут наши клиенты</h2>
-          <p className='max-mobile:text-xl text-2xl text-gray mb-[10px]'>
+          <h3 className='max-mobile:text-xl text-2xl text-gray mb-[10px]'>
             Вы сэкономите много времени используя на сайт. Пополнить сайт buff.163 стало на много проще.
-          </p>
+          </h3>
           <Button
             label='Посмотреть все отзывы'
             className='py-[14px] px-[24px] rounded-[10px]'

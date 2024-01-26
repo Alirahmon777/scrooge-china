@@ -8,6 +8,12 @@ import Seo from '@/layout/seo/Seo';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'usehooks-ts';
+
+const metaAlternates = [
+  { href: '/ru', hrefLang: 'ru_RU' },
+  { href: '/en', hrefLang: 'en_US' },
+];
+
 const HomePage = () => {
   const mobile = useMediaQuery('(max-width: 540px)');
   const {
@@ -15,7 +21,7 @@ const HomePage = () => {
   } = useTranslation();
   const { pathname } = useLocation();
   return (
-    <Seo home={`/${lng}`} ogURL={pathname}>
+    <Seo home={`/${lng}`} ogURL={pathname} alternates={metaAlternates}>
       <Hero />
       <Info />
       {!mobile && <LiveRibbon />}
