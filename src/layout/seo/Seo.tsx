@@ -21,14 +21,13 @@ const Seo: React.FC<SeoProps> = ({
   } = useTranslation();
   const { pathname } = useLocation();
   const origin = window.location.origin;
-  const lang = lng == 'ru' ? 'ru_RU' : lng == 'en' ? 'en_US' : 'ru_RU';
 
   const iconSizes = ['57x57', '60x60', '72x72', '76x76', '114x114', '120x120', '144x144', '152x152', '180x180'];
 
   return (
     <>
       <Helmet
-        htmlAttributes={{ lang: lang, 'xml:lang': lang, prefix: 'og: https://ogp.me/ns#' }}
+        htmlAttributes={{ lang: lng, 'xml:lang': lng, prefix: 'og: https://ogp.me/ns#' }}
         defaultTitle='Scrooge China - Быстрое пополнение сайта Buff.163'
         prioritizeSeoTags={true}
       >

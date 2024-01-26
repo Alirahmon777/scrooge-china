@@ -7,7 +7,7 @@ interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   rightIcon?: string;
   label?: string;
   imageClass?: string;
-  variant?: 'outline' | 'fill' | 'ghost';
+  variant?: 'outline' | 'fill' | 'ghost' | 'admin';
 }
 
 const Button = ({ leftIcon, rightIcon, label, className, imageClass, LeftSvg, variant = 'fill', ...props }: IProps) => {
@@ -20,6 +20,7 @@ const Button = ({ leftIcon, rightIcon, label, className, imageClass, LeftSvg, va
             variant == 'outline',
         },
         { 'bg-transparent gap-[10px] items-center [&_p]:text-gray font-medium': variant == 'ghost' },
+        { 'bg-[#EA5252] px-[30px] py-[10px] rounded-[10px] [&_p]:text-white font-normal': variant == 'admin' },
         className
       )}
       {...props}
