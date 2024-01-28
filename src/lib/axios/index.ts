@@ -1,12 +1,11 @@
-import { cfg } from '@/config/site.config';
 import axios from 'axios';
 
 const $host = axios.create({
-  baseURL: cfg.BASE_URL,
+  baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 $host.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem('token');
   if (!token) return config;
   config.headers.Authorization = `Bearer ${token}`;
   return config;

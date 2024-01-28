@@ -9,7 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { HydrationProvider, Client } from 'react-hydration-provider';
 import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from './store';
+import { store } from './redux/store/index.ts';
 import { Provider } from 'react-redux';
 import i18n from './lib/i18n/index.ts';
 

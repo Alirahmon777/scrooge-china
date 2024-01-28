@@ -14,13 +14,13 @@ function App() {
   const [loading, setLoading] = useState(true);
   const { i18n } = useTranslation();
   const fetchData = async () => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       setLoading(false);
       return;
     }
     try {
-      const res = await $host.get<IUserResponse>('/users/me/');
+      const res = await $host.get<IUserResponse>('/user');
       setAppState({ user: res.data.data, isAuth: true });
     } catch (error) {
       if (error instanceof Error) {

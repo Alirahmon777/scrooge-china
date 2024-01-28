@@ -1,4 +1,4 @@
-export const cfg = { BASE_URL: import.meta.env.BASE_URL };
+export const cfg = { BASE_URL: import.meta.env.VITE_BACKEND_URL };
 export const siteConfig = {
   metaData: {
     title: 'Scrooge China - Быстрое пополнение сайта Buff.163',
