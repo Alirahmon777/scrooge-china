@@ -1,9 +1,12 @@
 // import { ISteamSuccessParams } from '@/types/interfaces';
-import { useParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
 const SteamCallbackPage = () => {
-  const params = useParams();
-  console.log(params);
+  const [params] = useSearchParams();
+
+  if (JSON.stringify(Object.fromEntries([...params])) === '{}') {
+    return <Navigate to={'/'} />;
+  }
 
   return <div>SteamCallbackPage</div>;
 };
