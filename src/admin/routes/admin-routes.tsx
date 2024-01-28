@@ -12,6 +12,7 @@ const Statistics = lazy(() => import('../pages/statistics/page'));
 const ChangePassword = lazy(() => import('../pages/change-password/page'));
 const ModeratorDashboard = lazy(() => import('../pages/moderators/orders/page'));
 const ModeratorChat = lazy(() => import('../pages/moderators/chat/page'));
+const LoginPage = lazy(() => import('../pages/login/page'));
 
 const adminSubRoutes: IRoutes[] = [
   { path: '', element: <Navigate to={'statistics'} replace /> },
@@ -46,5 +47,13 @@ export const adminRoutes: IRoutes[] = [
       </Suspense>
     ),
     children: moderatorSubRoutes,
+  },
+  {
+    path: '/admin/login',
+    element: (
+      <Suspense fallback={<Loader />}>
+        <LoginPage />
+      </Suspense>
+    ),
   },
 ];

@@ -4,13 +4,24 @@ import React from 'react';
 interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
   leftIcon?: string;
   LeftSvg?: React.FC;
+  loadingElement?: React.JSX.Element;
   rightIcon?: string;
   label?: string;
   imageClass?: string;
   variant?: 'outline' | 'fill' | 'ghost' | 'admin';
 }
 
-const Button = ({ leftIcon, rightIcon, label, className, imageClass, LeftSvg, variant = 'fill', ...props }: IProps) => {
+const Button = ({
+  leftIcon,
+  rightIcon,
+  label,
+  className,
+  imageClass,
+  LeftSvg,
+  loadingElement,
+  variant = 'fill',
+  ...props
+}: IProps) => {
   return (
     <button
       className={cn(
@@ -26,6 +37,7 @@ const Button = ({ leftIcon, rightIcon, label, className, imageClass, LeftSvg, va
       {...props}
     >
       {LeftSvg && <LeftSvg />}
+      {loadingElement && loadingElement}
       {leftIcon && <img src={leftIcon} alt={'button left icon'} className={imageClass} />}
       {label && <p className='text-black'>{label}</p>}
       {rightIcon && <img src={rightIcon} alt={'button right icon'} className={imageClass} />}

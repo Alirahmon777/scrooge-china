@@ -1,10 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../slicers/counterSlice';
-import { authSlice } from '../features/users/auth/authSlice';
+import { authSlice } from '../features/services/auth/authService';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     [authSlice.reducerPath]: authSlice.reducer,
   },
   devTools: import.meta.env.NODE_ENV !== 'production',

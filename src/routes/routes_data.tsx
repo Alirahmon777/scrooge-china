@@ -2,7 +2,7 @@ import HelpLayout from '@/layout/HelpLayout';
 import Layout from '@/layout/layout';
 import NotFoundPage from '@/pages/not-found/page';
 import { IRoutes } from '@/types/interfaces';
-import { lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import { adminRoutes } from '@admin/routes/admin-routes';
 
@@ -17,6 +17,7 @@ const HowItWorks = lazy(() => import('../pages/help/how-it-works/page'));
 const GuaranteesPage = lazy(() => import('../pages/help/guarantees/page'));
 const PrivacyPage = lazy(() => import('../pages/help/privacy/page'));
 const TermPage = lazy(() => import('../pages/help/terms/page'));
+const SteamSuccessPage = lazy(() => import('../pages/steam-callback/page'));
 
 const helpRoutes = [
   { path: '', component: HelpPage },
@@ -62,5 +63,13 @@ export const routes: IRoutes[] = [
   ...generateLanguageRoutes('ru'),
   ...adminRoutes,
   { path: '/', element: <Navigate to={'/ru'} replace /> },
+  {
+    path: '/auth/steam-success',
+    element: (
+      <Suspense fallback={'...loading'}>
+        <SteamSuccessPage />
+      </Suspense>
+    ),
+  },
   { path: '*', component: NotFoundPage },
 ];

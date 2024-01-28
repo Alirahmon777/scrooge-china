@@ -47,3 +47,8 @@ export interface ISettingTemplateProps {
     requisites?: string;
   }[];
 }
+
+export interface ILoginData {
+  login: string;
+  password: string;
+}

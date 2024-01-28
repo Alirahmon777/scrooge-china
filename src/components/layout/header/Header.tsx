@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from 'react';
 import HeaderMobileMenu from './HeaderMobileMenu';
 import { useLockedBody, useMediaQuery } from 'usehooks-ts';
 import { AnimatePresence } from 'framer-motion';
-import { useGetAuthLinkQuery } from '@/redux/features/users/auth/authSlice';
+import { useGetAuthLinkQuery } from '@/redux/features/services/auth/authService';
 import { openSmallTab } from '@/utils/openSmallTab';
 import { MoonLoader } from 'react-spinners';
 

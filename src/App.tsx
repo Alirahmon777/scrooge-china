@@ -14,7 +14,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const { i18n } = useTranslation();
   const fetchData = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('user_token');
     if (!token) {
       setLoading(false);
       return;
