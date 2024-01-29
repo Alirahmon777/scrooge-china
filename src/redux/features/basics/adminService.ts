@@ -10,7 +10,7 @@ export const adminBasicService = createApi({
     prepareHeaders: (headers, { getState }) => {
       const storedAdmin = localStorage.getItem('admin');
       const adminLocal: TStoredAdmin = storedAdmin ? JSON.parse(storedAdmin) : null;
-      const token = (getState() as RootState).auth.admin_token || adminLocal.admin_token;
+      const token = (getState() as RootState).auth.admin_token || adminLocal?.admin_token;
 
       if (token) {
         headers.set('X-AM-Authorization', `Bearer ${token}`);

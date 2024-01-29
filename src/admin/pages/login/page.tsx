@@ -52,14 +52,26 @@ const Login = () => {
     try {
       const admin = await triger().unwrap();
       if (admin.role == '"Admin"') {
+        toastError('Вы должны выйти из системы, чтобы войти снова');
         return navigate('/admin');
       }
-      admin.role == '"Moderator"' ? navigate('moderator') : null;
-    } catch (error) {}
+      if (admin.role == '"Moderator"') {
+        toastError('Вы должны выйти из системы, чтобы войти снова');
+        return navigate('/moderator');
+      }
+    } catch (error) {
+      if (isError(error)) {
+        toastError(error.data.details);
+      } else if (error instanceof Error) {
+        toastError(error.message, v4());
+      } else {
+        toastError('An unknown error occurred', v4());
+      }
+    }
   };
 
   useEffect(() => {
-    checkAdminLoginned();
+    if (localStorage.getItem('admin')) checkAdminLoginned();
   }, []);
 
   return (
