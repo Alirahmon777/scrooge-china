@@ -4,6 +4,7 @@ import AdminLayout from '../layout/AdminLayout';
 import Loader from '../components/Loader';
 import { Navigate } from 'react-router-dom';
 import ModeratorLayout from '../layout/ModeratorLayout';
+import ProtectedRoute from '@/routes/protected-route';
 
 const History = lazy(() => import('../pages/history/page'));
 const Moderators = lazy(() => import('../pages/moderators/page'));
@@ -33,18 +34,22 @@ export const adminRoutes: IRoutes[] = [
   {
     path: '/admin',
     element: (
-      <Suspense fallback={<Loader />}>
-        <AdminLayout />
-      </Suspense>
+      <ProtectedRoute isAdmin>
+        <Suspense fallback={<Loader />}>
+          <AdminLayout />
+        </Suspense>
+      </ProtectedRoute>
     ),
     children: adminSubRoutes,
   },
   {
     path: '/moderator',
     element: (
-      <Suspense fallback={<Loader />}>
-        <ModeratorLayout />
-      </Suspense>
+      <ProtectedRoute isModerator>
+        <Suspense fallback={<Loader />}>
+          <ModeratorLayout />
+        </Suspense>
+      </ProtectedRoute>
     ),
     children: moderatorSubRoutes,
   },

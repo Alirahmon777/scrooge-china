@@ -1,18 +1,20 @@
 import Input from '@/admin/components/Input';
 import { ILoginData } from '@/admin/types/interfaces';
 import Button from '@/components/ui/Button';
+import { useLazyGetSelfQuery } from '@/redux/features/services/admin/adminService';
 import { useLoginAdminMutation } from '@/redux/features/services/auth/authService';
 import { isError } from '@/utils/isError';
 import { toastError, toastSuccess } from '@/utils/toast/toast';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
 import { v4 } from 'uuid';
 
 const Login = () => {
-  const initialData = { login: '', password: '' };
+  const initialData: ILoginData = { login: '', password: '' };
   const [formState, setFormState] = useState<ILoginData>(initialData);
   const [login, { isLoading }] = useLoginAdminMutation();
+  const [triger] = useLazyGetSelfQuery();
   const navigate = useNavigate();
 
   const handleChange = ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) =>
@@ -25,10 +27,16 @@ const Login = () => {
         throw new Error('credentials required');
       }
       const { token } = await login(formState).unwrap();
-      localStorage.setItem('token', token);
-      setFormState(initialData);
-      toastSuccess('loged in successfully');
-      navigate('/admin/statistics');
+      const { data } = await triger();
+
+      if (token) {
+        localStorage.setItem('admin', JSON.stringify({ ...data, admin_token: token }));
+        setFormState(initialData);
+        toastSuccess('loged in successfully');
+        data?.role == '"Admin"' ? navigate('/admin/statistics') : navigate('/moderator');
+        return;
+      }
+      throw new Error('login failed!');
     } catch (error) {
       if (isError(error)) {
         toastError(error.data.details, v4());
@@ -39,6 +47,20 @@ const Login = () => {
       }
     }
   };
+
+  const checkAdminLoginned = async () => {
+    try {
+      const admin = await triger().unwrap();
+      if (admin.role == '"Admin"') {
+        return navigate('/admin');
+      }
+      admin.role == '"Moderator"' ? navigate('moderator') : null;
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    checkAdminLoginned();
+  }, []);
 
   return (
     <section className='w-full h-full flex justify-center items-center my-auto p-5'>

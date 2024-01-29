@@ -6,19 +6,25 @@ import HeaderNav from './HeaderNav';
 import HeaderCurrency from './HeaderCurrency';
 import HeaderLang from './HeaderLang';
 import Button from '@components/ui/Button';
-import { Link } from 'react-router-dom';
-import { AppContext } from '@/context/AppContextProvider';
-import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import HeaderMobileMenu from './HeaderMobileMenu';
 import { useLockedBody, useMediaQuery } from 'usehooks-ts';
 import { AnimatePresence } from 'framer-motion';
 import { useGetAuthLinkQuery } from '@/redux/features/services/auth/authService';
 import { openSmallTab } from '@/utils/openSmallTab';
 import { MoonLoader } from 'react-spinners';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '@/redux/features/slices/auth/authReducer';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
-  const { appState } = useContext(AppContext);
+  const auth = useSelector(selectAuth);
   const { data, isLoading } = useGetAuthLinkQuery();
+  const navigate = useNavigate();
+  const {
+    i18n: { language: lng },
+  } = useTranslation();
   const [_, setLocked] = useLockedBody(false, 'root');
   const notMobile = useMediaQuery('(min-width: 820px)');
   const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
@@ -29,7 +35,11 @@ const Header = () => {
   }, [openMobileMenu]);
 
   const handleLogin = () => {
-    data?.link ? openSmallTab(data.link) : null;
+    try {
+      data?.link ? openSmallTab(data.link, window) : null;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -55,9 +65,11 @@ const Header = () => {
         <div className='tablet:flex hidden gap-[10px] items-center text-sm xl:text-base [&_img]:w-5 [&_img]:xl:w-6'>
           <HeaderCurrency position='bottom' />
           <HeaderLang position='bottom' />
-          {appState.isAuth && <Button className='rounded-full w-8 h-8 ml-[27px]' />}
+          {auth.user && (
+            <Button className='rounded-full w-8 h-8 ml-[27px]' onClick={() => navigate(`/${lng}/profile`)} />
+          )}
         </div>
-        {!appState.isAuth &&
+        {!auth.user &&
           (!isLoading ? (
             <>
               <Button

@@ -4,6 +4,7 @@ import logo from '@svgs/admin/admin-logo.svg';
 import { Link } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Icons } from '../components/Icons';
+import { handleAdminLogout } from '@/utils/handleLogout';
 
 const ModeratorLayout = ({ children }: Partial<IChildProps>) => {
   return (
@@ -13,7 +14,13 @@ const ModeratorLayout = ({ children }: Partial<IChildProps>) => {
           <Link to={'/moderator'}>
             <img src={logo} alt='moderator logo' />
           </Link>
-          <Button variant='ghost' LeftSvg={Icons.logOut} label='Выйти из аккаунта' className='[&_p]:text-white' />
+          <Button
+            variant='ghost'
+            LeftSvg={Icons.logOut}
+            label='Выйти из аккаунта'
+            className='[&_p]:text-white'
+            onClick={handleAdminLogout}
+          />
         </div>
       </header>
       <main>

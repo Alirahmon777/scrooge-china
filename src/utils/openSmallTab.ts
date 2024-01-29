@@ -1,4 +1,4 @@
-export const openSmallTab = (url: string) => {
+export const openSmallTab = (url: string, window: Window) => {
   const width = 800;
   const height = 600;
 
@@ -7,5 +7,12 @@ export const openSmallTab = (url: string) => {
 
   const features = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
 
-  return window.open(url, '_blank', features);
+  window.open(url, '_blank', features);
+
+  window.addEventListener('storage', () => {
+    const userData = window.localStorage.getItem('user');
+    console.log('log', userData);
+
+    return userData;
+  });
 };

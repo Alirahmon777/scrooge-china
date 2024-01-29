@@ -1,46 +1,35 @@
 import { Routes } from './routes';
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from './context/AppContextProvider';
-import $host from './lib/axios';
-import { IUserResponse } from './types/interfaces';
-import { toastError } from './utils/toast/toast';
-import { deleteTokens } from './utils/deleteTokens';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { TStoredUser } from './types/types';
+import { useDispatch } from 'react-redux';
+import { setUser, setUserToken } from './redux/features/slices/auth/authReducer';
 
 function App() {
-  const { setAppState } = useContext(AppContext);
   const { pathname } = useLocation();
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const { i18n } = useTranslation();
-  const fetchData = async () => {
-    const token = localStorage.getItem('user_token');
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-    try {
-      const res = await $host.get<IUserResponse>('/user');
-      setAppState({ user: res.data.data, isAuth: true });
-    } catch (error) {
-      if (error instanceof Error) {
-        toastError(error.message);
-      }
-      deleteTokens();
-    } finally {
-      setLoading(false);
-    }
-  };
+  const storedUser = localStorage.getItem('user');
+
   const changeLng = (lng: string) => {
     if (pathname.includes(`/${lng}`)) {
       return i18n.changeLanguage(lng);
     }
   };
 
+  if (storedUser && typeof storedUser === 'string') {
+    const user: TStoredUser = JSON.parse(storedUser);
+
+    dispatch(setUser({ user: { email: user.email, steam_id: user.steam_id, trade_url: user.trade_url } }));
+
+    if (user.token) {
+      dispatch(setUserToken({ token: user.token }));
+    }
+  }
+
   useEffect(() => {
     if (!localStorage.getItem('currency')) localStorage.setItem('currency', 'rub');
-
-    fetchData();
   }, []);
 
   useEffect(() => {
@@ -48,9 +37,6 @@ function App() {
     changeLng('en');
   }, [pathname]);
 
-  if (loading) {
-    return null;
-  }
   return <Routes />;
 }
 

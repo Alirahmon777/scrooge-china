@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Icons } from '../components/Icons';
 import { Link } from 'react-router-dom';
 import Seo from '@/layout/seo/Seo';
+import { handleAdminLogout } from '@/utils/handleLogout';
 
 const AdminLayout = () => {
   return (
@@ -40,7 +41,7 @@ const AdminLayout = () => {
                 ))}
               </nav>
             </div>
-            <button className='flex items-center gap-[10px]'>
+            <button className='flex items-center gap-[10px]' onClick={handleAdminLogout}>
               <Icons.logOut />
               <p>Выйти из аккаунта</p>
             </button>

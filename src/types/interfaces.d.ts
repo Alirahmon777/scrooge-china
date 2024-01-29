@@ -12,29 +12,19 @@ export interface IRoutes {
 }
 
 export interface IUser {
-  first_name: string;
-  last_name: string;
+  steam_id: number;
+  trade_url: string;
   email: string;
-  phone: string | null;
-  image: string | null;
-  region: string | null;
-  district: string | null;
-  address: string | null;
+}
+
+export interface IAdmin {
+  id: number;
+  login: string;
+  role: string;
 }
 
 export interface ILoginResponse {
-  access_token: string;
-  refresh_token: string;
-}
-
-export interface IUserResponse {
-  success: false;
-  errors: {
-    field: string;
-    message: string;
-    code: string;
-  }[];
-  data: IUser;
+  token: string;
 }
 
 export interface IHistory {
