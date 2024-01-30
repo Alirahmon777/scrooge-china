@@ -14,14 +14,16 @@ import { AnimatePresence } from 'framer-motion';
 import { useGetAuthLinkQuery } from '@/redux/features/services/auth/authService';
 import { openSmallTab } from '@/utils/openSmallTab';
 import { MoonLoader } from 'react-spinners';
-import { useSelector } from 'react-redux';
-import { selectAuth } from '@/redux/features/slices/auth/authReducer';
+import { selectAuth, setUser, setUserToken } from '@/redux/features/slices/auth/authReducer';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
+import { TStoredUser } from '@/types/types';
 
 const Header = () => {
-  const auth = useSelector(selectAuth);
+  const auth = useAppSelector(selectAuth);
   const { data, isLoading } = useGetAuthLinkQuery();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {
     i18n: { language: lng },
   } = useTranslation();
@@ -37,6 +39,16 @@ const Header = () => {
   const handleLogin = () => {
     try {
       data?.link ? openSmallTab(data.link, window) : null;
+
+      window.addEventListener('storage', () => {
+        const userData = window.localStorage.getItem('user');
+        if (userData && typeof userData === 'string') {
+          const user: TStoredUser = JSON.parse(userData);
+
+          dispatch(setUser({ user: { email: user.email, steam_id: user.steam_id, trade_url: user.trade_url } }));
+          dispatch(setUserToken({ token: user.token }));
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +77,7 @@ const Header = () => {
         <div className='tablet:flex hidden gap-[10px] items-center text-sm xl:text-base [&_img]:w-5 [&_img]:xl:w-6'>
           <HeaderCurrency position='bottom' />
           <HeaderLang position='bottom' />
-          {auth.user && (
+          {auth.user && auth.token && (
             <Button className='rounded-full w-8 h-8 ml-[27px]' onClick={() => navigate(`/${lng}/profile`)} />
           )}
         </div>

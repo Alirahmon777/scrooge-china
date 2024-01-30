@@ -1,7 +1,10 @@
 import AdminButton from '@/admin/components/Button';
 import Seo from '@/layout/seo/Seo';
+import { useGetModeratorsQuery } from '@/redux/features/services/admin/adminService';
+import { ClipLoader } from 'react-spinners';
 
 const ModeratorsPage = () => {
+  const { data, isLoading } = useGetModeratorsQuery();
   return (
     <Seo faviconPath='favicon/admin' metaTitle='Scrooge China - Moderators' ogURL='/admin/moderators'>
       <section className='my-[45px]'>
@@ -20,20 +23,22 @@ const ModeratorsPage = () => {
           </form>
           <div className='mt-5'>
             <p>Модераторы</p>
-            <ul className='flex flex-col gap-[10px] mt-[10px]'>
-              <li className='flex gap-5 justify-between'>
-                <div className='bg-[#1d1f1e] p-[10px] rounded-[10px] flex-grow'>
-                  <p>emailexample@gmail.com</p>
-                </div>
-                <AdminButton label='Удалить' />
-              </li>
-              <li className='flex gap-5 justify-between'>
-                <div className='bg-[#1d1f1e] p-[10px] rounded-[10px] flex-grow'>
-                  <p>emailexample@gmail.com</p>
-                </div>
-                <AdminButton label='Удалить' />
-              </li>
-            </ul>
+            {isLoading ? (
+              <div className='flex items-center justify-center my-5'>
+                <ClipLoader color='#EA5252' />
+              </div>
+            ) : (
+              data?.map(({ id, login }) => (
+                <ul className='flex flex-col gap-[10px] mt-[10px]' key={id}>
+                  <li className='flex gap-5 justify-between'>
+                    <div className='bg-[#1d1f1e] p-[10px] rounded-[10px] flex-grow'>
+                      <p>{login}</p>
+                    </div>
+                    <AdminButton label='Удалить' />
+                  </li>
+                </ul>
+              ))
+            )}
           </div>
         </div>
       </section>

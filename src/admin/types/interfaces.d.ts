@@ -52,3 +52,8 @@ export interface ILoginData {
   login: string;
   password: string;
 }
+
+export interface IModeratorRes {
+  id: number;
+  login: string;
+}

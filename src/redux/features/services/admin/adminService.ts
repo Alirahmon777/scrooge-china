@@ -1,6 +1,7 @@
 import { IAdmin } from '@/types/interfaces';
 import { setAdmin } from '../../slices/auth/authReducer';
 import { adminBasicService } from '../../basics/adminService';
+import { IModeratorRes } from '@/admin/types/interfaces';
 
 export const adminService = adminBasicService.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,8 +16,11 @@ export const adminService = adminBasicService.injectEndpoints({
         }
       },
     }),
+    getModerators: builder.query<IModeratorRes[], void>({
+      query: () => '/admin/moderator',
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetSelfQuery, useLazyGetSelfQuery } = adminService;
+export const { useGetSelfQuery, useLazyGetSelfQuery, useGetModeratorsQuery } = adminService;

@@ -6,8 +6,8 @@ const PrivacyPage = () => {
     <section className='flex-grow'>
       <h2 className='  font-bold text-white mb-[40px]'>Конфиденциальность</h2>
       <div className='flex flex-col gap-[60px] items-start'>
-        {privacy_data.map(({ title, children, content }) => (
-          <div className='text-2xl text-gray'>
+        {privacy_data.map(({ title, children, content }, idx) => (
+          <div className='text-2xl text-gray' key={idx}>
             <h3 className='font-bold text-white mb-[10px]'>{title}</h3>
             {content && (
               <p
@@ -18,8 +18,8 @@ const PrivacyPage = () => {
             )}
             <div className='flex flex-col gap-[60px] items-start'>
               {children &&
-                children.map(({ content, title }) => (
-                  <div>
+                children.map(({ content, title }, idx) => (
+                  <div key={idx}>
                     <h4 className='font-bold text-white mb-[10px]'>{title}</h4>
                     {content && (
                       <p

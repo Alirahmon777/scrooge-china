@@ -8,11 +8,4 @@ export const openSmallTab = (url: string, window: Window) => {
   const features = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
 
   window.open(url, '_blank', features);
-
-  window.addEventListener('storage', () => {
-    const userData = window.localStorage.getItem('user');
-    console.log('log', userData);
-
-    return userData;
-  });
 };

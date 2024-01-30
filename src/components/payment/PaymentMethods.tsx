@@ -6,13 +6,14 @@ const PaymentMethods = () => {
     <div className='flex flex-col gap-5 items-start'>
       <h4 className='font-bold'>Выбор метода оплаты</h4>
       <div className='flex flex-wrap gap-x-[70px] gap-y-5'>
-        {paymentMethods.map(({ title, buttons }) => (
-          <div className='first:flex-grow'>
+        {paymentMethods.map(({ title, buttons }, idx) => (
+          <div className='first:flex-grow' key={idx}>
             <p className='text-gray mb-[10px]'>{title}</p>
 
             <div className='flex gap-[5px] flex-wrap'>
-              {buttons.map(({ label, leftIcon }) => (
+              {buttons.map(({ label, leftIcon }, idx) => (
                 <Button
+                  key={idx}
                   className={'py-2 px-2 bg-[#1D1F1E] flex-grow justify-center rounded-[10px] [&_p]:text-white'}
                   label={label}
                   leftIcon={leftIcon}

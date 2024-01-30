@@ -5,10 +5,8 @@ import { useAppDispatch } from '@/redux/hooks/hooks';
 import { TStoredAdmin } from '@/admin/types/types';
 import { useEffect } from 'react';
 import { useLazyGetSelfQuery } from '@/redux/features/services/admin/adminService';
-import { toastError } from '@/utils/toast/toast';
-import { isError } from '@/utils/isError';
-import { v4 } from 'uuid';
 import { handleAdminLogout } from '@/utils/handleLogout';
+import { handleAdminError } from '@/utils/handleError';
 interface IProps extends IChildProps {
   isModerator?: boolean;
   isAdmin?: boolean;
@@ -27,14 +25,7 @@ const ProtectedRoute = ({ children, isModerator, isAdmin }: IProps) => {
         handleAdminLogout();
       }
     } catch (error) {
-      if (isError(error)) {
-        toastError(error.data.details);
-        handleAdminLogout();
-      } else if (error instanceof Error) {
-        toastError(error.message, v4());
-      } else {
-        toastError('An unknown error occurred', v4());
-      }
+      handleAdminError(error);
     }
   };
 

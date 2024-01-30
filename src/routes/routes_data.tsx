@@ -5,6 +5,7 @@ import { IRoutes } from '@/types/interfaces';
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import { adminRoutes } from '@admin/routes/admin-routes';
+import ProtectedUserRoute from './protected-user-route';
 
 const HomePage = lazy(() => import('../pages/home/page'));
 const ReviewPage = lazy(() => import('../pages/review/page'));
@@ -31,7 +32,14 @@ const baseRoutes = [
   { path: '', component: HomePage },
   { path: 'reviews', component: ReviewPage },
   { path: 'ratings', component: RatingsPage },
-  { path: 'profile', component: ProfilePage },
+  {
+    path: 'profile',
+    element: (
+      <ProtectedUserRoute>
+        <ProfilePage />
+      </ProtectedUserRoute>
+    ),
+  },
   { path: 'payment', component: PaymentPage },
   {
     path: 'contacts',

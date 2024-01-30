@@ -19,4 +19,4 @@ export const userService = userBasicQuery.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetProfileQuery } = userService;
+export const { useGetProfileQuery, useLazyGetProfileQuery, usePrefetch: useUserRefetch } = userService;
