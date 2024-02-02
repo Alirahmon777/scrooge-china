@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
-interface IProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface IProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   leftIcon?: string;
   LeftSvg?: React.FC;
   loadingElement?: React.JSX.Element;

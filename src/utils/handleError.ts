@@ -5,8 +5,14 @@ import { toastError } from './toast/toast';
 
 export function handleAdminError(error: unknown) {
   if (isError(error)) {
+    if (error.status == 404) {
+      toastError('Not Found!');
+      return;
+    }
     toastError(error.data.details);
-    handleAdminLogout();
+    if (error.data.details == 'Bad or expired token!') {
+      handleAdminLogout();
+    }
   } else if (error instanceof Error) {
     toastError(error.message, v4());
   } else {
@@ -17,7 +23,7 @@ export function handleAdminError(error: unknown) {
 export function handleError(error: unknown) {
   if (isError(error)) {
     toastError(error.data.details);
-    if (error.data.details == 'Bad or expired token!') {
+    if (error.data.details == 'Bad or expired token!' || error.data.details.includes('Unauthorized')) {
       return handleUserLogout();
     }
   } else if (error instanceof Error) {

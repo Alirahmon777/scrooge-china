@@ -1,7 +1,8 @@
-// import { ISteamSuccessParams } from '@/types/interfaces';
 import { useGetCallbackQuery } from '@/redux/features/services/auth/authService';
-import { useGetProfileQuery } from '@/redux/features/services/user/userService';
+import { useLazyGetProfileQuery } from '@/redux/features/services/user/userService';
 import { ISteamSuccessParams } from '@/types/interfaces';
+import { handleError } from '@/utils/handleError';
+import { useEffect } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { BounceLoader } from 'react-spinners';
 
@@ -15,13 +16,30 @@ const SteamCallbackPage = () => {
   const { isSuccess, data: token } = useGetCallbackQuery(
     Object.fromEntries([...params]) as unknown as ISteamSuccessParams
   );
-  const { isSuccess: userIsSuccess, data } = useGetProfileQuery();
-  if (isSuccess && userIsSuccess) {
-    localStorage.setItem('user', JSON.stringify({ ...data, ...token }));
-    window.location.replace('about:blank');
-    window.history.replaceState({}, document.title, window.location.href);
-    window.close();
-  }
+  const [trigger] = useLazyGetProfileQuery();
+  useEffect(() => {
+    async function getUserInfo() {
+      if (isSuccess) {
+        try {
+          const data = await trigger().unwrap();
+          console.log('data');
+
+          localStorage.setItem('user', JSON.stringify({ ...data, ...token }));
+        } catch (error) {
+          handleError(error);
+          console.log('error');
+        } finally {
+          console.log('finall');
+
+          window.location.replace('about:blank');
+          window.history.replaceState({}, document.title, window.location.href);
+          window.close();
+        }
+      }
+    }
+
+    getUserInfo();
+  }, [isSuccess]);
 
   return (
     <div className='flex items-center justify-center min-h-screen'>

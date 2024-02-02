@@ -8,7 +8,6 @@ import { setUser, setUserToken } from './redux/features/slices/auth/authReducer'
 import { useLazyGetProfileQuery } from './redux/features/services/user/userService';
 import { handleError } from './utils/handleError';
 import { handleUserLogout } from './utils/handleLogout';
-// import '@ton.js/json-parse-polyfill';
 
 function App() {
   const { pathname } = useLocation();
@@ -21,6 +20,8 @@ function App() {
     try {
       const user = await triger().unwrap();
       if (!user) {
+        dispatch(setUser({ user: null }));
+        dispatch(setUserToken({ token: null }));
         handleUserLogout();
       }
     } catch (error) {
@@ -34,6 +35,11 @@ function App() {
     }
   };
   const checkUser = () => {
+    if (!storedUser) {
+      dispatch(setUser({ user: null }));
+      dispatch(setUserToken({ token: null }));
+      return;
+    }
     if (storedUser && typeof storedUser === 'string') {
       const user: TStoredUser = JSON.parse(storedUser);
 

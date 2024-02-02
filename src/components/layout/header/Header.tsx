@@ -18,6 +18,7 @@ import { selectAuth, setUser, setUserToken } from '@/redux/features/slices/auth/
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import { TStoredUser } from '@/types/types';
+import { handleError } from '@/utils/handleError';
 
 const Header = () => {
   const auth = useAppSelector(selectAuth);
@@ -50,7 +51,7 @@ const Header = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      handleError(error);
     }
   };
 

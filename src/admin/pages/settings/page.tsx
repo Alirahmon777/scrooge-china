@@ -1,15 +1,15 @@
 import ExchangeRate from '@/admin/components/settings/ExchangeRate';
-import SettingTemplate from '@/admin/components/settings/SettingTemplate';
-import { settings } from '@/admin/static/settings-data';
+import SettingRequisites from '@/admin/components/settings/SettingRequisites';
+import SettingSocial from '@/admin/components/settings/SettingSocial';
+import SettingVideo from '@/admin/components/settings/SettingVideo';
 
 const SettingsPage = () => {
   return (
     <section className='my-[45px] flex flex-col gap-10 items-start'>
       <ExchangeRate />
-
-      {settings.map(({ items, title }) => (
-        <SettingTemplate title={title} items={items} />
-      ))}
+      <SettingSocial />
+      <SettingRequisites />
+      <SettingVideo />
     </section>
   );
 };

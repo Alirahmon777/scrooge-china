@@ -39,15 +39,6 @@ export interface IExchangeChartCategories {
   day: StringOrNumberArray;
 }
 
-export interface ISettingTemplateProps {
-  title: string;
-  items: {
-    title: string;
-    link?: string;
-    requisites?: string;
-  }[];
-}
-
 export interface ILoginData {
   login: string;
   password: string;
@@ -56,4 +47,34 @@ export interface ILoginData {
 export interface IModeratorRes {
   id: number;
   login: string;
+}
+
+export interface ISocialBody {
+  id: number;
+  url: string;
+}
+
+export interface IRequisitesBody {
+  id: number;
+  data: string;
+}
+
+export interface IRequisitesRes {
+  id: number;
+  name: string;
+  data: string | null;
+}
+
+export interface ISocialRes {
+  id: number;
+  name: string;
+  url: string | null;
+}
+
+export interface IRecomVideoRes {
+  id: number;
+  url: string;
+  avatar: string;
+  name: string;
+  subscribers: string;
 }

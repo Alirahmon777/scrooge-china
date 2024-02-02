@@ -8,9 +8,9 @@ export const userService = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: cfg.BASE_URL,
     prepareHeaders: (headers, { getState }) => {
-      const storedUser = localStorage.getItem('admin');
+      const storedUser = localStorage.getItem('user');
       const userLocal: TStoredUser = storedUser ? JSON.parse(storedUser) : null;
-      const token = (getState() as RootState).auth.token || userLocal.token;
+      const token = (getState() as RootState).auth.token || (userLocal ? userLocal.token : null);
 
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
