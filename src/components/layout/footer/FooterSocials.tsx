@@ -1,18 +1,20 @@
-import { footer_socials } from './footer-data';
+import { useGetSocialsQuery } from '@/redux/features/services/public/publicService';
 import { Link } from 'react-router-dom';
 
 const FooterSocials = () => {
+  const { data, isSuccess } = useGetSocialsQuery();
   return (
     <div className='md:col-span-3 md:justify-self-center'>
       <h3 className='text-2xl font-bold text-nowrap'>Следите за нами</h3>
       <ul className='mt-5 flex gap-5 items-center'>
-        {footer_socials.map(({ icon, href }, idx) => (
-          <li key={idx}>
-            <Link to={href}>
-              <img src={icon} alt='social icon' />
-            </Link>
-          </li>
-        ))}
+        {isSuccess &&
+          data.map(({ id, name, url }) => (
+            <li key={id}>
+              <Link to={url ?? ''} target='_black'>
+                <img src={`/svgs/${name.toLowerCase()}.svg`} alt='social icon' />
+              </Link>
+            </li>
+          ))}
       </ul>
     </div>
   );

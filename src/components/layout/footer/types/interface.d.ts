@@ -6,5 +6,4 @@ export interface IFooterNav {
 export interface IFooterItem {
   name?: string;
   href: string;
-  icon?: string;
 }

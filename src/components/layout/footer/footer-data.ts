@@ -1,7 +1,4 @@
-import youtube from '@svgs/layout/youtube.svg';
-import telegram from '@svgs/layout/telegram.svg';
-import vkontakte from '@svgs/layout/vkontakte.svg';
-import { IFooterItem, IFooterNav } from './types/interface';
+import { IFooterNav } from './types/interface';
 
 export const footer_nav: IFooterNav[] = [
   {
@@ -55,10 +52,4 @@ export const footer_nav: IFooterNav[] = [
       },
     ],
   },
-];
-
-export const footer_socials: IFooterItem[] = [
-  { icon: telegram, href: '' },
-  { icon: vkontakte, href: '' },
-  { icon: youtube, href: '' },
 ];

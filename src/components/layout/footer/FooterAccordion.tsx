@@ -3,15 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { IFooterItem } from './types/interface';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ISocialRes } from '@/admin/types/interfaces';
 interface IProps {
   title: string;
   idx: number;
   expanded: number | false | null;
   setExpanded: (value: false | number | null) => void;
-  items: IFooterItem[];
+  items?: IFooterItem[];
+  socialItems?: ISocialRes[];
   contentParentClass?: string;
 }
-const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentParentClass }: IProps) => {
+const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentParentClass, socialItems }: IProps) => {
   const isOpen = idx === expanded;
   const {
     i18n: { language: lng },
@@ -54,14 +56,23 @@ const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentPare
             }}
             transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
           >
-            {items.map(({ href, name, icon }, idx) => (
-              <li key={idx} className={'text-gray text-xl transition-all'}>
-                <Link to={`/${lng}/${href}`} className={'w-full block'}>
-                  {name}
-                  {icon && <img src={icon} alt='icon' width={40} />}
-                </Link>
-              </li>
-            ))}
+            {items &&
+              items.map(({ href, name }, idx) => (
+                <li key={idx} className={'text-gray text-xl transition-all'}>
+                  <Link to={`/${lng}/${href}`} className={'w-full block'}>
+                    {name}
+                  </Link>
+                </li>
+              ))}
+
+            {socialItems &&
+              socialItems.map(({ id, name, url }) => (
+                <li key={id}>
+                  <Link to={url ?? ''} target='_blank'>
+                    <img src={`/svgs/${name.toLowerCase()}.svg`} alt='social icon' />
+                  </Link>
+                </li>
+              ))}
           </motion.ul>
         )}
       </AnimatePresence>

@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
 interface IProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   leftIcon?: string;
-  LeftSvg?: React.FC;
+  LeftSvg?: React.JSX.Element;
   loadingElement?: React.JSX.Element;
   rightIcon?: string;
   label?: string;
@@ -36,7 +36,7 @@ const Button = ({
       )}
       {...props}
     >
-      {LeftSvg && <LeftSvg />}
+      {LeftSvg && LeftSvg}
       {loadingElement && loadingElement}
       {leftIcon && <img src={leftIcon} alt={'button left icon'} className={imageClass} />}
       {label && <p className='text-black'>{label}</p>}

@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
-import { footer_nav, footer_socials } from './footer-data';
+import { footer_nav } from './footer-data';
 import { useMediaQuery } from 'usehooks-ts';
 import FooterAccordion from './FooterAccordion';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useGetSocialsQuery } from '@/redux/features/services/public/publicService';
 
 const FooterNav = () => {
   const [expanded, setExpanded] = useState<false | number | null>(null);
   const mobile = useMediaQuery('(max-width: 424.9px)');
+  const { data } = useGetSocialsQuery();
   const {
     i18n: { language: lng },
   } = useTranslation();
@@ -26,7 +28,7 @@ const FooterNav = () => {
 
     const socialAccordion = (
       <FooterAccordion
-        items={footer_socials}
+        socialItems={data}
         title={'Следите за нами'}
         contentParentClass='flex-row gap-5'
         expanded={expanded}
