@@ -4,10 +4,10 @@ import DOMPurify from 'dompurify';
 const PrivacyPage = () => {
   return (
     <section className='flex-grow'>
-      <h2 className='  font-bold text-white mb-[40px]'>Конфиденциальность</h2>
+      <h2 className='font-bold text-white mb-[40px] max-mobile:text-[30px] break-words'>Конфиденциальность</h2>
       <div className='flex flex-col gap-[60px] items-start'>
         {privacy_data.map(({ title, children, content }, idx) => (
-          <div className='text-2xl text-gray' key={idx}>
+          <div className='sm:text-xl tablet:text-2xl text-gray' key={idx}>
             <h3 className='font-bold text-white mb-[10px]'>{title}</h3>
             {content && (
               <p
