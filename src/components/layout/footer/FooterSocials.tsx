@@ -2,7 +2,10 @@ import { useGetSocialsQuery } from '@/redux/features/services/public/publicServi
 import { Link } from 'react-router-dom';
 
 const FooterSocials = () => {
-  const { data, isSuccess } = useGetSocialsQuery();
+  const { data, isSuccess } = useGetSocialsQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
   return (
     <div className='md:col-span-3 md:justify-self-center'>
       <h3 className='text-2xl font-bold text-nowrap'>Следите за нами</h3>

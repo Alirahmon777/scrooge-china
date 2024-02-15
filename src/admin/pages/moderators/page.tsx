@@ -10,7 +10,7 @@ import {
 } from '@/redux/features/services/admin/adminService';
 import { handleAdminError } from '@/utils/handleError';
 import { toastSuccess } from '@/utils/toast/toast';
-import { FormEvent, MouseEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import { useLockedBody } from 'usehooks-ts';
 
@@ -46,7 +46,7 @@ const ModeratorsPage = () => {
     }
   };
 
-  const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = async () => {
     try {
       await deleteTrigger(moderatorId).unwrap();
       toastSuccess('Модератор успешно удален');

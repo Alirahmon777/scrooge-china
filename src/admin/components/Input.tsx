@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { DetailedHTMLProps } from 'react';
 
 interface IPorps extends DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
@@ -5,10 +6,11 @@ interface IPorps extends DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputEl
   label?: string;
   placeholder: string;
   type: string;
+  labelClass?: string;
 }
-const Input = ({ label, id, placeholder, type, ...props }: IPorps) => {
+const Input = ({ label, id, placeholder, type, labelClass, ...props }: IPorps) => {
   return (
-    <label htmlFor={id} className='flex flex-col gap-[10px]'>
+    <label htmlFor={id} className={cn('flex flex-col gap-[10px]', labelClass)}>
       {label && <p>{label}</p>}
       <input
         type={type}

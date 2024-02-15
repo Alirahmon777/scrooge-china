@@ -53,6 +53,18 @@ export interface SeoProps extends IChildProps {
   }[];
 }
 
+export interface ICurrencyRes {
+  id: number;
+  symbol: string;
+  rate: string;
+}
+
+export interface ICurrency {
+  rub: string;
+  usd: string;
+  kzt: string;
+}
+
 export interface ISteamSuccessParams {
   'openid.ns': string;
   'openid.mode': string;

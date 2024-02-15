@@ -59,6 +59,14 @@ export interface IRequisitesBody {
   data: string;
 }
 
+export interface IRecomVideoBody {
+  id: number;
+  url: string;
+  name: string;
+  subscribers: string;
+  avatar: string;
+}
+
 export interface IRequisitesRes {
   id: number;
   name: string;

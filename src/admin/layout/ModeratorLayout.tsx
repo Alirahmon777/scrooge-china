@@ -16,7 +16,7 @@ const ModeratorLayout = ({ children }: Partial<IChildProps>) => {
           </Link>
           <Button
             variant='ghost'
-            LeftSvg={Icons.logOut}
+            LeftSvg={<Icons.logOut />}
             label='Выйти из аккаунта'
             className='[&_p]:text-white'
             onClick={handleAdminLogout}

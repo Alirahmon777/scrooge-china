@@ -1,4 +1,4 @@
-import { IRequisitesBody, ISocialBody } from '@/admin/types/interfaces';
+import { IRecomVideoBody, IRequisitesBody, ISocialBody } from '@/admin/types/interfaces';
 import { adminBasicService } from '../../basics/adminService';
 
 export const adminSettingsService = adminBasicService.injectEndpoints({
@@ -18,7 +18,30 @@ export const adminSettingsService = adminBasicService.injectEndpoints({
         body: body,
       }),
     }),
+
+    updateRecomVideo: builder.mutation<null, IRecomVideoBody>({
+      query: (body) => ({
+        url: '/admin/review/video',
+        method: 'PATCH',
+        body: body,
+      }),
+    }),
+
+    updateCurrency: builder.mutation<null, { id: number; rate: string }>({
+      query: ({ id, rate }) => ({
+        url: `/admin/currency/${id}`,
+        method: 'PATCH',
+        body: {
+          rate,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useUpdateRequisitesMutation, useUpdateSocialMutation } = adminSettingsService;
+export const {
+  useUpdateRequisitesMutation,
+  useUpdateSocialMutation,
+  useUpdateCurrencyMutation,
+  useUpdateRecomVideoMutation,
+} = adminSettingsService;

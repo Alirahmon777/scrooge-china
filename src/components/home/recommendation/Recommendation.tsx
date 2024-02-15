@@ -2,15 +2,28 @@ import { Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, Autoplay } fr
 import { Swiper, SwiperSlide } from 'swiper/react';
 import RecommendationCard from './RecommendationCard';
 import { SwiperBtn } from '@/components/ui/SwiperBtns';
-import { useMediaQuery } from 'usehooks-ts';
+import { useLockedBody, useMediaQuery } from 'usehooks-ts';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import '@styles/swiper.css';
+import { useGetRecomendationVideosQuery } from '@/redux/features/services/public/publicService';
+import Iframe from '@/components/ui/Iframe';
+import { useState } from 'react';
 
 const Recommendation = () => {
+  const { data, isSuccess } = useGetRecomendationVideosQuery();
+  const [showIframe, setShowIframe] = useState<boolean>(false);
+  const [src, setSrc] = useState<string>('');
+  const [_, setLocked] = useLockedBody(false, 'root');
+  const handleShowIframe = (value: boolean) => {
+    setLocked(value);
+    setShowIframe(value);
+  };
+
   const notMobile = useMediaQuery('(min-width: 820px)');
   return (
     <section className='mt-[50px] tablet:mt-[150px]'>
+      <Iframe src={src} show={showIframe} handleShow={handleShowIframe} />
       <div className='container max-w-[1240px] flex flex-col gap-[30px] tablet:gap-[60px]'>
         <h2 className='text-center font-bold leading-[120%]'>Нас Рекомендуют</h2>
         <div className='overflow-hidden'>
@@ -29,21 +42,22 @@ const Recommendation = () => {
               disableOnInteraction: false,
             }}
           >
-            {new Array(5).fill(undefined).map((_, idx) => (
-              <SwiperSlide key={idx}>
-                {({ isActive }: { isActive: boolean }) => (
-                  <>
-                    {isActive && notMobile && (
-                      <>
-                        <SwiperBtn customClass='left-[-10px] lg:left-[-25px] rotate-180' prev={true} />
-                        <SwiperBtn customClass='right-[-10px] lg:right-[-25px]' prev={false} />
-                      </>
-                    )}
-                    <RecommendationCard />
-                  </>
-                )}
-              </SwiperSlide>
-            ))}
+            {isSuccess &&
+              data.map((item, idx) => (
+                <SwiperSlide key={idx}>
+                  {({ isActive }: { isActive: boolean }) => (
+                    <>
+                      {isActive && notMobile && (
+                        <>
+                          <SwiperBtn customClass='left-[-10px] lg:left-[-25px] rotate-180' prev={true} />
+                          <SwiperBtn customClass='right-[-10px] lg:right-[-25px]' prev={false} />
+                        </>
+                      )}
+                      <RecommendationCard item={item} handleShow={handleShowIframe} setSrc={setSrc} />
+                    </>
+                  )}
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>

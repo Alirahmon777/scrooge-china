@@ -3,10 +3,11 @@ import IframeResizer from 'iframe-resizer-react';
 import Button from './Button';
 import { Icons } from '@/admin/components/Icons';
 interface IProps {
+  src: string;
   show: boolean;
   handleShow: (value: boolean) => void;
 }
-const Iframe = ({ show, handleShow }: IProps) => {
+const Iframe = ({ src, show, handleShow }: IProps) => {
   return (
     <AnimatePresence>
       {show && (
@@ -32,7 +33,7 @@ const Iframe = ({ show, handleShow }: IProps) => {
               height='100%'
               loading='lazy'
               autoResize
-              src='https://www.youtube.com/embed/hf52-JcbEoA?si=yDJpEWsQ-LF6pCjg'
+              src={src}
               title='YouTube video player'
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
             />

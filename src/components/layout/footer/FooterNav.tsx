@@ -9,7 +9,10 @@ import { useGetSocialsQuery } from '@/redux/features/services/public/publicServi
 const FooterNav = () => {
   const [expanded, setExpanded] = useState<false | number | null>(null);
   const mobile = useMediaQuery('(max-width: 424.9px)');
-  const { data } = useGetSocialsQuery();
+  const { data } = useGetSocialsQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
   const {
     i18n: { language: lng },
   } = useTranslation();

@@ -8,15 +8,18 @@ const SettingVideo = () => {
   return (
     <SettingTemplate title='Изменить рекомендации'>
       {isSuccess &&
-        data.map(({ id, avatar, name, subscribers, url }) => (
-          <li key={id}>
-            <p className='mb-[10px]'>Channel {id}</p>
-            <SettingVideoItem title='Ссылка на видео' value={url || 'Ссылка'} />
-            <SettingVideoItem title='Название канала' value={name || 'Введите название канала'} />
-            <SettingVideoItem title='Аватарка' value={avatar || 'Вставьте ссылку на аватарку'} />
-            <SettingVideoItem title='Подписчики' value={subscribers || '999 тыс. подписчиков '} />
-          </li>
-        ))}
+        data.map((item) => {
+          const { id, avatar, name, subscribers, url } = item;
+          return (
+            <li key={id}>
+              <p className='mb-[10px]'>Channel {id}</p>
+              <SettingVideoItem title='Ссылка на видео' inputName={'url'} item={item} value={url || 'Ссылка'} />
+              <SettingVideoItem title='Название канала' inputName={'name'} item={item} value={name || 'Введите название канала'} />
+              <SettingVideoItem title='Аватарка' inputName={'avatar'} item={item} value={avatar || 'Вставьте ссылку на аватарку'} />
+              <SettingVideoItem title='Подписчики' inputName={'subscribers'} item={item} value={subscribers || '999 тыс. подписчиков '} />
+            </li>
+          );
+        })}
       {!data?.length && <p>нет данных</p>}
     </SettingTemplate>
   );
