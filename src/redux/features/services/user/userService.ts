@@ -1,4 +1,5 @@
-import { IUser } from '@/types/interfaces';
+import { IReview, IReviewBody } from './../../../../types/interfaces.d';
+import { IOrder, IOrderBody, IUser } from '@/types/interfaces';
 import { userService as userBasicQuery } from '../../basics/userService';
 import { setUser } from '../../slices/auth/authReducer';
 
@@ -15,8 +16,45 @@ export const userService = userBasicQuery.injectEndpoints({
         }
       },
     }),
+    patchStatus: builder.query<void, void>({
+      query: () => ({ url: '/status/user', method: 'PATCH' }),
+    }),
+
+    //orders
+    getUserOrder: builder.query<IOrder[], void>({
+      query: () => '/user/order',
+    }),
+    getUserOrderWithId: builder.query<IOrder[], string>({
+      query: (id) => `/user/order/${id}`,
+    }),
+    addUserOrder: builder.mutation<IOrder, IOrderBody>({
+      query: (body) => ({
+        method: 'POST',
+        url: '/user/order',
+        body,
+      }),
+    }),
+    addReview: builder.mutation<IReview, IReviewBody>({
+      query: (body) => ({
+        method: 'POST',
+        url: '/review',
+        body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetProfileQuery, useLazyGetProfileQuery, usePrefetch: useUserRefetch } = userService;
+export const {
+  useGetProfileQuery,
+  useLazyGetProfileQuery,
+  usePrefetch: useUserRefetch,
+  usePatchStatusQuery,
+  //orders
+  useGetUserOrderQuery,
+  useGetUserOrderWithIdQuery,
+  useAddUserOrderMutation,
+
+  //review
+  useAddReviewMutation,
+} = userService;

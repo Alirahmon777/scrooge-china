@@ -11,7 +11,7 @@ const PaymentChat = () => {
   const [isChat, _] = useState(true);
   const notTable = useMediaQuery('(min-width: 1024px)');
 
-  if (!isChat) {
+  if (isChat) {
     return <PaymentChatEmpty />;
   }
 

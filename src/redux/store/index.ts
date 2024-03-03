@@ -4,6 +4,7 @@ import { userService } from '../features/basics/userService';
 import authReducer from '../features/slices/auth/authReducer';
 import { adminBasicService } from '../features/basics/adminService';
 import { publicService } from '../features/services/public/publicService';
+import appReducer from '../features/slices/appReducer';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     [userService.reducerPath]: userService.reducer,
     [publicService.reducerPath]: publicService.reducer,
     auth: authReducer,
+    app: appReducer,
   },
   devTools: import.meta.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>

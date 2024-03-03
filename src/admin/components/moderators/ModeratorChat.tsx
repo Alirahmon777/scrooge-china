@@ -25,7 +25,7 @@ const ModeratorChat = () => {
           />
           <img src={downloadIcon} alt='download icon' />
         </div>
-        <Button label='Перевод совершён закрыть чат с покупателем' variant='admin' />
+        <Button label='Перевод совершён закрыть чат с покупателем' className='justify-center' variant='admin' />
       </div>
     </div>
   );

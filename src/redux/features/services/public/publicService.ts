@@ -3,7 +3,7 @@ import { cfg } from '@/config/site.config';
 import { TStoredUser } from '@/types/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IRecomVideoRes, IRequisitesRes, ISocialRes } from '@/admin/types/interfaces';
-import { ICurrencyRes } from '@/types/interfaces';
+import { ICurrencyRes, IReview } from '@/types/interfaces';
 
 export const publicService = createApi({
   reducerPath: 'publicApi',
@@ -33,7 +33,7 @@ export const publicService = createApi({
     getCurrency: builder.query<ICurrencyRes[], void>({
       query: () => '/currency',
     }),
-    getReviews: builder.query({
+    getReviews: builder.query<IReview[], void>({
       query: () => '/review',
     }),
     getRating: builder.query({
@@ -50,8 +50,10 @@ export const {
   useGetRequisitesQuery,
   useGetCurrencyQuery,
   useGetCurrencyIdQuery,
+  useLazyGetCurrencyIdQuery,
   useGetSocialsQuery,
   useGetReviewsQuery,
+  useLazyGetReviewsQuery,
   useGetRecomendationVideosQuery,
   usePrefetch,
 } = publicService;

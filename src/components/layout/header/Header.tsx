@@ -82,6 +82,9 @@ const Header = () => {
             <Button className='rounded-full w-8 h-8 ml-[27px]' onClick={() => navigate(`/${lng}/profile`)} />
           )}
         </div>
+        {!notMobile && auth.user && auth.token && (
+          <Button className='rounded-full w-8 h-8' onClick={() => navigate(`/${lng}/profile`)} />
+        )}
         {!auth.user &&
           (!isLoading ? (
             <>

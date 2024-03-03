@@ -5,16 +5,18 @@ import { useTranslation } from 'react-i18next';
 import { TStoredUser } from './types/types';
 import { useDispatch } from 'react-redux';
 import { setUser, setUserToken } from './redux/features/slices/auth/authReducer';
-import { useLazyGetProfileQuery } from './redux/features/services/user/userService';
+import { useLazyGetProfileQuery, usePatchStatusQuery } from './redux/features/services/user/userService';
 import { handleError } from './utils/handleError';
 import { handleUserLogout } from './utils/handleLogout';
+import 'date-time-format-timezone';
 
 function App() {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
   const storedUser = localStorage.getItem('user');
-  const [triger] = useLazyGetProfileQuery();
+  const [triger] = useLazyGetProfileQuery({ pollingInterval: 60000 });
+  usePatchStatusQuery(undefined, { skip: !storedUser, pollingInterval: 25000 });
 
   const checkUserToken = async () => {
     try {

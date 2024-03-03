@@ -1,7 +1,14 @@
+import { cn } from '@/lib/utils';
 import Button from '../ui/Button';
 import { paymentMethods } from './payment-data';
+import { IOrderBody } from '@/types/interfaces';
 
-const PaymentMethods = () => {
+interface IProps {
+  handleChange: (name: string, value: string) => void;
+  form: IOrderBody;
+}
+
+const PaymentMethods = ({ handleChange, form }: IProps) => {
   return (
     <div className='flex flex-col gap-5 items-start'>
       <h4 className='font-bold'>Выбор метода оплаты</h4>
@@ -13,8 +20,14 @@ const PaymentMethods = () => {
             <div className='flex gap-[5px] flex-wrap'>
               {buttons.map(({ label, leftIcon }, idx) => (
                 <Button
+                  onClick={() => handleChange('payment_method', label)}
                   key={idx}
-                  className={'py-2 px-2 bg-[#1D1F1E] flex-grow justify-center rounded-[10px] [&_p]:text-white'}
+                  className={cn(
+                    'py-2 px-2 bg-[#1D1F1E] hover:bg-success transition-all flex-grow justify-center rounded-[10px] [&_p]:text-white',
+                    {
+                      'bg-success': form.payment_method == label,
+                    }
+                  )}
                   label={label}
                   leftIcon={leftIcon}
                 />

@@ -1,4 +1,5 @@
 export interface ILanguageCurrencyNav {
+  id: number;
   lang?: string;
   label: string;
   icon?: string;
@@ -26,3 +27,5 @@ export interface IPopoverProps {
   hasLang?: boolean;
   triggerRef?: RefObject<HTMLButtonElement>;
 }
+
+type PositionTypes = 'bottom' | 'top' | 'left' | 'right';

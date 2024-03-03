@@ -18,7 +18,7 @@ const ProtectedUserRoute = ({ children }: IChildProps) => {
   } = useTranslation();
   const [triger] = useLazyGetProfileQuery();
   const userLocal: TStoredUser = storedUser ? JSON.parse(storedUser) : null;
-  const checkAdminToken = async () => {
+  const checkUserToken = async () => {
     try {
       const user = await triger().unwrap();
 
@@ -40,7 +40,7 @@ const ProtectedUserRoute = ({ children }: IChildProps) => {
       dispatch(setUser({ user: { email: user.email, trade_url: user.trade_url, steam_id: user.steam_id } }));
       dispatch(setUserToken({ token: user.token }));
 
-      checkAdminToken();
+      checkUserToken();
     }
   }, [dispatch, storedUser]);
 

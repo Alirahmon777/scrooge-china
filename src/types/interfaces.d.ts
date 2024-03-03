@@ -78,3 +78,35 @@ export interface ISteamSuccessParams {
   'openid.signed': string;
   'openid.sig': string;
 }
+
+export interface IOrder {
+  id: number;
+  payment_method: string;
+  status: string;
+  created_at: Date;
+  finished_at: Date;
+  steam_id: number;
+  moderator_id: number;
+  amount: string;
+  fixed_currency_rate: string;
+  currency_symbol: string;
+}
+
+export interface IOrderBody {
+  payment_method: string;
+  amount: string;
+  currency: string;
+}
+
+export interface IReview {
+  id: number;
+  steam_id: number;
+  review: string;
+  stars: number;
+  created_at: Date;
+}
+
+export interface IReviewBody {
+  review: string;
+  stars: number;
+}
