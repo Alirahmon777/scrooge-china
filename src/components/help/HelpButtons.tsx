@@ -1,4 +1,4 @@
-import Button from '../ui/Button';
+import Button from '../../components/ui/Button';
 import telegramIcon from '@svgs/help/telegram.svg';
 import commentAltIcon from '@svgs/help/comment-alt.svg';
 

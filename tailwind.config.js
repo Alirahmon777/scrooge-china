@@ -26,6 +26,7 @@ export default {
         success: '#52EA73',
         gray: '#68716C',
         header: '#151716',
+        admin: '#EA5252',
       },
       fontFamily: {
         inter: ['var(--font-inter)'],

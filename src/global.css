@@ -84,3 +84,12 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-animation: shake-vertical 10s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite both;
   animation: shake-vertical 10s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite both;
 }
+
+@layer components {
+  .min-max-80 {
+    @apply min-w-[80px] min-h-[80px] max-w-[80px] max-h-[80px];
+  }
+  .min-max-60 {
+    @apply min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px];
+  }
+}

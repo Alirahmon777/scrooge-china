@@ -6,8 +6,10 @@ import { IRoutes } from '@/types/interfaces';
 import Loader from '@/components/ui/Loader';
 import Layout from '@/layout/layout';
 import { useMediaQuery } from 'usehooks-ts';
+import ModeratorLayout from '@/admin/layout/ModeratorLayout';
 
 const ChatPage = lazy(() => import('../pages/payment/chat/page'));
+const ModeratorChat = lazy(() => import('../admin/pages/moderators/chat/page'));
 
 const renderRoutes = (routes: IRoutes[]): React.ReactNode => {
   return routes.map(({ path, component, children, element }) => (
@@ -45,6 +47,14 @@ export const Routes = () => {
                 <Layout hasChildren>
                   <ChatPage />
                 </Layout>
+              }
+            />
+            <Route
+              path='/moderator/chat'
+              element={
+                <ModeratorLayout>
+                  <ModeratorChat />
+                </ModeratorLayout>
               }
             />
           </>

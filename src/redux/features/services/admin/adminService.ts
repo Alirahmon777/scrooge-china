@@ -1,7 +1,7 @@
 import { IAdmin } from '@/types/interfaces';
 import { setAdmin } from '../../slices/auth/authReducer';
 import { adminBasicService } from '../../basics/adminService';
-import { ILoginData, IModeratorRes } from '@/admin/types/interfaces';
+import { IChangePassBody, ILoginData, IModeratorRes } from '@/admin/types/interfaces';
 
 export const adminService = adminBasicService
   .enhanceEndpoints({ addTagTypes: ['MODERATOR'], endpoints: () => {} })
@@ -39,6 +39,14 @@ export const adminService = adminBasicService
         }),
         invalidatesTags: ['MODERATOR'],
       }),
+
+      changePassword: builder.mutation<void, IChangePassBody>({
+        query: (body) => ({
+          url: `/admin/moderator/password`,
+          method: 'PATCH',
+          body,
+        }),
+      }),
     }),
     overrideExisting: false,
   });
@@ -49,4 +57,5 @@ export const {
   useGetModeratorsQuery,
   useAddModeratorMutation,
   useDeleteModeratorMutation,
+  useChangePasswordMutation,
 } = adminService;

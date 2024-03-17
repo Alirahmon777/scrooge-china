@@ -1,7 +1,8 @@
-import { IReview, IReviewBody } from './../../../../types/interfaces.d';
+import { IChangeEmail, IChangeTradeUrl, IReview, IReviewBody } from './../../../../types/interfaces.d';
 import { IOrder, IOrderBody, IUser } from '@/types/interfaces';
 import { userService as userBasicQuery } from '../../basics/userService';
 import { setUser } from '../../slices/auth/authReducer';
+import { TStoredUser } from '@/types/types';
 
 export const userService = userBasicQuery.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,6 +11,16 @@ export const userService = userBasicQuery.injectEndpoints({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
+          const stored: TStoredUser = JSON.parse(localStorage.getItem('user') as string);
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              email: data.email,
+              steam_id: data.steam_id,
+              token: stored.token,
+              trade_url: data.trade_url,
+            })
+          );
           dispatch(setUser({ user: data }));
         } catch (error) {
           dispatch(setUser({ user: null }));
@@ -41,6 +52,12 @@ export const userService = userBasicQuery.injectEndpoints({
         body,
       }),
     }),
+    changeEmail: builder.mutation<void, IChangeEmail>({
+      query: (body) => ({ url: '/user/email', method: 'PATCH', body }),
+    }),
+    changeTradeUrl: builder.mutation<void, IChangeTradeUrl>({
+      query: (body) => ({ url: '/user/trade-url', method: 'PATCH', body }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -57,4 +74,8 @@ export const {
 
   //review
   useAddReviewMutation,
+
+  //change profile
+  useChangeEmailMutation,
+  useChangeTradeUrlMutation,
 } = userService;

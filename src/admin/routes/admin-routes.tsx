@@ -11,8 +11,8 @@ const Moderators = lazy(() => import('../pages/moderators/page'));
 const Settings = lazy(() => import('../pages/settings/page'));
 const Statistics = lazy(() => import('../pages/statistics/page'));
 const ChangePassword = lazy(() => import('../pages/change-password/page'));
-const ModeratorDashboard = lazy(() => import('../pages/moderators/orders/page'));
-const ModeratorChat = lazy(() => import('../pages/moderators/chat/page'));
+const ModeratorDashboard = lazy(() => import('../pages/moderators/dashboard/page'));
+const ModeratorOrderPage = lazy(() => import('../pages/moderators/orders/page'));
 const LoginPage = lazy(() => import('../pages/login/page'));
 
 const adminSubRoutes: IRoutes[] = [
@@ -27,7 +27,7 @@ const adminSubRoutes: IRoutes[] = [
 
 const moderatorSubRoutes = [
   { path: '', component: ModeratorDashboard },
-  { path: 'chat', component: ModeratorChat },
+  { path: 'orders', component: ModeratorOrderPage },
 ];
 
 export const adminRoutes: IRoutes[] = [

@@ -9,7 +9,7 @@ import { handleAdminError } from '@/utils/handleError';
 
 interface IProps {
   isLoading?: boolean;
-  id: number;
+  id: string;
   symbol: string;
   rate: string;
   handleClose: (value: boolean) => void;

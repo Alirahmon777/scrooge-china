@@ -3,8 +3,15 @@ import AboutSliderCard from './AboutSliderCard';
 import Slider, { Settings } from 'react-slick';
 import { SliderBtn } from '@/components/ui/SwiperBtns';
 import '@styles/slider.css';
+import { IReview } from '@/types/interfaces';
 
-const AboutSlider: React.FC = () => {
+interface IProps {
+  data?: IReview[];
+  isSuccess: boolean;
+  isLoading: boolean;
+}
+
+const AboutSlider: React.FC<IProps> = ({ data, isSuccess }) => {
   const slider = React.useRef<Slider>(null);
   const [currentSlide, setCurrentSlide] = React.useState<number>(1.78);
 
@@ -41,11 +48,13 @@ const AboutSlider: React.FC = () => {
   };
 
   return (
-    <Slider {...settings} className='xl:max-w-[667px] max-xl:pb-[40px]' ref={slider}>
-      {new Array(12).fill(undefined).map((_, idx) => (
-        <AboutSliderCard key={idx} />
-      ))}
-    </Slider>
+    isSuccess && (
+      <Slider {...settings} className='xl:max-w-[667px] max-xl:pb-[40px]' ref={slider}>
+        {data?.map((items, idx) => (
+          <AboutSliderCard {...items} key={idx} />
+        ))}
+      </Slider>
+    )
   );
 };
 

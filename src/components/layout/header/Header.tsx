@@ -5,7 +5,7 @@ import mobileSteam from '@svgs/layout/mobile-steam.svg';
 import HeaderNav from './HeaderNav';
 import HeaderCurrency from './HeaderCurrency';
 import HeaderLang from './HeaderLang';
-import Button from '@components/ui/Button';
+import Button from '@/components/ui/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import HeaderMobileMenu from './HeaderMobileMenu';

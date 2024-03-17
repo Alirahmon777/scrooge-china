@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const RecommendationCard: React.FC<IProps> = ({ item, handleShow, setSrc }) => {
-  const thumbnail = `https://img.youtube.com/vi/${extractVideoId(item.url)}/0.jpg`;
+  const thumbnail = `https://img.youtube.com/vi/${extractVideoId(item.url)}/maxresdefault.jpg`;
   return (
     <>
       <div className='bg-header rounded-[20px] overflow-hidden min-w-[275px] tablet:w-[700px] lg:w-[756px]'>
@@ -28,10 +28,8 @@ const RecommendationCard: React.FC<IProps> = ({ item, handleShow, setSrc }) => {
               <p className='font-normal'>{item.subscribers}</p>
             </div>
           </div>
-          <div
-            className='max-tablet:h-[211px] bg-cover bg-center bg-no-repeat max-tablet:rounded-[20px] tablet:min-w-[320px] lg:min-w-[385px] min-h-full bg-[#d9d9d9] flex items-center justify-center'
-            style={{ backgroundImage: `url(${thumbnail})` }}
-          >
+          <div className='max-tablet:h-[211px] bg-fill bg-center bg-no-repeat max-tablet:rounded-[20px] tablet:min-w-[320px] lg:min-w-[385px] lg:max-w-[385px] min-h-full bg-[#d9d9d9] flex items-center justify-center'>
+            <img src={thumbnail} alt='yt thumbnail' className='object-fill h-full' />
             <PlayButton
               className='absolute'
               onClick={() => {

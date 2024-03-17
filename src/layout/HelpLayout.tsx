@@ -1,5 +1,5 @@
 import HelpLayoutNav from '@components/layout/HelpLayoutNav';
-import Button from '@components/ui/Button';
+import Button from '@/components/ui/Button';
 import logo from '@svgs/layout/footer-logo.svg';
 import close from '@svgs/layout/close.svg';
 import moreIcon from '@svgs/help/more.svg';

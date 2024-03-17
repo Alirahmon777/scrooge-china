@@ -14,8 +14,13 @@ import 'swiper/css/pagination';
 import '@styles/swiper.css';
 import AboutSliderCard from './AboutSliderCard';
 import { SwiperOptions } from 'swiper/types';
+import { IReview } from '@/types/interfaces';
 
-const AboutSwiper = () => {
+interface IProps {
+  data?: IReview[];
+}
+
+const AboutSwiper = ({ data }: IProps) => {
   return (
     <div className='overflow-hidden'>
       <Swiper
@@ -35,9 +40,9 @@ const AboutSwiper = () => {
           disableOnInteraction: false,
         }}
       >
-        {new Array(12).fill(undefined).map((_, idx) => (
+        {data?.map((item, idx) => (
           <SwiperSlide key={idx}>
-            <AboutSliderCard />
+            <AboutSliderCard {...item} />
           </SwiperSlide>
         ))}
       </Swiper>

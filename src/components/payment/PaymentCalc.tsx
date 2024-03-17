@@ -1,5 +1,5 @@
 import yenIcon from '@svgs/currencies/yen.svg';
-import Button from '../ui/Button';
+import Button from '../../components/ui/Button';
 import { paymentIncrementButtons } from './payment-data';
 import { ChangeEvent } from 'react';
 import { useGetCurrencyIdQuery } from '@/redux/features/services/public/publicService';
@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import { selectCurrency, setCurrency } from '@/redux/features/slices/appReducer';
 import { getSymbolCurrency } from '@/utils/getCurrency';
 import { IOrderBody } from '@/types/interfaces';
+import { getAmount } from '@/utils/getAmount';
 
 interface IProps {
   handleChange: (name: string, value: string) => void;
@@ -20,7 +21,6 @@ const PaymentCalc = ({ handleChange, form }: IProps) => {
   const currency = useAppSelector(selectCurrency);
   const dispatch = useAppDispatch();
   const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as number);
-
   const handleCurrency = async (currency: string) => {
     dispatch(setCurrency(currency));
   };
@@ -38,7 +38,7 @@ const PaymentCalc = ({ handleChange, form }: IProps) => {
     e.target.addEventListener('wheel', (e) => e.preventDefault(), { passive: false });
   };
 
-  const num = isSuccess ? parseFloat((+form.amount * +data.rate).toFixed(1)).toString() : undefined;
+  const num = isSuccess ? getAmount(form.amount, data.rate) : undefined;
 
   return (
     <div className='flex flex-col gap-[30px] items-start'>

@@ -1,5 +1,5 @@
 export interface ILanguageCurrencyNav {
-  id: number;
+  id: string;
   lang?: string;
   label: string;
   icon?: string;

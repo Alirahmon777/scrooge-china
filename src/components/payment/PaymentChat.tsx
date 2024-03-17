@@ -1,4 +1,4 @@
-import Button from '../ui/Button';
+import Button from '../../components/ui/Button';
 import PaymentChatBody from './PaymentChatBody';
 import downloadIcon from '@svgs/payment/download.svg';
 import PaymentInfo from './PaymentInfo';

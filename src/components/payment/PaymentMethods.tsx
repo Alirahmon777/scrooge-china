@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import Button from '../ui/Button';
+import Button from '../../components/ui/Button';
 import { paymentMethods } from './payment-data';
 import { IOrderBody } from '@/types/interfaces';
 

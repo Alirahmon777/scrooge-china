@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { TStoredUser } from './types/types';
 import { useDispatch } from 'react-redux';
 import { setUser, setUserToken } from './redux/features/slices/auth/authReducer';
-import { useLazyGetProfileQuery, usePatchStatusQuery } from './redux/features/services/user/userService';
+import { useGetProfileQuery, usePatchStatusQuery } from './redux/features/services/user/userService';
 import { handleError } from './utils/handleError';
 import { handleUserLogout } from './utils/handleLogout';
 import 'date-time-format-timezone';
@@ -15,17 +15,23 @@ function App() {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
   const storedUser = localStorage.getItem('user');
-  const [triger] = useLazyGetProfileQuery({ pollingInterval: 60000 });
+  const { refetch } = useGetProfileQuery(undefined, { skip: !storedUser, pollingInterval: 60000 });
   usePatchStatusQuery(undefined, { skip: !storedUser, pollingInterval: 25000 });
 
   const checkUserToken = async () => {
     try {
-      const user = await triger().unwrap();
+      const user = await refetch().unwrap();
       if (!user) {
         dispatch(setUser({ user: null }));
         dispatch(setUserToken({ token: null }));
         handleUserLogout();
+        return;
       }
+      dispatch(
+        setUser({
+          user,
+        })
+      );
     } catch (error) {
       handleError(error);
     }
@@ -45,7 +51,7 @@ function App() {
     if (storedUser && typeof storedUser === 'string') {
       const user: TStoredUser = JSON.parse(storedUser);
 
-      dispatch(setUser({ user: { email: user.email, steam_id: user.steam_id, trade_url: user.trade_url } }));
+      dispatch(setUser({ user }));
       dispatch(setUserToken({ token: user.token }));
 
       checkUserToken();

@@ -3,6 +3,7 @@ import SettingTemplate from './SettingTemplate';
 import AdminButton from '../Button';
 import { FormEvent, useState } from 'react';
 import { useUpdateRequisitesMutation } from '@/redux/features/services/admin/adminSettings';
+import { handleSimpleError } from '@/utils/handleError';
 
 const SettingRequisites = () => {
   const { data, isSuccess, refetch } = useGetRequisitesQuery();
@@ -26,7 +27,9 @@ const SettingRequisites = () => {
       await triger({ id, data: value }).unwrap();
       await refetch();
       setEditingIndex(-1);
-    } catch (error) {}
+    } catch (error) {
+      handleSimpleError(error);
+    }
   };
 
   return (

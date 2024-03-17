@@ -1,6 +1,19 @@
+import { useGetModeratorOrderQuery } from '@/redux/features/services/admin/moderatorService';
+import { getAmount } from '@/utils/getAmount';
 import { useMediaQuery } from 'usehooks-ts';
 
-const ModeratorChatInfo = () => {
+interface IProps {
+  id: string;
+}
+
+const ModeratorChatInfo = ({ id }: IProps) => {
+  const { data } = useGetModeratorOrderQuery(undefined, {
+    selectFromResult: ({ data, isSuccess }) => ({
+      data: data?.find((order) => order.id == id),
+      isSuccess,
+    }),
+  });
+
   const maxSm = useMediaQuery('not all and (min-width:640px)');
   return (
     <div className='flex max-sm:flex-col items-start gap-[10px]'>
@@ -10,7 +23,7 @@ const ModeratorChatInfo = () => {
           <div className=''>
             <h4 className='text-2xl font-bold'>User 1</h4>
             <p className='text-gray mt-[5px]'>
-              Номер заказа: <span></span>
+              Номер заказа: <span>{data?.id}</span>
             </p>
           </div>
         )}
@@ -20,24 +33,26 @@ const ModeratorChatInfo = () => {
           <div className=''>
             <h4 className='text-2xl font-bold'>Ник Нэйм</h4>
             <p className='text-gray mt-[5px]'>
-              Номер заказа: <span></span>
+              Номер заказа: <span>{data?.id}</span>
             </p>
           </div>
         )}
         <ul className='flex max-mobile:justify-between mobile:gap-10'>
           <li className='flex flex-col gap-[5px]'>
             <p className='text-gray'>Сумма</p>
-            <p>₽ 1204.2</p>
+            <p>
+              {data?.currency_symbol} {getAmount(data?.amount, data?.fixed_currency_rate)}
+            </p>
           </li>
           <li className='flex flex-col gap-[5px]'>
             <p className='text-gray'>Курс</p>
             <p>
-              1¥ ≈ <span>14.60₽</span>
+              1¥ ≈ <span>{data?.fixed_currency_rate}</span>
             </p>
           </li>
           <li className='flex flex-col gap-[5px]'>
-            <p className='text-gray'>Получите в ¥ </p>
-            <p>1000¥</p>
+            <p className='text-gray'>Получите в ¥</p>
+            <p>{data?.amount} ¥</p>
           </li>
         </ul>
       </div>

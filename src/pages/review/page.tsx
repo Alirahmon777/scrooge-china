@@ -3,7 +3,7 @@ import ReviewCard from '@/components/review/ReviewCard';
 import ReviewModal from '@/components/review/ReviewModal';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
-import { useGetReviewsQuery } from '@/redux/features/services/public/publicService';
+import { useGetReviewsCountQuery, useGetReviewsQuery } from '@/redux/features/services/public/publicService';
 import { selectAuth } from '@/redux/features/slices/auth/authReducer';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { AnimatePresence } from 'framer-motion';
@@ -12,20 +12,16 @@ import { useLockedBody, useMediaQuery } from 'usehooks-ts';
 
 const ReviewPage = () => {
   const auth = useAppSelector(selectAuth);
+  const [pagination, setPagination] = useState({ offset: 0, limit: 6 });
   const [open, setOpen] = useState(false);
   const notMobile = useMediaQuery('(min-width: 425px)');
-  const { data, isSuccess } = useGetReviewsQuery(undefined, {
-    pollingInterval: 150000,
-    selectFromResult: ({ data, isSuccess }) => {
-      const sortedData = Array.isArray(data)
-        ? [...data].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-        : [];
-      return {
-        data: sortedData,
-        isSuccess,
-      };
-    },
-  });
+  const { data, isSuccess } = useGetReviewsQuery(
+    { limit: pagination.limit, offset: pagination.offset },
+    {
+      pollingInterval: 150000,
+    }
+  );
+  const { data: amount_rewievs } = useGetReviewsCountQuery();
 
   const [_, setLocked] = useLockedBody();
   const handleShow = () => {
@@ -37,6 +33,12 @@ const ReviewPage = () => {
 
   const formattedNum = !isNaN(+num) ? parseFloat(num).toString() : '0';
 
+  const handlePaginate = (limit: number) => {
+    if (isSuccess && data.length >= pagination.limit) {
+      setPagination((prev) => ({ ...prev, limit: prev.limit + limit }));
+    }
+  };
+
   useEffect(() => {
     if (!open) {
       setLocked(false);
@@ -47,7 +49,9 @@ const ReviewPage = () => {
 
   return (
     <>
-      <AnimatePresence>{open && <ReviewModal setShow={setOpen} />}</AnimatePresence>
+      <AnimatePresence>
+        {open && <ReviewModal limit={pagination.limit} offset={pagination.offset} setShow={setOpen} />}
+      </AnimatePresence>
       <section className='mt-5 mb-10 tablet:my-[60px]'>
         <div className='container flex flex-col gap-[15px] tablet:gap-[30px] items-center tablet:items-start'>
           <h2 className='font-bold'>Отзывы</h2>
@@ -74,7 +78,7 @@ const ReviewPage = () => {
                 </div>
               </div>
               <p className='text-gray hidden tablet:block'>
-                <span className='text-white'>{data?.length}</span> отзывов
+                <span className='text-white'>{amount_rewievs?.review_count}</span> отзывов
               </p>
             </div>
             <div className='flex mobile:items-center gap-2 mobile:gap-4 max-mobile:flex-col'>
@@ -98,6 +102,7 @@ const ReviewPage = () => {
           </ul>
           <Button
             label='Загрузить ещё'
+            onClick={() => handlePaginate(6)}
             className='bg-header [&_p]:text-white text-2xl font-bold py-[14px] px-6 mt-[25px] tablet:mt-[30px] rounded-[10px] mx-auto'
           />
         </div>

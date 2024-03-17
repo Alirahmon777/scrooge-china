@@ -3,7 +3,7 @@ import { cfg } from '@/config/site.config';
 import { TStoredUser } from '@/types/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IRecomVideoRes, IRequisitesRes, ISocialRes } from '@/admin/types/interfaces';
-import { ICurrencyRes, IReview } from '@/types/interfaces';
+import { ICurrencyRes, IPaginationReq, IReview, IRewiewCount } from '@/types/interfaces';
 
 export const publicService = createApi({
   reducerPath: 'publicApi',
@@ -33,14 +33,26 @@ export const publicService = createApi({
     getCurrency: builder.query<ICurrencyRes[], void>({
       query: () => '/currency',
     }),
-    getReviews: builder.query<IReview[], void>({
-      query: () => '/review',
+    getReviews: builder.query<IReview[], IPaginationReq>({
+      query: ({ limit, offset }) => `/review?limit=${limit}&offset=${offset}`,
+    }),
+    getReviewsFiveStars: builder.query<IReview[], void>({
+      query: () => `/review/five-stars`,
+    }),
+    getReviewsCount: builder.query<IRewiewCount, void>({
+      query: () => `/review/count`,
     }),
     getRating: builder.query({
       query: () => '/user/top',
     }),
-    getCurrencyId: builder.query<ICurrencyRes, number>({
+    getCurrencyId: builder.query<ICurrencyRes, string>({
       query: (id) => `/currency/${id}`,
+    }),
+    getAvatarUrl: builder.query<string, string>({
+      query: (id) => `/user/avatar/${id}`,
+    }),
+    getUsername: builder.query<string, string>({
+      query: (id) => `/user/username/${id}`,
     }),
   }),
 });
@@ -53,7 +65,12 @@ export const {
   useLazyGetCurrencyIdQuery,
   useGetSocialsQuery,
   useGetReviewsQuery,
+  useGetReviewsFiveStarsQuery,
+  useGetReviewsCountQuery,
+  useLazyGetReviewsCountQuery,
   useLazyGetReviewsQuery,
   useGetRecomendationVideosQuery,
+  useGetAvatarUrlQuery,
+  useGetUsernameQuery,
   usePrefetch,
 } = publicService;

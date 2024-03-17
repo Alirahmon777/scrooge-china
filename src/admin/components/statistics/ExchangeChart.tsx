@@ -1,6 +1,6 @@
 import { IExchangeChartOptions } from '@/admin/types/interfaces';
 import { getHeightChart } from '@/utils/getHeightChart';
-import Tooltip from '@components/ui/Tooltip';
+import Tooltip from '@/components/ui/Tooltip';
 import { motion } from 'framer-motion';
 import { TMonthWeekDay } from '@/admin/types/types';
 import { cn } from '@/lib/utils';

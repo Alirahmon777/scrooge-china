@@ -12,13 +12,15 @@ export interface IRoutes {
 }
 
 export interface IUser {
-  steam_id: number;
+  steam_id: string;
   trade_url: string;
   email: string;
+  username: string;
+  avatar_url: string;
 }
 
 export interface IAdmin {
-  id: number;
+  id: string;
   login: string;
   role: string;
 }
@@ -54,7 +56,7 @@ export interface SeoProps extends IChildProps {
 }
 
 export interface ICurrencyRes {
-  id: number;
+  id: string;
   symbol: string;
   rate: string;
 }
@@ -80,13 +82,13 @@ export interface ISteamSuccessParams {
 }
 
 export interface IOrder {
-  id: number;
+  id: string;
   payment_method: string;
   status: string;
   created_at: Date;
   finished_at: Date;
-  steam_id: number;
-  moderator_id: number;
+  steam_id: string;
+  moderator_id: string;
   amount: string;
   fixed_currency_rate: string;
   currency_symbol: string;
@@ -99,14 +101,54 @@ export interface IOrderBody {
 }
 
 export interface IReview {
-  id: number;
-  steam_id: number;
+  id: string;
+  steam_id: string;
   review: string;
   stars: number;
-  created_at: Date;
+  created_at: Date | string;
 }
 
 export interface IReviewBody {
   review: string;
   stars: number;
 }
+
+export interface IPaginationReq {
+  limit: number;
+  offset: number;
+}
+
+export interface IPatchChat {
+  id: string;
+}
+
+export interface IAssignOrder {
+  order_id: string;
+}
+
+export interface IStateOrder {
+  isChat: boolean;
+  order_id: string;
+  chat_id: string;
+}
+
+export interface IRewiewCount {
+  video_review_count: number;
+  review_count: number;
+}
+
+export interface IChangeEmail {
+  email: string;
+}
+
+export interface IChangeTradeUrl {
+  url: string;
+}
+
+export interface IMessageBody {
+  id: string;
+  image?: File | string;
+  text: string;
+}
+
+export interface IMessage {}

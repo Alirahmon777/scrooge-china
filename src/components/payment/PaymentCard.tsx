@@ -1,5 +1,5 @@
 import { useMediaQuery } from 'usehooks-ts';
-import Button from '../ui/Button';
+import Button from '../../components/ui/Button';
 import PaymentCalc from './PaymentCalc';
 import PaymentMethods from './PaymentMethods';
 import { useNavigate } from 'react-router-dom';
@@ -7,16 +7,20 @@ import { useTranslation } from 'react-i18next';
 import { useAddUserOrderMutation } from '@/redux/features/services/user/userService';
 import { FormEvent, useEffect, useState } from 'react';
 import { IOrderBody } from '@/types/interfaces';
-import { handleError } from '@/utils/handleError';
+import { handleSimpleError } from '@/utils/handleError';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { selectCurrency } from '@/redux/features/slices/appReducer';
-import { getSymbolCurrency } from '@/utils/getCurrency';
+// import { getSymbolCurrency } from '@/utils/getCurrency';
+import { useGetCurrencyIdQuery } from '@/redux/features/services/public/publicService';
+import { currencies } from '../layout/header/header-data';
 
 const PaymentCard = () => {
   const notTablet = useMediaQuery('(min-width: 1024px)');
   const currency = useAppSelector(selectCurrency);
-  const initialForm: IOrderBody = { payment_method: '', amount: '', currency: getSymbolCurrency(currency) };
+  const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as number);
+  const initialForm: IOrderBody = { payment_method: '', amount: '', currency: isSuccess ? data?.symbol : '' };
   const [form, setForm] = useState(initialForm);
+  const [addOrder] = useAddUserOrderMutation();
 
   const {
     i18n: { language },
@@ -26,22 +30,21 @@ const PaymentCard = () => {
     window.scrollTo({ top: 0 });
     navigate(`/${language}/payment-chat`);
   };
-  const [addOrder] = useAddUserOrderMutation();
   const handleChange = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await addOrder({ ...form, currency: getSymbolCurrency(currency) }).unwrap();
+      await addOrder({ ...form, currency: isSuccess ? data?.symbol : '' }).unwrap();
     } catch (error) {
-      handleError(error);
+      handleSimpleError(error);
     }
   };
 
   useEffect(() => {
-    setForm((prev) => ({ ...prev, currency: getSymbolCurrency(currency) }));
-  }, [currency]);
+    setForm((prev) => ({ ...prev, currency: isSuccess ? data?.symbol : '' }));
+  }, [currency, isSuccess]);
 
   return (
     <div className='p-0 lg:px-[40px] lg:py-10 xl:px-[55px] xl:pt-[49px] xl:pb-[38px] lg:bg-header rounded-[10px] max-w-[564px]'>

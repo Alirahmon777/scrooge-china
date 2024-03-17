@@ -8,11 +8,11 @@ const admin: TStoredAdmin = JSON.parse(localStorage.getItem('admin') as string);
 const storedUser: TStoredUser = JSON.parse(localStorage.getItem('user') as string);
 
 const initialState: AuthState = {
-  admin: null,
+  admin: admin,
   admin_token: admin?.admin_token || null,
-  user: null,
+  user: storedUser,
   token: storedUser?.token || null,
-  role: null,
+  role: admin?.role || null,
 };
 
 const authSlice = createSlice({

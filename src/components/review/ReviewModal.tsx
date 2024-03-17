@@ -1,23 +1,26 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
-import Button from '../ui/Button';
-import { handleError } from '@/utils/handleError';
+import Button from '../../components/ui/Button';
+import { handleSimpleError } from '@/utils/handleError';
 import { useAddReviewMutation } from '@/redux/features/services/user/userService';
 import { IReviewBody } from '@/types/interfaces';
 import { Icons as AdminIcons } from '@/admin/components/Icons';
 import Icons from '../Icons';
 import { cn } from '@/lib/utils';
-import { useLazyGetReviewsQuery } from '@/redux/features/services/public/publicService';
+import { useLazyGetReviewsCountQuery, useLazyGetReviewsQuery } from '@/redux/features/services/public/publicService';
 import { motion } from 'framer-motion';
 interface IProps {
   setShow: Dispatch<SetStateAction<boolean>>;
+  limit: number;
+  offset: number;
 }
 
-const ReviewModal = ({ setShow }: IProps) => {
+const ReviewModal = ({ setShow, limit, offset }: IProps) => {
   const initialForm: IReviewBody = { review: '', stars: 0 };
   const [form, setForm] = useState(initialForm);
   const [hoveredStar, setHoveredStar] = useState<number>(0);
   const [addReview] = useAddReviewMutation();
   const [getReview] = useLazyGetReviewsQuery();
+  const [getReviewCount] = useLazyGetReviewsCountQuery();
 
   const handleStarHover = (star: number) => {
     setHoveredStar(star);
@@ -30,9 +33,10 @@ const ReviewModal = ({ setShow }: IProps) => {
     e.preventDefault();
     try {
       await addReview(form).unwrap();
-      await getReview().unwrap();
+      await getReview({ limit, offset }).unwrap();
+      await getReviewCount().unwrap();
     } catch (error) {
-      handleError(error);
+      handleSimpleError(error);
     } finally {
       setShow(false);
     }

@@ -32,3 +32,12 @@ export function handleError(error: unknown) {
     toastError('An unknown error occurred', v4());
   }
 }
+export function handleSimpleError(error: unknown) {
+  if (isError(error)) {
+    toastError(error.data.details);
+  } else if (error instanceof Error) {
+    toastError(error.message, v4());
+  } else {
+    toastError('An unknown error occurred', v4());
+  }
+}

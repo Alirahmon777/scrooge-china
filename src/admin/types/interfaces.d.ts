@@ -45,22 +45,26 @@ export interface ILoginData {
 }
 
 export interface IModeratorRes {
-  id: number;
+  id: string;
   login: string;
 }
 
+export interface IChangePassBody {
+  old_password: string;
+  new_password: string;
+}
 export interface ISocialBody {
-  id: number;
+  id: string;
   url: string;
 }
 
 export interface IRequisitesBody {
-  id: number;
+  id: string;
   data: string;
 }
 
 export interface IRecomVideoBody {
-  id: number;
+  id: string;
   url: string;
   name: string;
   subscribers: string;
@@ -68,21 +72,30 @@ export interface IRecomVideoBody {
 }
 
 export interface IRequisitesRes {
-  id: number;
+  id: string;
   name: string;
   data: string | null;
 }
 
 export interface ISocialRes {
-  id: number;
+  id: string;
   name: string;
   url: string | null;
 }
 
 export interface IRecomVideoRes {
-  id: number;
+  id: string;
   url: string;
   avatar: string;
   name: string;
   subscribers: string;
+}
+
+export interface IQueryStartEndTime {
+  start_datetime: string | Date;
+  end_datetime: string | Date;
+}
+
+export interface ICount {
+  count: number;
 }
