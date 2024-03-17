@@ -32,8 +32,8 @@ export const adminService = adminBasicService
         invalidatesTags: ['MODERATOR'],
       }),
 
-      deleteModerator: builder.mutation<IModeratorRes, number>({
-        query: (id: number) => ({
+      deleteModerator: builder.mutation<IModeratorRes, string>({
+        query: (id: string) => ({
           url: `/admin/moderator/${id}`,
           method: 'DELETE',
         }),

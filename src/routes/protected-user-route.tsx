@@ -35,10 +35,10 @@ const ProtectedUserRoute = ({ children }: IChildProps) => {
       return navigate(`/${lng}`);
     }
     if (storedUser && typeof storedUser === 'string') {
-      const user: TStoredUser = JSON.parse(storedUser);
+      const {token, ...user}: TStoredUser = JSON.parse(storedUser);
 
-      dispatch(setUser({ user: { email: user.email, trade_url: user.trade_url, steam_id: user.steam_id } }));
-      dispatch(setUserToken({ token: user.token }));
+      dispatch(setUser({ user }));
+      dispatch(setUserToken({ token }));
 
       checkUserToken();
     }

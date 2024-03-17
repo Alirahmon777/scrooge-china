@@ -17,7 +17,7 @@ import { currencies } from '../layout/header/header-data';
 const PaymentCard = () => {
   const notTablet = useMediaQuery('(min-width: 1024px)');
   const currency = useAppSelector(selectCurrency);
-  const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as number);
+  const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as string);
   const initialForm: IOrderBody = { payment_method: '', amount: '', currency: isSuccess ? data?.symbol : '' };
   const [form, setForm] = useState(initialForm);
   const [addOrder] = useAddUserOrderMutation();

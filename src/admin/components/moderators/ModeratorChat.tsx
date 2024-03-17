@@ -46,11 +46,15 @@ const ModeratorChat = ({ chat }: IProps) => {
       console.log('WebSocket connection established.');
     },
     onMessage: (event) => {
-      console.log(event);
+      console.log('msg', event.data);
+    },
+    onClose: () => {
+      console.log('websocket closed');
     },
   });
 
-  console.log(ws.lastJsonMessage);
+  console.log(ws);
+  
 
   return (
     <div

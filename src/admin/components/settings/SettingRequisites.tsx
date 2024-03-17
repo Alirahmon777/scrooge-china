@@ -17,7 +17,7 @@ const SettingRequisites = () => {
     setValue('');
   };
 
-  const handleSubmit = async (e: FormEvent, id: number) => {
+  const handleSubmit = async (e: FormEvent, id: string) => {
     try {
       e.preventDefault();
       if (!value) {

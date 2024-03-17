@@ -20,7 +20,7 @@ interface IProps {
 const PaymentCalc = ({ handleChange, form }: IProps) => {
   const currency = useAppSelector(selectCurrency);
   const dispatch = useAppDispatch();
-  const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as number);
+  const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as string);
   const handleCurrency = async (currency: string) => {
     dispatch(setCurrency(currency));
   };

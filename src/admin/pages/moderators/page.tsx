@@ -18,7 +18,7 @@ const ModeratorsPage = () => {
   const initialData: ILoginData = { login: '', password: '' };
   const [formData, setFormData] = useState(initialData);
   const [showModal, setShowModal] = useState(false);
-  const [moderatorId, setModeratorId] = useState<number>(0);
+  const [moderatorId, setModeratorId] = useState<string>('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [_, setLocked] = useLockedBody(false);
   const [triger] = useAddModeratorMutation();

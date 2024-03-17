@@ -37,7 +37,7 @@ const ChangeRateForm: React.FC<IProps> = ({ isLoading, id, symbol, rate, handleC
 
   return (
     <div className='mt-5r'>
-      <p className='mb-2'>{cur == 'RUB' ? 'рубль(₽)' : cur == 'USD' ? 'USDT' : cur == 'KZT' ? 'KZT(₸)' : undefined}</p>
+      <p className='mb-2'>{cur == 'RUB' ? 'рубль(₽)' : cur == 'USDT' ? 'USDT' : cur == 'KZT' ? 'KZT(₸)' : undefined}</p>
       <form className='flex gap-2' onSubmit={handleSubmit}>
         <Input
           defaultValue={rate}
@@ -47,7 +47,7 @@ const ChangeRateForm: React.FC<IProps> = ({ isLoading, id, symbol, rate, handleC
           id={`${cur?.toLowerCase()}-input`}
           name={cur?.toLowerCase()}
           placeholder={`Введите курс ${
-            cur == 'RUB' ? 'рубль(₽)' : cur == 'USD' ? 'USDT' : cur == 'KZT' ? 'KZT(₸)' : undefined
+            cur == 'RUB' ? 'рубль(₽)' : cur == 'USDT' ? 'USDT' : cur == 'KZT' ? 'KZT(₸)' : undefined
           }`}
           type='text'
         />

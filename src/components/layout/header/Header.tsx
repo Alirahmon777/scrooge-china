@@ -44,10 +44,10 @@ const Header = () => {
       window.addEventListener('storage', () => {
         const userData = window.localStorage.getItem('user');
         if (userData && typeof userData === 'string') {
-          const user: TStoredUser = JSON.parse(userData);
+          const {token, ...user}: TStoredUser = JSON.parse(userData);
 
-          dispatch(setUser({ user: { email: user.email, steam_id: user.steam_id, trade_url: user.trade_url } }));
-          dispatch(setUserToken({ token: user.token }));
+          dispatch(setUser({  user }));
+          dispatch(setUserToken({ token }));
         }
       });
     } catch (error) {

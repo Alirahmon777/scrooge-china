@@ -50,6 +50,11 @@ export const publicService = createApi({
     }),
     getAvatarUrl: builder.query<string, string>({
       query: (id) => `/user/avatar/${id}`,
+      transformResponse: (response: string) => {
+        console.log('res', response);
+
+        return response;
+      },
     }),
     getUsername: builder.query<string, string>({
       query: (id) => `/user/username/${id}`,
