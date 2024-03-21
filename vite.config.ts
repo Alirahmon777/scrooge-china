@@ -2,11 +2,18 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { resolve } from 'path';
 import { compression } from 'vite-plugin-compression2';
+import legacy from '@vitejs/plugin-legacy';
 // https://vitejs.dev/config/
 const root = resolve(__dirname, 'src');
 
 export default defineConfig({
-  plugins: [react(), compression()],
+  plugins: [
+    react(),
+    compression(),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
+    }),
+  ],
   resolve: {
     alias: {
       '@': resolve(root),
