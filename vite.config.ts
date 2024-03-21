@@ -6,7 +6,7 @@ import { compression } from 'vite-plugin-compression2';
 const root = resolve(__dirname, 'src');
 
 export default defineConfig({
-  plugins: [react(), compression()],
+  plugins: [react(), compression({ deleteOriginalAssets: true })],
   resolve: {
     alias: {
       '@': resolve(root),
