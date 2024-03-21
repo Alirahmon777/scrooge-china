@@ -19,9 +19,10 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import { TStoredUser } from '@/types/types';
 import { handleError } from '@/utils/handleError';
+import { useGetAvatarUrlQuery } from '@/redux/features/services/public/publicService';
 
 const Header = () => {
-  const auth = useAppSelector(selectAuth);
+  const { user, token } = useAppSelector(selectAuth);
   const { data, isLoading } = useGetAuthLinkQuery();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -31,6 +32,8 @@ const Header = () => {
   const [_, setLocked] = useLockedBody(false, 'root');
   const notMobile = useMediaQuery('(min-width: 820px)');
   const [openMobileMenu, setOpenMobileMenu] = useState<boolean>(false);
+  const { data: avatar } = useGetAvatarUrlQuery(user?.steam_id as string, { skip: !user?.steam_id });
+
   useEffect(() => {
     if (!openMobileMenu) {
       setLocked(false);
@@ -44,9 +47,9 @@ const Header = () => {
       window.addEventListener('storage', () => {
         const userData = window.localStorage.getItem('user');
         if (userData && typeof userData === 'string') {
-          const {token, ...user}: TStoredUser = JSON.parse(userData);
+          const { token, ...user }: TStoredUser = JSON.parse(userData);
 
-          dispatch(setUser({  user }));
+          dispatch(setUser({ user }));
           dispatch(setUserToken({ token }));
         }
       });
@@ -78,14 +81,18 @@ const Header = () => {
         <div className='tablet:flex hidden gap-[10px] items-center text-sm xl:text-base [&_img]:w-5 [&_img]:xl:w-6'>
           <HeaderCurrency position='bottom' />
           <HeaderLang position='bottom' />
-          {auth.user && auth.token && (
-            <Button className='rounded-full w-8 h-8 ml-[27px]' onClick={() => navigate(`/${lng}/profile`)} />
+          {user && token && (
+            <Button
+              className='rounded-full w-8 h-8 ml-[27px]'
+              fullImg={avatar}
+              onClick={() => navigate(`/${lng}/profile`)}
+            />
           )}
         </div>
-        {!notMobile && auth.user && auth.token && (
-          <Button className='rounded-full w-8 h-8' onClick={() => navigate(`/${lng}/profile`)} />
+        {!notMobile && user && token && (
+          <Button fullImg={avatar} className='rounded-full w-8 h-8' onClick={() => navigate(`/${lng}/profile`)} />
         )}
-        {!auth.user &&
+        {!user &&
           (!isLoading ? (
             <>
               <Button

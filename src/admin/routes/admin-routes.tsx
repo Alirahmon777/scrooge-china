@@ -26,8 +26,8 @@ const adminSubRoutes: IRoutes[] = [
 ];
 
 const moderatorSubRoutes = [
-  { path: '', component: ModeratorDashboard },
-  { path: 'orders', component: ModeratorOrderPage },
+  { path: '', component: ModeratorOrderPage },
+  { path: 'assign', component: ModeratorDashboard },
 ];
 
 export const adminRoutes: IRoutes[] = [

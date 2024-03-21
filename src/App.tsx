@@ -15,8 +15,12 @@ function App() {
   const dispatch = useDispatch();
   const { i18n } = useTranslation();
   const storedUser = localStorage.getItem('user');
-  const { refetch } = useGetProfileQuery(undefined, { skip: !storedUser, pollingInterval: 60000 });
-  usePatchStatusQuery(undefined, { skip: !storedUser, pollingInterval: 25000 });
+  const { refetch, currentData } = useGetProfileQuery(undefined, {
+    skip: !storedUser,
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+  });
+  usePatchStatusQuery(undefined, { skip: !storedUser || !currentData, pollingInterval: 25000, refetchOnFocus: true });
 
   const checkUserToken = async () => {
     try {

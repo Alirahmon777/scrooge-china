@@ -1,21 +1,19 @@
 import { useGetModeratorOrderQuery } from '@/redux/features/services/admin/moderatorService';
 import OrderCard from './OrderCard';
-import { Dispatch, SetStateAction } from 'react';
-import { IStateOrder } from '@/types/interfaces';
+import { useContext } from 'react';
 import { TStoredAdmin } from '@/admin/types/types';
+import { ChatContext } from '@/admin/context/ChatContext';
 
-interface IProps {
-  setChat: Dispatch<SetStateAction<IStateOrder>>;
-}
-const ModeratorOrders = ({ setChat }: IProps) => {
+const ModeratorOrders = () => {
   const { data, isSuccess } = useGetModeratorOrderQuery();
   const storedAdmin = localStorage.getItem('admin');
+  const { setOrderChat } = useContext(ChatContext);
   const adminLocal: TStoredAdmin = storedAdmin ? JSON.parse(storedAdmin) : null;
   adminLocal?.admin_token;
 
   return (
     <div className='flex flex-col gap-5 max-w-[564px] min-h-full'>
-      {isSuccess && data.map((item, idx) => <OrderCard key={idx} item={item} setChat={setChat} />)}
+      {isSuccess && data.map((item, idx) => <OrderCard key={idx} item={item} setChat={setOrderChat} />)}
     </div>
   );
 };

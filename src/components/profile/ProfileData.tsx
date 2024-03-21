@@ -3,12 +3,13 @@ import ProfileButton from './ProfileButton';
 import editIcon from '@svgs/edit.svg';
 import AdminButton from '@/admin/components/Button';
 import { handleSimpleError } from '@/utils/handleError';
-import { useChangeEmailMutation } from '@/redux/features/services/user/userService';
+import { useChangeEmailMutation, useLazyGetProfileQuery } from '@/redux/features/services/user/userService';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { selectCurrentUser } from '@/redux/features/slices/auth/authReducer';
 const ProfileData = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [value, setValue] = useState('');
+  const [getProfile] = useLazyGetProfileQuery();
   const [triger] = useChangeEmailMutation();
   const user = useAppSelector(selectCurrentUser);
   const handleSubmit = async (e: FormEvent) => {
@@ -19,6 +20,7 @@ const ProfileData = () => {
         return;
       }
       await triger({ email: value }).unwrap();
+      await getProfile().unwrap();
       setIsEdit(false);
     } catch (error) {
       handleSimpleError(error);

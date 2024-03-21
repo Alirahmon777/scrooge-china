@@ -49,15 +49,13 @@ export const publicService = createApi({
       query: (id) => `/currency/${id}`,
     }),
     getAvatarUrl: builder.query<string, string>({
-      query: (id) => `/user/avatar/${id}`,
-      transformResponse: (response: string) => {
-        console.log('res', response);
-
-        return response;
-      },
+      query: (id) => ({
+        url: `/user/avatar/${id}`,
+        responseHandler: (response) => response.text(),
+      }),
     }),
     getUsername: builder.query<string, string>({
-      query: (id) => `/user/username/${id}`,
+      query: (id) => ({ url: `/user/username/${id}`, responseHandler: (response) => response.text() }),
     }),
   }),
 });

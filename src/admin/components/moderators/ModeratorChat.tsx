@@ -1,3 +1,4 @@
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import downloadIcon from '@svgs/payment/download.svg';
@@ -5,65 +6,63 @@ import { useMediaQuery } from 'usehooks-ts';
 import ModeratorChatInfo from './ModeratorChatInfo';
 import ModeratorChatBody from './ModeratorChatBody';
 import ModeratorChatEmpty from './ModeratorChatEmpty';
-import { IStateOrder } from '@/types/interfaces';
+import { IMessageBody } from '@/types/interfaces';
 import { Icons } from '../Icons';
-import { ChangeEvent, FormEvent, useState } from 'react';
 import { handleSimpleError } from '@/utils/handleError';
-import { useAppSelector } from '@/redux/hooks/hooks';
-import { selectCurrentAdminToken } from '@/redux/features/slices/auth/authReducer';
-import useWebSocket from 'react-use-websocket';
 import { useAddMessageMutation } from '@/redux/features/services/admin/moderatorService';
-interface IProps {
-  chat: IStateOrder;
-}
+import { ChatContext } from '@/admin/context/ChatContext';
+import { toastError } from '@/utils/toast/toast';
 
-const ModeratorChat = ({ chat }: IProps) => {
+const ModeratorChat = () => {
+  const [form, setForm] = useState<IMessageBody>({ text: '', image: null });
+  const { orderChat } = useContext(ChatContext);
   const [triger] = useAddMessageMutation();
   const notTable = useMediaQuery('(min-width: 1024px)');
-  const token = useAppSelector(selectCurrentAdminToken);
 
-  if (!chat.isChat) {
+  if (!orderChat.isChat) {
     return <ModeratorChatEmpty />;
   }
 
-  const [form, setForm] = useState({ text: '', image: '' });
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const sendMessage = async () => {
     try {
-      await triger({ id: chat.chat_id, ...form });
-      setForm({ text: '', image: '' });
+      if (!form.text && !form.image) {
+        toastError("text and image can't be empty");
+        return;
+      }
+      await triger({ id: orderChat.chat_id, ...form });
+      setForm({ text: '' });
     } catch (error) {
       handleSimpleError(error);
     }
+  };
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    sendMessage();
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const ws = useWebSocket(`ws://localhost/api/admin/moderator/chat/1?authorization=Bearer ${token}`, {
-    onOpen: () => {
-      console.log('WebSocket connection established.');
-    },
-    onMessage: (event) => {
-      console.log('msg', event.data);
-    },
-    onClose: () => {
-      console.log('websocket closed');
-    },
-  });
+  const handleChangeFile = ({ target: { name, files } }: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, [name]: files ? files[0] : '' }));
+  };
 
-  console.log(ws);
-  
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.ctrlKey && e.key === 'Enter') {
+      sendMessage();
+    }
+  };
 
   return (
     <div
       className={cn('max-w-[564px] min-h-full', {
         'p-6 bg-header rounded-[10px]': notTable,
       })}
+      onKeyDown={handleKeyDown}
     >
       <div className='flex flex-col gap-5 h-full'>
-        <ModeratorChatInfo id={chat.order_id} />
+        <ModeratorChatInfo id={orderChat.order_id} />
         <div className='w-full h-[1px] bg-gray' />
         <ModeratorChatBody />
         <form onSubmit={handleSubmit}>
@@ -73,25 +72,25 @@ const ModeratorChat = ({ chat }: IProps) => {
               cols={30}
               rows={10}
               value={form.text}
+              autoFocus
               name='text'
               onChange={handleChange}
               className='py-[10px] bg-transparent min-h-[44px] max-h-[44px] resize-none flex-grow placeholder:text-gray pr-1 live-scroll'
             />
-            <input
-              type='file'
-              className='hidden'
-              name='image'
-              id='image-input'
-              value={form.image}
-              onChange={handleChange}
-            />
+            <input type='file' className='hidden' name='image' id='image-input' onChange={handleChangeFile} />
 
             <div className='flex items-center gap-2'>
-              <label htmlFor='image-input' className='text-gray cursor-pointer'>
+              <label
+                htmlFor='image-input'
+                className={cn('text-gray flex cursor-pointer', {
+                  'border-gray border-solid pl-0.5 border-l': form.image?.name,
+                })}
+              >
+                {form.image?.name && <p className='w-[80px] truncate'>{form.image?.name}</p>}
                 <Icons.imageIcon />
               </label>
-              <button type='submit'>
-                <img src={downloadIcon} alt='download icon' />
+              <button type='submit' title='send message. ctrl + enter' className='min-max-24'>
+                <img src={downloadIcon} alt='download icon' width={24} height={24} />
               </button>
             </div>
           </div>

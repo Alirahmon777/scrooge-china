@@ -2,7 +2,7 @@ import { useAppSelector } from '@/redux/hooks/hooks';
 import ProfileButton from './ProfileButton';
 import linkIcon from '@svgs/link.svg';
 import { selectCurrentUser } from '@/redux/features/slices/auth/authReducer';
-import { useChangeTradeUrlMutation } from '@/redux/features/services/user/userService';
+import { useChangeTradeUrlMutation, useLazyGetProfileQuery } from '@/redux/features/services/user/userService';
 import { FormEvent, useState } from 'react';
 import { handleSimpleError } from '@/utils/handleError';
 import AdminButton from '@/admin/components/Button';
@@ -10,12 +10,16 @@ import Button from '../ui/Button';
 import { Icons } from '@/admin/components/Icons';
 import { cn } from '@/lib/utils';
 import { toastSuccess } from '@/utils/toast/toast';
+import { useCopyToClipboard } from 'usehooks-ts';
 const ProfileTrade = () => {
   const user = useAppSelector(selectCurrentUser);
+  const [getProfile] = useLazyGetProfileQuery();
+  const [copiedText, copy] = useCopyToClipboard();
   const [isEdit, setIsEdit] = useState(false);
   const [value, setValue] = useState('');
   const [copied, setCopied] = useState(false);
   const [triger] = useChangeTradeUrlMutation();
+
   const handleSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
@@ -24,6 +28,7 @@ const ProfileTrade = () => {
         return;
       }
       await triger({ url: value }).unwrap();
+      await getProfile().unwrap();
       setIsEdit(false);
     } catch (error) {
       handleSimpleError(error);
@@ -33,7 +38,8 @@ const ProfileTrade = () => {
   const handleCopy = async () => {
     try {
       if (!copied) {
-        await navigator.clipboard.writeText(user?.trade_url as string);
+        await copy(user?.trade_url as string);
+        // await navigator.clipboard.writeText(user?.trade_url as string);
         setCopied(true);
       }
       toastSuccess('copied!');
@@ -63,7 +69,8 @@ const ProfileTrade = () => {
             }
           )}
         >
-          <p className='truncate'> {user?.trade_url ? user.trade_url : 'Ваш Trade URL'}</p>
+          <p className='sr-only'>{copiedText}</p>
+          <p className='truncate flex-1'>{user?.trade_url ? user.trade_url : 'Ваш Trade URL'}</p>
           {user?.trade_url && (
             <Button
               className='bg-header p-2 rounded-md border border-solid border-gray'

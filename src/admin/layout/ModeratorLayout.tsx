@@ -20,8 +20,8 @@ const ModeratorLayout = ({ children }: Partial<IChildProps>) => {
             <Link to={'/moderator'}>
               <img src={logo} className={cn({ 'w-32': mobile })} alt='moderator logo' />
             </Link>
-            <Link to={'/moderator/orders'} className='text-gray'>
-              {small ? 'Заказы' : tablet ? 'Назначенные заказы' : 'Перейти к назначенным заказам'}
+            <Link to={'/moderator/assign'} className='text-gray'>
+              {small ? 'Заказы' : tablet ? 'Назначить заказ' : 'Перейти и назначить заказ'}
             </Link>
             <Button
               variant='ghost'

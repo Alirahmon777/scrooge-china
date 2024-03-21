@@ -1,4 +1,4 @@
-import { IAssignOrder, IMessageBody, IOrder, IPatchChat } from '@/types/interfaces';
+import { IAssignOrder, IHistoryMessage, IMessageBody, IOrder, IPatchChat } from '@/types/interfaces';
 import { adminBasicService } from '../../basics/adminService';
 
 export const adminService = adminBasicService.injectEndpoints({
@@ -19,29 +19,11 @@ export const adminService = adminBasicService.injectEndpoints({
       }),
     }),
 
-    // //chat
-    // getMessages: builder.query<IMessage[], void>({
-    //   query: (id) => `/admin/moderator/chat/${id}`,
-    //   async onCacheEntryAdded(arg, { updateCachedData, cacheDataLoaded, cacheEntryRemoved }) {
-    //     // create a websocket connection when the cache subscription starts
-    //     const ws = new WebSocket(`ws://localhost/api/admin/moderator/chat/${arg}`);
-    //     try {
-    //       await cacheDataLoaded;
-    //       const listener = (event: MessageEvent) => {
-    //         const data = JSON.parse(event.data);
+    getMessages: builder.query<IHistoryMessage, string>({
+      query: (id) => `/admin/moderator/chat/${id}/history`,
+    }),
 
-    //         updateCachedData((draft) => {
-    //           draft.push(data);
-    //         });
-    //       };
-
-    //       ws.addEventListener('message', listener);
-    //     } catch {}
-    //     await cacheEntryRemoved;
-    //     ws.close();
-    //   },
-    // }),
-    addMessage: builder.mutation<void, IMessageBody>({
+    addMessage: builder.mutation<void, { id: string } & IMessageBody>({
       query: ({ id, image, text }) => {
         const formdata = new FormData();
         formdata.append('text', text);
@@ -71,4 +53,5 @@ export const {
   useCreateOrPatchChatMutation,
   useAssignOrderMutation,
   useAddMessageMutation,
+  useGetMessagesQuery,
 } = adminService;

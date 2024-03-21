@@ -8,6 +8,7 @@ interface IProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElemen
   rightIcon?: string;
   label?: string;
   imageClass?: string;
+  fullImg?: string;
   variant?: 'outline' | 'fill' | 'ghost' | 'admin';
 }
 
@@ -19,6 +20,7 @@ const Button = ({
   imageClass,
   LeftSvg,
   loadingElement,
+  fullImg,
   variant = 'fill',
   ...props
 }: IProps) => {
@@ -32,10 +34,12 @@ const Button = ({
         },
         { 'bg-transparent gap-[10px] items-center [&_p]:text-gray font-medium': variant == 'ghost' },
         { 'bg-[#EA5252] px-[30px] py-[10px] rounded-[10px] [&_p]:text-white font-normal': variant == 'admin' },
+        { 'relative p-0 bg-gray overflow-hidden': !!fullImg },
         className
       )}
       {...props}
     >
+      {fullImg && <img src={fullImg} className='absolute z-50 top-0 left-0 wh-full-important' />}
       {LeftSvg && LeftSvg}
       {loadingElement && loadingElement}
       {leftIcon && <img src={leftIcon} alt={'button left icon'} className={imageClass} />}

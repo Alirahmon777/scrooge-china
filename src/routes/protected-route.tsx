@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useLazyGetSelfQuery } from '@/redux/features/services/admin/adminService';
 import { handleAdminLogout } from '@/utils/handleLogout';
 import { handleAdminError } from '@/utils/handleError';
+import { checkAdminRole, checkModeratorRole } from '@/utils/checkRole';
 interface IProps extends IChildProps {
   isModerator?: boolean;
   isAdmin?: boolean;
@@ -15,7 +16,7 @@ interface IProps extends IChildProps {
 const ProtectedRoute = ({ children, isModerator, isAdmin }: IProps) => {
   const storedAdmin = localStorage.getItem('admin');
   const dispatch = useAppDispatch();
-  const [triger] = useLazyGetSelfQuery();
+  const [triger] = useLazyGetSelfQuery({ refetchOnFocus: true });
   const adminLocal: TStoredAdmin = storedAdmin ? JSON.parse(storedAdmin) : null;
   const checkAdminToken = async () => {
     try {
@@ -44,14 +45,10 @@ const ProtectedRoute = ({ children, isModerator, isAdmin }: IProps) => {
     return <Navigate to='/admin/login' replace />;
   }
   if (isAdmin) {
-    return adminLocal.role != '"Admin"' ? <Navigate to='/admin/login' replace /> : children;
+    return checkAdminRole(adminLocal.role) ? children : <Navigate to='/admin/login' replace />;
   }
   if (isModerator) {
-    return adminLocal.role == '"Moderator"' || adminLocal.role == '"Admin"' ? (
-      children
-    ) : (
-      <Navigate to='/admin/login' replace />
-    );
+    return checkModeratorRole(adminLocal.role) ? children : <Navigate to='/admin/login' replace />;
   }
 };
 

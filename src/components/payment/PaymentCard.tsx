@@ -2,41 +2,43 @@ import { useMediaQuery } from 'usehooks-ts';
 import Button from '../../components/ui/Button';
 import PaymentCalc from './PaymentCalc';
 import PaymentMethods from './PaymentMethods';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useAddUserOrderMutation } from '@/redux/features/services/user/userService';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { IOrderBody } from '@/types/interfaces';
 import { handleSimpleError } from '@/utils/handleError';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { selectCurrency } from '@/redux/features/slices/appReducer';
-// import { getSymbolCurrency } from '@/utils/getCurrency';
 import { useGetCurrencyIdQuery } from '@/redux/features/services/public/publicService';
 import { currencies } from '../layout/header/header-data';
+import { ChatContextUser } from '@/context/ChatContext';
+import { toastError } from '@/utils/toast/toast';
 
-const PaymentCard = () => {
+interface IProps {
+  handleRedirect: () => void;
+  createChat: (order_id: string, status: string, moderator_id: string) => void;
+}
+
+const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
   const notTablet = useMediaQuery('(min-width: 1024px)');
   const currency = useAppSelector(selectCurrency);
   const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as string);
   const initialForm: IOrderBody = { payment_method: '', amount: '', currency: isSuccess ? data?.symbol : '' };
   const [form, setForm] = useState(initialForm);
   const [addOrder] = useAddUserOrderMutation();
+  const { orderChat } = useContext(ChatContextUser);
 
-  const {
-    i18n: { language },
-  } = useTranslation();
-  const navigate = useNavigate();
-  const handleRedirect = () => {
-    window.scrollTo({ top: 0 });
-    navigate(`/${language}/payment-chat`);
-  };
   const handleChange = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await addOrder({ ...form, currency: isSuccess ? data?.symbol : '' }).unwrap();
+      if (!orderChat.moderator_id) {
+        const order = await addOrder({ ...form, currency: isSuccess ? data?.symbol : '' }).unwrap();
+        createChat(order.id, order.status, order.moderator_id);
+        return;
+      }
+      toastError('Should be cancel last order when creating new');
     } catch (error) {
       handleSimpleError(error);
     }

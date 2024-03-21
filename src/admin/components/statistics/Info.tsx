@@ -14,14 +14,15 @@ interface IProps {
 }
 
 const Info = ({ activeTab, setActiveTab }: IProps) => {
-  const date = subYears(new Date(), 1);
+  const date = subYears(new Date(), 100);
   const [triger] = useLazyGetAmountUsersQuery();
   const [data, setData] = useState<ICount | undefined>({ count: 0 });
   useEffect(() => {
     (async () => {
+      const isoStringWithoutTimezone = date.toISOString().slice(0, -5);
       const { data } = await triger({
-        start_datetime: date.toISOString(),
-        end_datetime: new Date().toISOString(),
+        start_datetime: isoStringWithoutTimezone,
+        end_datetime: new Date().toISOString().slice(0, -5),
       });
 
       if (data) {

@@ -1,31 +1,89 @@
+import { useAppSelector } from '@/redux/hooks/hooks';
 import Message from './Message';
+import { selectUserToken } from '@/redux/features/slices/auth/authReducer';
+import { useContext, useEffect, useRef } from 'react';
+import { ChatContextUser } from '@/context/ChatContext';
+import { useGetMessagesQuery, useGetUserOrderWithIdQuery } from '@/redux/features/services/user/userService';
+import { useMediaQuery } from 'usehooks-ts';
+import { cfg } from '@/config/site.config';
+import useWebSocket from 'react-use-websocket';
+import { ScrollToBottom } from '@/utils/ScrollToBottom';
+import { useGetAvatarUrlQuery } from '@/redux/features/services/public/publicService';
 
 const PaymentChatBody = () => {
+  const token = useAppSelector(selectUserToken);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { orderChat } = useContext(ChatContextUser);
+  const { data: historyMessages, isSuccess, refetch } = useGetMessagesQuery(orderChat.chat_id);
+  const { data: order, isSuccess: orderSuccess } = useGetUserOrderWithIdQuery(orderChat.order_id);
+  const isMobile = useMediaQuery('(max-width: 375px)');
+  const { data: avatar } = useGetAvatarUrlQuery(order?.steam_id as string, { skip: !orderSuccess });
+
+  useWebSocket(`${cfg.USER_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
+    onMessage: () => {
+      refetch();
+    },
+    shouldReconnect: () => true,
+    reconnectAttempts: 10,
+    reconnectInterval: (attemptNumber) => Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => ScrollToBottom(scrollRef, 'instant'), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    ScrollToBottom(scrollRef, 'smooth');
+  }, [historyMessages]);
+
   return (
-    <div className='min-h-[330px] flex-grow'>
+    <div className='min-h-[330px] flex-grow h-[372px] max-h-full overflow-y-auto pr-1 max-[375px]:pr-2' ref={scrollRef}>
       <div className='flex flex-col gap-5'>
-        <div className='flex items-start gap-[10px]'>
-          <span className='min-w-5 min-h-5 mobile:min-w-6 mobile:min-h-6 bg-success rounded-sm' />
-          <ul className='flex flex-col gap-[10px]'>
-            <li>
-              <Message
-                content='Уважаемый пользователь переведите средства по реквизитам и нажмите кнопку “Оплачено“ если вы хотите изменить способ оплаты или просто передумали нажмите кнопку " Отменить заказ "'
-                isCurrentUser={false}
-              />
-            </li>
-            <li>
-              <Message content='Реквизиты Тинькофф: 2200 7009 3558 9290 | Бакитгалей И' isCurrentUser={false} />
-            </li>
-          </ul>
-        </div>
-        <div className='flex items-start gap-[10px] flex-row-reverse'>
-          <span className='min-w-5 min-h-5 mobile:min-w-6 mobile:min-h-6 bg-success rounded-sm' />
-          <ul className='flex flex-grow flex-col gap-[10px]'>
-            <li className='flex items-end justify-end'>
-              <Message content='Хорошо, сейчас все переведу' isCurrentUser={true} />
-            </li>
-          </ul>
-        </div>
+        {isSuccess &&
+          historyMessages.messages.map((messages, idx) => {
+            if (messages[0].sender != '"Moderator"') {
+              return (
+                <div className='flex items-start gap-[10px] flex-row-reverse' key={idx}>
+                  {!isMobile && avatar && (
+                    <span className='min-max-20 mobile:min-max-24 rounded-sm overflow-hidden'>
+                      <img className='object-fill w-full h-full' src={avatar} />
+                    </span>
+                  )}
+                  {!isMobile && !avatar && <span className='min-max-20 mobile:min-max-24 bg-success rounded-sm' />}
+                  <ul className='flex flex-grow flex-col gap-[10px]'>
+                    <li className='flex items-end justify-end'>
+                      <Message
+                        content={messages[0].text}
+                        isCurrentUser={true}
+                        sender={'User'}
+                        img_id={messages[1][0]}
+                        chat_id={messages[0].chat_id}
+                      />
+                    </li>
+                  </ul>
+                </div>
+              );
+            }
+            if (messages[0].sender == '"Moderator"') {
+              return (
+                <div className='flex items-start gap-[10px]' key={idx}>
+                  {!isMobile && <span className='min-max-20 mobile:min-max-24 bg-success rounded-sm' />}
+                  <ul className='flex flex-grow flex-col gap-[10px]'>
+                    <li className='flex'>
+                      <Message
+                        content={messages[0].text}
+                        img_id={messages[1][0]}
+                        chat_id={messages[0].chat_id}
+                        isCurrentUser={false}
+                        sender={'User'}
+                      />
+                    </li>
+                  </ul>
+                </div>
+              );
+            }
+          })}
       </div>
     </div>
   );

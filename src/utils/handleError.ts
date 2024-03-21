@@ -10,7 +10,10 @@ export function handleAdminError(error: unknown) {
       return;
     }
     toastError(error.data.details);
-    if (error.data.details == 'Bad or expired token!') {
+    if (
+      error.data.details == 'Bad or expired token!' ||
+      error.data.details.toLocaleLowerCase().includes('unauthorized')
+    ) {
       handleAdminLogout();
     }
   } else if (error instanceof Error) {
@@ -23,7 +26,10 @@ export function handleAdminError(error: unknown) {
 export function handleError(error: unknown) {
   if (isError(error)) {
     toastError(error.data.details);
-    if (error.data.details == 'Bad or expired token!' || error.data.details.includes('Unauthorized')) {
+    if (
+      error.data.details == 'Bad or expired token!' ||
+      error.data.details.toLocaleLowerCase().includes('unauthorized')
+    ) {
       return handleUserLogout();
     }
   } else if (error instanceof Error) {

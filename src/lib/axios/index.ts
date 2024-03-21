@@ -1,38 +1,29 @@
+import { TStoredAdmin } from '@/admin/types/types';
+import { TStoredUser } from '@/types/types';
 import axios from 'axios';
+const storedAdmin: TStoredAdmin = JSON.parse(localStorage.getItem('admin') || '{}');
+const storedUser: TStoredUser = JSON.parse(localStorage.getItem('user') || '{}');
 
-const $host = axios.create({
+const $user = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
-$host.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+$user.interceptors.request.use((config) => {
+  const token = storedUser.token;
   if (!token) return config;
-  config.headers.Authorization = `Bearer ${token}`;
+  config.headers['Authorization'] = `Bearer ${token}`;
   return config;
 });
 
-$host.interceptors.response.use(
-  (config) => {
-    return config;
-  },
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && error.config && !error.config._isRetry) {
-      originalRequest._isRetry = true;
-      try {
-        // const refreshToken = getCookie("refreshToken");
-        // const response = await $host.post("api/v1/token/refresh/" , {refresh: refreshToken});
-        // localStorage.setItem('accessToken', response.data.access);
-        // return $host.request(originalRequest);
-      } catch (error) {
-        // setCookie("refreshToken", "", 0);
-        // localStorage.removeItem("accessToken");
-        // console.error(error);
-        // return Promise.reject(error);
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+const $admin = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_URL,
+});
 
-export default $host;
+$admin.interceptors.request.use((config) => {
+  const token = storedAdmin.admin_token;
+  if (!token) return config;
+  config.headers['X-AM-Authorization'] = `Bearer ${token}`;
+  return config;
+});
+
+export { $user, $admin };

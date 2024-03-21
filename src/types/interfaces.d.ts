@@ -130,6 +130,7 @@ export interface IStateOrder {
   isChat: boolean;
   order_id: string;
   chat_id: string;
+  status: string;
 }
 
 export interface IRewiewCount {
@@ -146,9 +147,30 @@ export interface IChangeTradeUrl {
 }
 
 export interface IMessageBody {
-  id: string;
-  image?: File | string;
+  image?: File | null;
   text: string;
 }
 
-export interface IMessage {}
+export interface IMessage {
+  images_ids: string[];
+  message: {
+    chat_id: string;
+    created_at: string | Date;
+    id: string;
+    sender: string;
+    text: string;
+  };
+}
+
+export interface IHistoryMessage {
+  messages: [
+    {
+      chat_id: string;
+      created_at: string | Date;
+      id: string;
+      sender: string;
+      text: string;
+    },
+    string[]
+  ][];
+}

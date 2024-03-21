@@ -1,5 +1,15 @@
-import { IChangeEmail, IChangeTradeUrl, IReview, IReviewBody } from './../../../../types/interfaces.d';
-import { IOrder, IOrderBody, IUser } from '@/types/interfaces';
+import {
+  IOrder,
+  IOrderBody,
+  IUser,
+  IChangeEmail,
+  IChangeTradeUrl,
+  IHistoryMessage,
+  IReview,
+  IReviewBody,
+  IMessageBody,
+  IPatchChat,
+} from '@/types/interfaces';
 import { userService as userBasicQuery } from '../../basics/userService';
 import { setUser } from '../../slices/auth/authReducer';
 import { TStoredUser } from '@/types/types';
@@ -35,7 +45,7 @@ export const userService = userBasicQuery.injectEndpoints({
     getUserOrder: builder.query<IOrder[], void>({
       query: () => '/user/order',
     }),
-    getUserOrderWithId: builder.query<IOrder[], string>({
+    getUserOrderWithId: builder.query<IOrder, string>({
       query: (id) => `/user/order/${id}`,
     }),
     addUserOrder: builder.mutation<IOrder, IOrderBody>({
@@ -52,11 +62,39 @@ export const userService = userBasicQuery.injectEndpoints({
         body,
       }),
     }),
+
+    //profile
     changeEmail: builder.mutation<void, IChangeEmail>({
       query: (body) => ({ url: '/user/email', method: 'PATCH', body }),
     }),
     changeTradeUrl: builder.mutation<void, IChangeTradeUrl>({
       query: (body) => ({ url: '/user/trade-url', method: 'PATCH', body }),
+    }),
+
+    //chat
+    getMessages: builder.query<IHistoryMessage, string>({
+      query: (id) => `/user/chat/${id}/history`,
+    }),
+
+    addMessage: builder.mutation<void, { id: string } & IMessageBody>({
+      query: ({ id, image, text }) => {
+        const formdata = new FormData();
+        formdata.append('text', text);
+        if (image) formdata.append('image', image);
+        return {
+          url: `/user/chat/${id}/message`,
+          method: 'POST',
+          body: formdata,
+        };
+      },
+    }),
+
+    createOrPatchChat: builder.mutation<IPatchChat, IPatchChat>({
+      query: (id) => ({
+        url: `/user/chat`,
+        method: 'PATCH',
+        body: id,
+      }),
     }),
   }),
   overrideExisting: false,
@@ -78,4 +116,9 @@ export const {
   //change profile
   useChangeEmailMutation,
   useChangeTradeUrlMutation,
+
+  //chat
+  useAddMessageMutation,
+  useCreateOrPatchChatMutation,
+  useGetMessagesQuery,
 } = userService;
