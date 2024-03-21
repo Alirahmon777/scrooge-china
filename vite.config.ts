@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { resolve } from 'path';
+import { compression } from 'vite-plugin-compression2';
 // https://vitejs.dev/config/
 const root = resolve(__dirname, 'src');
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), compression()],
   resolve: {
     alias: {
       '@': resolve(root),
@@ -27,5 +28,13 @@ export default defineConfig({
 
   optimizeDeps: {
     include: ['react-use-websocket'],
+  },
+
+  build: {
+    rollupOptions: {
+      output: {
+        format: 'esm',
+      },
+    },
   },
 });
