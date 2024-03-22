@@ -61,6 +61,7 @@ const PaymentChat = () => {
     <div
       className={cn('max-w-[564px] min-h-full', {
         'p-6 xl:p-6 xl:pb-[38px] bg-header rounded-[10px]': notTablet,
+        'w-full': !notTablet,
       })}
       onKeyDown={handleKeyDown}
     >

@@ -56,7 +56,6 @@ const PaymentPage = () => {
       if (!notTablet) {
         handleRedirect();
       }
-      toastSuccess('Ваш заказ создан');
       return;
     } catch (error) {
       handleSimpleError(error);
@@ -69,18 +68,11 @@ const PaymentPage = () => {
         setOrderChat(initialOrderChat);
         return;
       }
-      if (orderChat.isChat) {
-        const { order_id, moderator_id, status } = orderChat;
-        createChat(order_id, status, moderator_id);
-        return;
+      if (isSuccess) {
+        if (!order) return;
+        createChat(order?.id, order?.status, order?.moderator_id);
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    if (isSuccess) {
-      createChat(order?.id, order?.status, order?.moderator_id);
-    }
   }, [isSuccess]);
 
   return (

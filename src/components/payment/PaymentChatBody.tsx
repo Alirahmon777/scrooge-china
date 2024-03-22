@@ -14,8 +14,15 @@ const PaymentChatBody = () => {
   const token = useAppSelector(selectUserToken);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { orderChat } = useContext(ChatContextUser);
-  const { data: historyMessages, isSuccess, refetch } = useGetMessagesQuery(orderChat.chat_id);
-  const { data: order, isSuccess: orderSuccess } = useGetUserOrderWithIdQuery(orderChat.order_id);
+  const { data: order, isSuccess: orderSuccess } = useGetUserOrderWithIdQuery(orderChat.order_id, {
+    skip: !orderChat.order_id,
+  });
+  const {
+    data: historyMessages,
+    isSuccess,
+    refetch,
+  } = useGetMessagesQuery(orderChat.chat_id, { skip: !orderChat.chat_id });
+
   const isMobile = useMediaQuery('(max-width: 375px)');
   const { data: avatar } = useGetAvatarUrlQuery(order?.steam_id as string, { skip: !orderSuccess });
 
@@ -23,7 +30,7 @@ const PaymentChatBody = () => {
     onMessage: () => {
       refetch();
     },
-    shouldReconnect: () => true,
+    shouldReconnect: () => !!(orderChat.chat_id && token),
     reconnectAttempts: 10,
     reconnectInterval: (attemptNumber) => Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
   });

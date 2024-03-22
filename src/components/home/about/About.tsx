@@ -5,6 +5,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGetReviewsFiveStarsQuery } from '@/redux/features/services/public/publicService';
+import { cn } from '@/lib/utils';
 
 const About = () => {
   const desktop = useMediaQuery('(min-width: 1280px)');
@@ -28,10 +29,14 @@ const About = () => {
             }}
           />
         </div>
-        <div className='max-xl:static max-xl:w-full absolute right-0 z-10'>
+        <div
+          className={cn('max-xl:static max-xl:w-full absolute right-0 z-10', {
+            'static flex-1': data && data.length < 3,
+          })}
+        >
           <div className='relative overflow-hidden xl:pl-[37px]'>
             {desktop && <AboutDesktopSlider data={data} isSuccess={isSuccess} isLoading={isLoading} />}
-            {!desktop && <AboutSwiper data={data} />}
+            {!desktop && <AboutSwiper data={data} isSuccess={isSuccess} />}
           </div>
         </div>
       </div>

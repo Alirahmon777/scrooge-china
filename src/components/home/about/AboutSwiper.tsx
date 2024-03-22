@@ -18,34 +18,37 @@ import { IReview } from '@/types/interfaces';
 
 interface IProps {
   data?: IReview[];
+  isSuccess: boolean;
 }
 
-const AboutSwiper = ({ data }: IProps) => {
+const AboutSwiper = ({ data, isSuccess }: IProps) => {
   return (
     <div className='overflow-hidden'>
-      <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, Autoplay, Mousewheel, Keyboard]}
-        spaceBetween={15}
-        speed={600}
-        slidesPerView={'auto'}
-        slidesPerGroup={1}
-        loop
-        centeredSlides
-        pagination={{ clickable: true }}
-        className='!pb-[40px] tablet:!pb-[60px]'
-        keyboard
-        breakpoints={breakpoints}
-        autoplay={{
-          delay: 2200,
-          disableOnInteraction: false,
-        }}
-      >
-        {data?.map((item, idx) => (
-          <SwiperSlide key={idx}>
-            <AboutSliderCard {...item} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {isSuccess && (
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, Autoplay, Mousewheel, Keyboard]}
+          spaceBetween={15}
+          speed={600}
+          slidesPerView={'auto'}
+          slidesPerGroup={1}
+          loop
+          centeredSlides
+          pagination={{ clickable: true }}
+          className='!pb-[40px] tablet:!pb-[60px]'
+          keyboard
+          breakpoints={breakpoints}
+          autoplay={{
+            delay: 2200,
+            disableOnInteraction: false,
+          }}
+        >
+          {data?.map((item, idx) => (
+            <SwiperSlide key={idx}>
+              <AboutSliderCard {...item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </div>
   );
 };

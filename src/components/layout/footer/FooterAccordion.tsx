@@ -15,6 +15,7 @@ interface IProps {
 }
 const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentParentClass, socialItems }: IProps) => {
   const isOpen = idx === expanded;
+
   const {
     i18n: { language: lng },
   } = useTranslation();
@@ -66,8 +67,8 @@ const FooterAccordion = ({ idx, expanded, items, setExpanded, title, contentPare
               ))}
 
             {socialItems &&
-              socialItems.map(({ id, name, url }) => (
-                <li key={id}>
+              socialItems.map(({ name, url }, idx) => (
+                <li key={idx}>
                   <Link to={url ?? ''} target='_blank'>
                     <img src={`/svgs/${name.toLowerCase()}.svg`} alt='social icon' />
                   </Link>

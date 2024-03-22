@@ -17,6 +17,7 @@ interface IProps {
 const ChangeRateForm: React.FC<IProps> = ({ isLoading, id, symbol, rate, handleClose }) => {
   const { refetch } = useGetCurrencyQuery();
   const cur = getCurrency(symbol);
+
   const [value, setValue] = useState<string>(rate);
   const [triger] = useUpdateCurrencyMutation();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,10 +35,11 @@ const ChangeRateForm: React.FC<IProps> = ({ isLoading, id, symbol, rate, handleC
       handleClose(false);
     }
   };
-
+  const currencyType =
+    cur == 'RUB' ? 'рубль(₽)' : cur == 'USDT' ? 'USDT' : cur == 'KZT' ? 'KZT(₸)' : cur == '$' ? 'USDT' : undefined;
   return (
-    <div className='mt-5r'>
-      <p className='mb-2'>{cur == 'RUB' ? 'рубль(₽)' : cur == 'USDT' ? 'USDT' : cur == 'KZT' ? 'KZT(₸)' : undefined}</p>
+    <div className='mt-5'>
+      <p className='mb-2'>{currencyType}</p>
       <form className='flex gap-2' onSubmit={handleSubmit}>
         <Input
           defaultValue={rate}
@@ -46,9 +48,7 @@ const ChangeRateForm: React.FC<IProps> = ({ isLoading, id, symbol, rate, handleC
           onChange={handleChange}
           id={`${cur?.toLowerCase()}-input`}
           name={cur?.toLowerCase()}
-          placeholder={`Введите курс ${
-            cur == 'RUB' ? 'рубль(₽)' : cur == 'USDT' ? 'USDT' : cur == 'KZT' ? 'KZT(₸)' : undefined
-          }`}
+          placeholder={`Введите курс ${currencyType}`}
           type='text'
         />
         <Button

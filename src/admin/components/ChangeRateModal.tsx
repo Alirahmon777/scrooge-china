@@ -19,8 +19,15 @@ const ChangeRateModal = ({ isLoading, title, handleClose }: IProps) => {
       <div className={'bg-header rounded-[10px] py-6 px-12 w-[500px]'} onClick={(e) => e.stopPropagation()}>
         <h3 className='text-[32px] font-medium text-center'>{title}</h3>
         {isSuccess &&
-          data.map(({ id, symbol, rate }) => (
-            <ChangeRateForm id={id} rate={rate} symbol={symbol} handleClose={handleClose} isLoading={isLoading} />
+          data.map(({ id, symbol, rate }, idx) => (
+            <ChangeRateForm
+              id={id}
+              rate={rate}
+              key={idx}
+              symbol={symbol}
+              handleClose={handleClose}
+              isLoading={isLoading}
+            />
           ))}
         <Button
           label={'Отмена'}

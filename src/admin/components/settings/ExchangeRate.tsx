@@ -24,8 +24,8 @@ const ExchangeRate = () => {
           <p className='text-gray mb-[10px]'>Курс 1¥</p>
           <ul className='grid grid-cols-[150px,150px,150px,120px] items-center gap-5 [&_li]:p-[10px] [&_li]:bg-[#1D1F1E] [&_li]:rounded-[10px]'>
             {isSuccess &&
-              data.map(({ id, rate, symbol }) => (
-                <li key={id}>
+              data.map(({  rate, symbol }, idx) => (
+                <li key={idx}>
                   {rate} {symbol}
                 </li>
               ))}

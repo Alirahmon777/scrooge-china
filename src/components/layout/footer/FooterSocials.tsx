@@ -11,8 +11,8 @@ const FooterSocials = () => {
       <h3 className='text-2xl font-bold text-nowrap'>Следите за нами</h3>
       <ul className='mt-5 flex gap-5 items-center'>
         {isSuccess &&
-          data.map(({ id, name, url }) => (
-            <li key={id}>
+          data.map(({ name, url }, idx) => (
+            <li key={idx}>
               <Link to={url ?? ''} target='_black'>
                 <img src={`/svgs/${name.toLowerCase()}.svg`} alt='social icon' />
               </Link>

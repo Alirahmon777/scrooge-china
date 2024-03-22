@@ -9,7 +9,8 @@ interface IProps {
 
 const PaymentInfo = ({ id }: IProps) => {
   const maxSm = useMediaQuery('not all and (min-width:640px)');
-  const { data, isSuccess } = useGetUserOrderWithIdQuery(id);
+
+  const { data, isSuccess } = useGetUserOrderWithIdQuery(id, { skip: !id });
 
   const { data: avatar } = useGetAvatarUrlQuery(data?.steam_id as string, { skip: !isSuccess });
   const { data: username } = useGetUsernameQuery(data?.steam_id as string, { skip: !isSuccess });

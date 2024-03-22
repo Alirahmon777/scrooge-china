@@ -58,6 +58,7 @@ const ModeratorChat = () => {
     <div
       className={cn('max-w-[564px] min-h-full', {
         'p-6 bg-header rounded-[10px]': notTable,
+        'w-full': !notTable,
       })}
       onKeyDown={handleKeyDown}
     >

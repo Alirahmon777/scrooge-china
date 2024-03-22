@@ -20,11 +20,16 @@ function App() {
     pollingInterval: 60000,
     refetchOnFocus: true,
   });
-  usePatchStatusQuery(undefined, { skip: !storedUser || !currentData, pollingInterval: 25000, refetchOnFocus: true });
+  const { refetch: refetchStatus } = usePatchStatusQuery(undefined, {
+    skip: !storedUser || !currentData,
+    pollingInterval: 25000,
+    refetchOnFocus: true,
+  });
 
   const checkUserToken = async () => {
     try {
       const user = await refetch().unwrap();
+      await refetchStatus().unwrap();
       if (!user) {
         dispatch(setUser({ user: null }));
         dispatch(setUserToken({ token: null }));

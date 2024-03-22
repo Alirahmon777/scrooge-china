@@ -18,7 +18,6 @@ const ReviewCard = ({ created_at, review, stars, starsIcons, steam_id }: IProps)
   const result = dateAgo({ created_at, lng: i18n.language });
   const { data: avatar } = useGetAvatarUrlQuery(steam_id);
   const { data: username } = useGetUsernameQuery(steam_id);
-  console.log(avatar);
 
   return (
     <li
