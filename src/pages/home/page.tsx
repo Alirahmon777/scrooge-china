@@ -21,7 +21,7 @@ const HomePage = () => {
   } = useTranslation();
   const { pathname } = useLocation();
   return (
-    <Seo home={`/${lng}`} ogURL={pathname} alternates={metaAlternates}>
+    <Seo home={`/${lng}`} ogURL={pathname} alternates={metaAlternates} hasChat>
       <Hero />
       <Info />
       {!mobile && <LiveRibbon />}

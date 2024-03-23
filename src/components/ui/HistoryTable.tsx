@@ -26,14 +26,15 @@ const HistoryTable = ({ className, requisites, items, ...props }: IProps) => {
         </tr>
       </thead>
       <tbody className='[&_td]:bg-[#1D1F1E]'>
-        {items.map(({ amount, created_at, id, payment_method, status, fixed_currency_rate }) => (
-          <tr>
+        {items.map(({ amount, created_at, id, payment_method, status, fixed_currency_rate, currency_symbol }, idx) => (
+          <tr key={idx}>
             <td className='py-3 pl-6 rounded-l-[10px]'>{id}</td>
-            <td className=''>{getFormatedDate(created_at)}</td>
+            <td className=''>{getFormatedDate(created_at, 'yyyy.MM.dd/HH:mm')}</td>
             <td className=''>{payment_method}</td>
             <td className={requisites ? requisites : 'text-center'}>2200 7009 3558 9290</td>
             <td className=''>
-              {amount} - {getAmount(amount, fixed_currency_rate)}₽
+              {amount}¥ - {getAmount(amount, fixed_currency_rate)}
+              {currency_symbol}
             </td>
             <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
               <img src={getStatus(status) == 'Отклонен' ? decline : success} alt='status:' />

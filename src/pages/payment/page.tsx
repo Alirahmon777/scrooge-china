@@ -106,7 +106,7 @@ const PaymentPage = () => {
   }, [orderWithId]);
 
   return (
-    <Seo metaTitle='Scrooge China - Пополнить'>
+    <Seo metaTitle='Scrooge China - Пополнить' hasChat>
       <section className='my-[55px] sm:mt-[66px] sm:mb-[200px]'>
         <div className='container'>
           {bigMobile && (

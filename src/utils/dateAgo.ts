@@ -19,6 +19,6 @@ export function convertTZ(date: string | Date, tzString: string) {
   return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', { timeZone: tzString }));
 }
 
-export const getFormatedDate = (value: string | number | Date) => {
-  return format(value, 'yyyy.MM.dd/HH:mm');
+export const getFormatedDate = (value: string | number | Date, formatDate: string) => {
+  return format(value, formatDate);
 };

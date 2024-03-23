@@ -53,6 +53,7 @@ export interface SeoProps extends IChildProps {
     href: string;
     hrefLang: string;
   }[];
+  hasChat?: boolean;
 }
 
 export interface ICurrencyRes {
@@ -173,4 +174,9 @@ export interface IHistoryMessage {
     },
     string[]
   ][];
+}
+
+export interface ITopUser {
+  steam_id: string;
+  amount: string;
 }

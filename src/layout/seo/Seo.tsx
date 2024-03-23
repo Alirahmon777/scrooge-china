@@ -15,6 +15,7 @@ const Seo: React.FC<SeoProps> = ({
   faviconPath = siteConfig.faviconPath,
   locale = siteConfig.metaData.locale,
   alternates,
+  hasChat,
 }) => {
   const {
     i18n: { language: lng },
@@ -78,6 +79,8 @@ const Seo: React.FC<SeoProps> = ({
         <meta name='twitter:image' content={ogImage} />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:description' content={metaDescription} />
+
+        {hasChat && <script src='//code.jivosite.com/widget/0GbKOqyDNC' async></script>}
       </Helmet>
       <>{children}</>
     </>

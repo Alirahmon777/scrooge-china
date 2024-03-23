@@ -6,7 +6,7 @@ interface IProps {
   ratings?: number;
 }
 
-const RatingsCard = ({ desc = '25000¥', title = 'Ник Нэйм', ratings }: IProps) => {
+const RatingsCard = ({ desc = '25000', title = 'Ник Нэйм', ratings }: IProps) => {
   return (
     <li className='bg-header px-4 mobile:px-6 rounded-[10px] relative'>
       {typeof ratings == 'number' && (
@@ -24,7 +24,7 @@ const RatingsCard = ({ desc = '25000¥', title = 'Ник Нэйм', ratings }: I
         <div className='text-start'>
           <h3 className='text-2xl font-bold'>{title}</h3>
           <p className='text-gray max-mobile:text-sm text-nowrap max-320:text-wrap'>
-            Пополнить buff.163: <span>{desc}</span>
+            Пополнить buff.163: <span>{desc}¥</span>
           </p>
         </div>
       </div>

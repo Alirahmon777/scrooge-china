@@ -34,18 +34,20 @@ const Layout = ({ hasChildren, children, flex }: IProps) => {
 
   const checkUserToken = async () => {
     try {
-      const user = await refetch().unwrap();
-      if (!user) {
-        dispatch(setUser({ user: null }));
-        dispatch(setUserToken({ token: null }));
-        handleUserLogout();
-        return;
+      if (profileData) {
+        const user = await refetch().unwrap();
+        if (!user) {
+          dispatch(setUser({ user: null }));
+          dispatch(setUserToken({ token: null }));
+          handleUserLogout();
+          return;
+        }
+        dispatch(
+          setUser({
+            user,
+          })
+        );
       }
-      dispatch(
-        setUser({
-          user,
-        })
-      );
     } catch (error) {
       handleError(error);
     }

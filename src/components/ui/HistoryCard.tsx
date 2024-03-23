@@ -1,33 +1,43 @@
-import { IHistory } from '@/types/interfaces';
+import {  IOrder } from '@/types/interfaces';
+import { getFormatedDate } from '@/utils/dateAgo';
+import { getAmount } from '@/utils/getAmount';
+import { getStatus } from '@/utils/getStatus';
 import declineIcon from '@svgs/layout/decline.svg';
 import successfullIcon from '@svgs/layout/successfull.svg';
 
-const HistoryCard = ({ amount, date_time, details, isSuccessfully, order_number, payment_method }: IHistory) => {
+interface IProps {
+  item: IOrder;
+}
+
+const HistoryCard = ({ item }: IProps) => {
+  const { id, created_at, amount, fixed_currency_rate, status, payment_method, currency_symbol } = item;
+  const activeStatus = getStatus(status);
+  const isSuccessfully = activeStatus == 'Успешно';
   return (
     <div className='flex max-mobile:flex-col max-mobile:gap-2 mobile:items-end justify-between py-[10px] px-[7px] sm:p-4 bg-[#151716] rounded-[10px]'>
       <div className='text-gray [&_span]:text-white'>
         <p>
-          Номер заказа: <span>{order_number}</span>
+          Номер заказа: <span>{id}</span>
         </p>
         <p>
-          Дата/Время: <span>{date_time}</span>
+          Дата/Время: <span>{getFormatedDate(created_at, 'yyyy-MM-dd HH:mm')}</span>
         </p>
         <p>
           Метод оплаты: <span>{payment_method}</span>
         </p>
         <p>
-          Реквизиты: <span>{details}</span>
+          Реквизиты: <span>{''}</span>
         </p>
         <p>
-          Сумма: <span>{amount}</span>
+          Сумма: <span>{`${amount}¥ ≈${getAmount(amount, fixed_currency_rate)}${currency_symbol}`}</span>
         </p>
       </div>
       <div className='flex gap-1 items-center'>
         <img
           src={isSuccessfully ? successfullIcon : declineIcon}
-          alt={isSuccessfully ? 'successful icon' : 'decline icon'}
+          alt={isSuccessfully ? 'successfull icon' : 'decline icon'}
         />
-        <p>{isSuccessfully ? 'Успешно' : 'Отклонен'}</p>
+        <p>{activeStatus}</p>
       </div>
     </div>
   );

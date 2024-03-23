@@ -2,6 +2,7 @@ import Icons from '@/components/Icons';
 import ReviewCard from '@/components/review/ReviewCard';
 import ReviewModal from '@/components/review/ReviewModal';
 import Button from '@/components/ui/Button';
+import Seo from '@/layout/seo/Seo';
 import { cn } from '@/lib/utils';
 import { useGetReviewsCountQuery, useGetReviewsQuery } from '@/redux/features/services/public/publicService';
 import { selectAuth } from '@/redux/features/slices/auth/authReducer';
@@ -48,7 +49,7 @@ const ReviewPage = () => {
   const starsIcons = [1, 2, 3, 4, 5];
 
   return (
-    <>
+    <Seo metaTitle='Scrooge China | Reviews' hasChat>
       <AnimatePresence>
         {open && <ReviewModal limit={pagination.limit} offset={pagination.offset} setShow={setOpen} />}
       </AnimatePresence>
@@ -107,7 +108,7 @@ const ReviewPage = () => {
           />
         </div>
       </section>
-    </>
+    </Seo>
   );
 };
 

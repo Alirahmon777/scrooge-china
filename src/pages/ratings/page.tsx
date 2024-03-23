@@ -1,42 +1,61 @@
 import RatingsCard from '@/components/ratings/RatingsCard';
 import Button from '@/components/ui/Button';
+import Seo from '@/layout/seo/Seo';
+import { useGetRatingQuery } from '@/redux/features/services/public/publicService';
+import { useState } from 'react';
+import { BeatLoader } from 'react-spinners';
 
 const RatingsPage = () => {
-  return (
-    <section className='mt-5 mb-10 lg:my-[60px] xl:my-[100px]'>
-      <div className='container text-center'>
-        <h2>Рейтинг Пользователей</h2>
-        <ul className='flex flex-wrap max-sm:[&_li]:flex-grow justify-center xl:grid xl:grid-cols-3 gap-5 my-10 mx-auto'>
-          {statistics.map(({ desc }, idx) => {
-            if (idx == 0 || idx == 1 || idx == 2) {
-              return <RatingsCard desc={desc} ratings={idx} key={idx} />;
-            }
-          })}
-        </ul>
-        <div className='h-[1px] w-full bg-[#1D1F1E]' />
-        <ul className='flex flex-wrap [&_li]:flex-grow sm:flex-grow-0 justify-center md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10 lg:mt-[50px]'>
-          {statistics.map(({ desc }, idx) => {
-            if (idx == 0 || idx == 1 || idx == 2) {
-              return;
-            }
-            return <RatingsCard desc={desc} key={idx} />;
-          })}
-        </ul>
+  const [pagination, setPagination] = useState({ offset: 0, limit: 9 });
+  const { data, isSuccess, isLoading } = useGetRatingQuery(
+    { limit: pagination.limit, offset: pagination.offset },
+    {
+      pollingInterval: 150000,
+    }
+  );
 
-        <Button
-          label='Загрузить ещё'
-          className='bg-header [&_p]:text-white py-[14px] px-6 mt-10 lg:mt-[100px] rounded-[10px] font-bold text-2xl mx-auto'
-        />
-      </div>
-    </section>
+  const handlePaginate = (limit: number) => {
+    if (isSuccess && data.length >= pagination.limit) {
+      setPagination((prev) => ({ ...prev, limit: prev.limit + limit }));
+    }
+  };
+  return (
+    <Seo metaTitle='Scrooge China | Top Users' hasChat>
+      <section className='mt-5 mb-10 lg:my-[60px] xl:my-[100px]'>
+        <div className='container text-center'>
+          <h2>Рейтинг Пользователей</h2>
+
+          <ul className='flex flex-wrap max-sm:[&_li]:flex-grow justify-center xl:grid xl:grid-cols-3 gap-5 my-10 mx-auto'>
+            {isSuccess &&
+              data.map(({ amount }, idx) => {
+                if (idx == 0 || idx == 1 || idx == 2) {
+                  return <RatingsCard desc={amount} ratings={idx} key={idx} />;
+                }
+              })}
+          </ul>
+
+          <div className='h-[1px] w-full bg-[#1D1F1E]' />
+          <ul className='flex flex-wrap [&_li]:flex-grow sm:flex-grow-0 justify-center md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10 lg:mt-[50px]'>
+            {isSuccess &&
+              data.map(({ amount }, idx) => {
+                if (idx == 0 || idx == 1 || idx == 2) {
+                  return;
+                }
+                return <RatingsCard desc={amount} key={idx} />;
+              })}
+          </ul>
+          <div>{isLoading && <BeatLoader color='#52EA73' />}</div>
+
+          <Button
+            label='Загрузить ещё'
+            onClick={() => handlePaginate(6)}
+            className='bg-header [&_p]:text-white py-[14px] px-6 mt-10 lg:mt-[100px] rounded-[10px] font-bold text-2xl mx-auto'
+          />
+        </div>
+      </section>
+    </Seo>
   );
 };
 
-const statistics = [
-  { desc: '100000¥', isBadge: true, badgeColor: 'bg-[#52EA73]', badgeContent: '1' },
-  { desc: '50000¥', isBadge: true, badgeColor: 'bg-[#BAEEEB]', badgeContent: '2' },
-  { desc: '25000¥', isBadge: true, badgeColor: 'bg-[#EA9252]', badgeContent: '3' },
-  ...new Array(6).fill({ desc: undefined }),
-];
 
 export default RatingsPage;

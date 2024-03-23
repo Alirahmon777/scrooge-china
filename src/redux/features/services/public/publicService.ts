@@ -3,7 +3,7 @@ import { cfg } from '@/config/site.config';
 import { TStoredUser } from '@/types/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IRecomVideoRes, IRequisitesRes, ISocialRes } from '@/admin/types/interfaces';
-import { ICurrencyRes, IPaginationReq, IReview, IRewiewCount } from '@/types/interfaces';
+import { ICurrencyRes, IPaginationReq, IReview, IRewiewCount, ITopUser } from '@/types/interfaces';
 
 export const publicService = createApi({
   reducerPath: 'publicApi',
@@ -42,8 +42,8 @@ export const publicService = createApi({
     getReviewsCount: builder.query<IRewiewCount, void>({
       query: () => `/review/count`,
     }),
-    getRating: builder.query({
-      query: () => '/user/top',
+    getRating: builder.query<ITopUser[], IPaginationReq>({
+      query: ({ offset, limit }) => `/user/top?offset=${offset}&limit=${limit}`,
     }),
     getCurrencyId: builder.query<ICurrencyRes, string>({
       query: (id) => `/currency/${id}`,
