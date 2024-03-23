@@ -22,4 +22,8 @@ const toastLoading = (message: string) => {
   });
 };
 
-export { toastError, toastSuccess, toastLoading };
+const toastCustom = (message: string) => {
+  return toast(message, { position: 'top-center' });
+};
+
+export { toastError, toastSuccess, toastLoading, toastCustom };

@@ -4,11 +4,13 @@ import ProfileLevel from '@/components/profile/ProfileLevel';
 import ProfileTrade from '@/components/profile/ProfileTrade';
 import HistoryCard from '@/components/ui/HistoryCard';
 import HistoryTable from '@/components/ui/HistoryTable';
+import { useGetUserOrderQuery } from '@/redux/features/services/user/userService';
 import { useMediaQuery } from 'usehooks-ts';
 
 const ProfilePage = () => {
   const maxSm = useMediaQuery('not all and (min-width: 640px)');
   const laptop = useMediaQuery('(min-width: 1024px)');
+  const { data, isSuccess } = useGetUserOrderQuery();
   return (
     <section className='my-10 tablet:my-[60px] profile'>
       <div className='container'>
@@ -30,8 +32,9 @@ const ProfilePage = () => {
               </p>
             </div>
           </div>
-          {laptop ? (
+          {isSuccess && laptop ? (
             <HistoryTable
+              items={data}
               className='[&_th]:py-[20px] [&_tbody]:before:content-[""] [&_tbody]:before:table-row'
               requisites='text-left'
             />

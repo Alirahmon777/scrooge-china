@@ -1,5 +1,7 @@
 import { $admin, $user } from '@/lib/axios';
 import { cn } from '@/lib/utils';
+import { selectAuth } from '@/redux/features/slices/auth/authReducer';
+import { useAppSelector } from '@/redux/hooks/hooks';
 import { handleSimpleError } from '@/utils/handleError';
 import { useEffect, useState } from 'react';
 
@@ -12,8 +14,9 @@ interface IProps {
   sender: string;
 }
 
-const Message = ({ content, isCurrentUser, currentMessageBg, img_id, chat_id, sender }: IProps) => {
+const Message = ({ content, isCurrentUser, currentMessageBg, img_id, sender }: IProps) => {
   const [img, setImg] = useState('');
+  const { admin_token, token } = useAppSelector(selectAuth);
 
   const getImg = async () => {
     try {
@@ -23,6 +26,7 @@ const Message = ({ content, isCurrentUser, currentMessageBg, img_id, chat_id, se
           responseType: 'blob',
           headers: {
             'Content-Type': 'image/*',
+            'X-AM-Authorization': `Bearer ${admin_token}`,
           },
         });
         const imageUrl = URL.createObjectURL(res.data);
@@ -34,6 +38,7 @@ const Message = ({ content, isCurrentUser, currentMessageBg, img_id, chat_id, se
           responseType: 'blob',
           headers: {
             'Content-Type': 'image/*',
+            'Authorization': `Bearer ${token}`,
           },
         });
         const imageUrl = URL.createObjectURL(res.data);
@@ -47,7 +52,7 @@ const Message = ({ content, isCurrentUser, currentMessageBg, img_id, chat_id, se
 
   useEffect(() => {
     getImg();
-  }, [img_id, chat_id]);
+  }, []);
 
   return (
     <div

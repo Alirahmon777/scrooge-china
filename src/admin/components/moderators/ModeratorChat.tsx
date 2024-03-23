@@ -9,14 +9,15 @@ import ModeratorChatEmpty from './ModeratorChatEmpty';
 import { IMessageBody } from '@/types/interfaces';
 import { Icons } from '../Icons';
 import { handleSimpleError } from '@/utils/handleError';
-import { useAddMessageMutation } from '@/redux/features/services/admin/moderatorService';
+import { useAddMessageMutation, useSuccessOrderMutation } from '@/redux/features/services/admin/moderatorService';
 import { ChatContext } from '@/admin/context/ChatContext';
-import { toastError } from '@/utils/toast/toast';
+import { toastError, toastSuccess } from '@/utils/toast/toast';
 
 const ModeratorChat = () => {
   const [form, setForm] = useState<IMessageBody>({ text: '', image: null });
   const { orderChat } = useContext(ChatContext);
   const [triger] = useAddMessageMutation();
+  const [successTriger] = useSuccessOrderMutation();
   const notTable = useMediaQuery('(min-width: 1024px)');
 
   if (!orderChat.isChat) {
@@ -54,6 +55,16 @@ const ModeratorChat = () => {
     }
   };
 
+  const handleSuccess = async () => {
+    try {
+      await successTriger(orderChat.order_id);
+
+      toastSuccess('заказ успешно совершен');
+    } catch (err) {
+      handleSimpleError(err);
+    }
+  };
+
   return (
     <div
       className={cn('max-w-[564px] min-h-full', {
@@ -66,10 +77,10 @@ const ModeratorChat = () => {
         <ModeratorChatInfo id={orderChat.order_id} />
         <div className='w-full h-[1px] bg-gray' />
         <ModeratorChatBody />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={cn({ 'pointer-events-none': orderChat.status != '"Created"' })}>
           <div className='flex bg-[#1d1f1e] items-center rounded-[10px] px-5'>
             <textarea
-              placeholder='Напишите сообщение...'
+              placeholder={orderChat.status == '"Created"' ? 'Напишите сообщение...' : 'чат завершён'}
               cols={30}
               rows={10}
               value={form.text}
@@ -96,7 +107,12 @@ const ModeratorChat = () => {
             </div>
           </div>
         </form>
-        <Button label='Перевод совершён закрыть чат с покупателем' className='justify-center' variant='admin' />
+        <Button
+          label='Перевод совершён закрыть чат с покупателем'
+          onClick={handleSuccess}
+          className='justify-center'
+          variant='admin'
+        />
       </div>
     </div>
   );

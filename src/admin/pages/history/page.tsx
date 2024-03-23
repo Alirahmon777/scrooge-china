@@ -1,11 +1,35 @@
 import HistoryTable from '@/components/ui/HistoryTable';
+import { useGetHistoryMutation } from '@/redux/features/services/admin/adminService';
+import { IOrder } from '@/types/interfaces';
+import { handleSimpleError } from '@/utils/handleError';
+import { subYears } from 'date-fns';
+import { useEffect, useState } from 'react';
 
 const HistoryOrdersPage = () => {
-  return (
-    <section className='my-[45px] pr-[32px]'>
-      <HistoryTable />
-    </section>
-  );
+  const date = subYears(new Date(), 100);
+  const isoStringWithoutTimezone = date.toISOString().slice(0, -1);
+
+  const [getHistory, isSuccess] = useGetHistoryMutation();
+
+  const [data, setData] = useState<IOrder[]>([]);
+
+  useEffect(() => {
+    (async function fetchData() {
+      try {
+        const data = await getHistory({
+          start_datetime: isoStringWithoutTimezone,
+          end_datetime: new Date().toISOString().slice(0, -1),
+        }).unwrap();
+        if (isSuccess) {
+          setData(data);
+        }
+      } catch (err) {
+        handleSimpleError(err);
+      }
+    })();
+  }, []);
+
+  return <section className='my-[45px] pr-[32px]'>{isSuccess && <HistoryTable items={data} />}</section>;
 };
 
 export default HistoryOrdersPage;

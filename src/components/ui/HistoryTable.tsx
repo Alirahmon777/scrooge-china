@@ -1,13 +1,18 @@
 import { cn } from '@/lib/utils';
+import { IOrder } from '@/types/interfaces';
+import { getFormatedDate } from '@/utils/dateAgo';
+import { getAmount } from '@/utils/getAmount';
+import { getStatus } from '@/utils/getStatus';
 import decline from '@svgs/layout/decline.svg';
 import success from '@svgs/layout/successfull.svg';
 import { HTMLAttributes } from 'react';
 
 interface IProps extends HTMLAttributes<HTMLTableElement> {
   requisites?: string;
+  items: IOrder[];
 }
 
-const HistoryTable = ({ className, requisites, ...props }: IProps) => {
+const HistoryTable = ({ className, requisites, items, ...props }: IProps) => {
   return (
     <table className={cn('w-full border-separate border-spacing-y-5', className)} {...props}>
       <thead className='text-gray'>
@@ -21,28 +26,21 @@ const HistoryTable = ({ className, requisites, ...props }: IProps) => {
         </tr>
       </thead>
       <tbody className='[&_td]:bg-[#1D1F1E]'>
-        <tr>
-          <td className='py-3 pl-6 rounded-l-[10px]'>14</td>
-          <td className=''>2024.01.17/00:00</td>
-          <td className=''>Tinkoff</td>
-          <td className={requisites ? requisites : 'text-center'}>2200 7009 3558 9290</td>
-          <td className=''>1000¥ - 13000₽</td>
-          <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
-            <img src={decline} alt='' />
-            Отклонен
-          </td>
-        </tr>
-        <tr>
-          <td className='py-3 pl-6 rounded-l-[10px]'>13</td>
-          <td className=''>2024.01.17/00:00</td>
-          <td className=''>Tinkoff</td>
-          <td className={requisites ? requisites : 'text-center'}>2200 7009 3558 9290</td>
-          <td className=''>1000¥ - 13000₽</td>
-          <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
-            <img src={success} alt='' />
-            Успешно
-          </td>
-        </tr>
+        {items.map(({ amount, created_at, id, payment_method, status, fixed_currency_rate }) => (
+          <tr>
+            <td className='py-3 pl-6 rounded-l-[10px]'>{id}</td>
+            <td className=''>{getFormatedDate(created_at)}</td>
+            <td className=''>{payment_method}</td>
+            <td className={requisites ? requisites : 'text-center'}>2200 7009 3558 9290</td>
+            <td className=''>
+              {amount} - {getAmount(amount, fixed_currency_rate)}₽
+            </td>
+            <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
+              <img src={getStatus(status) == 'Отклонен' ? decline : success} alt='status:' />
+              {getStatus(status)}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

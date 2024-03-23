@@ -31,9 +31,13 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
   const handleSubmit = async (e: FormEvent) => {
+    if (!form.payment_method || !form.amount) {
+      toastError('credentials required!');
+      return;
+    }
     e.preventDefault();
     try {
-      if (!orderChat.moderator_id) {
+      if (!orderChat.order_id) {
         const order = await addOrder({ ...form, currency: isSuccess ? data?.symbol : '' }).unwrap();
         createChat(order.id, order.status, order.moderator_id);
         return;

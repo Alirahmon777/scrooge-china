@@ -6,23 +6,29 @@ import { useMediaQuery } from 'usehooks-ts';
 import { cn } from '@/lib/utils';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import PaymentChatEmpty from './PaymentChatEmpty';
-import { ChatContextUser } from '@/context/ChatContext';
+import { ChatContextUser, initialOrderChat } from '@/context/ChatContext';
 import { IMessageBody } from '@/types/interfaces';
-import { toastError } from '@/utils/toast/toast';
-import { useAddMessageMutation } from '@/redux/features/services/user/userService';
+import { toastError, toastSuccess } from '@/utils/toast/toast';
+import { useAddMessageMutation, useCancelOrderMutation } from '@/redux/features/services/user/userService';
 import { handleSimpleError } from '@/utils/handleError';
 import { Icons } from '@/admin/components/Icons';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { selectCurrentUser } from '@/redux/features/slices/auth/authReducer';
+import { useTranslation } from 'react-i18next';
+import PaymentChatSuccess from './PaymentChatSuccess';
 
 const PaymentChat = () => {
   const [form, setForm] = useState<IMessageBody>({ text: '' });
   const user = useAppSelector(selectCurrentUser);
-  const { orderChat } = useContext(ChatContextUser);
+  const { orderChat, setOrderChat } = useContext(ChatContextUser);
+  const {
+    i18n: { language },
+  } = useTranslation();
   const notTablet = useMediaQuery('(min-width: 1024px)');
+  const [cancelTrigger] = useCancelOrderMutation();
   const [triger] = useAddMessageMutation();
 
-  if ((!orderChat.isChat && !user) || (!user && orderChat.isChat) || (user && !orderChat.isChat)) {
+  if (!orderChat.isChat || (!user && orderChat.isChat) || orderChat.status == '"Cancelled"') {
     return <PaymentChatEmpty />;
   }
 
@@ -57,14 +63,36 @@ const PaymentChat = () => {
     }
   };
 
+  const getSuccessText = () => {
+    if (language == 'en') return "I made a transfer, I'm waiting for yuan";
+    return 'Я сделал перевод, жду юани';
+  };
+
+  const handleCancel = async () => {
+    try {
+      await cancelTrigger(orderChat.order_id);
+      localStorage.removeItem('user-last-order-chat');
+      setOrderChat(initialOrderChat);
+      toastSuccess('заказ успешно отменен!');
+    } catch (error) {
+      handleSimpleError(error);
+    }
+  };
+
+  const handleSuccess = async () => {
+    await triger({ id: orderChat.chat_id, text: getSuccessText() });
+  };
+
   return (
     <div
-      className={cn('max-w-[564px] min-h-full', {
+      className={cn('max-w-[564px] min-h-full relative overflow-hidden', {
         'p-6 xl:p-6 xl:pb-[38px] bg-header rounded-[10px]': notTablet,
         'w-full': !notTablet,
       })}
       onKeyDown={handleKeyDown}
     >
+    {orderChat.status == '"Succeeded"' && <PaymentChatSuccess />}
+
       <div className='flex flex-col gap-5 h-full'>
         <PaymentInfo id={orderChat.order_id} />
         <div className='w-full h-[1px] bg-gray' />
@@ -99,8 +127,8 @@ const PaymentChat = () => {
           </div>
         </form>
         <div className='flex gap-2 mobile:gap-4 max-320:[&_button]:font-medium items-center'>
-          <Button label='Отменить заказ' variant='outline' />
-          <Button label='Оплачено' className='w-full py-[10px] rounded-[10px] justify-center' />
+          <Button label='Отменить заказ' variant='outline' onClick={handleCancel} />
+          <Button label='Оплачено' className='w-full py-[10px] rounded-[10px] justify-center' onClick={handleSuccess} />
         </div>
       </div>
     </div>

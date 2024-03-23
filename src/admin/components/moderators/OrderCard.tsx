@@ -1,17 +1,16 @@
+import { ChatContext } from '@/admin/context/ChatContext';
 import Button from '@/components/ui/Button';
-import {
-  useAssignOrderMutation,
-  useCreateOrPatchChatMutation,
-  useLazyGetModeratorOrderQuery,
-} from '@/redux/features/services/admin/moderatorService';
+import { useAssignOrderMutation, useCreateOrPatchChatMutation } from '@/redux/features/services/admin/moderatorService';
 import { useGetAvatarUrlQuery, useGetUsernameQuery } from '@/redux/features/services/public/publicService';
 import { IOrder } from '@/types/interfaces';
 import { TStoreOrderModerator } from '@/types/types';
 import { dateAgo } from '@/utils/dateAgo';
 import { handleSimpleError } from '@/utils/handleError';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'usehooks-ts';
+import { cn } from '@/lib/utils';
+import { getStatus } from '@/utils/getStatus';
 
 interface IProps {
   item: IOrder;
@@ -21,10 +20,10 @@ interface IProps {
 
 const OrderCard = ({ item, setChat, isAssign }: IProps) => {
   const { created_at, payment_method, amount, steam_id, id, status } = item;
+  const { orderChat } = useContext(ChatContext);
   const result = dateAgo({ created_at, lng: 'ru' });
   const navigate = useNavigate();
   const [assignOrder] = useAssignOrderMutation();
-  const [getOrder] = useLazyGetModeratorOrderQuery();
   const [createChat] = useCreateOrPatchChatMutation();
   const { data: avatar } = useGetAvatarUrlQuery(steam_id);
   const { data: username } = useGetUsernameQuery(steam_id);
@@ -47,7 +46,6 @@ const OrderCard = ({ item, setChat, isAssign }: IProps) => {
   const handleAssign = async () => {
     try {
       await assignOrder({ order_id: id }).unwrap();
-      await getOrder();
       navigate('/moderator');
     } catch (error) {
       handleSimpleError(error);
@@ -55,7 +53,11 @@ const OrderCard = ({ item, setChat, isAssign }: IProps) => {
   };
 
   return (
-    <div className='px-[6px] py-[10px] lg:p-6 gap-2 bg-header rounded-[10px] flex items-center justify-between'>
+    <div
+      className={cn('px-[6px] py-[10px] lg:p-6 gap-2 bg-header rounded-[10px] flex  justify-between', {
+        'bg-[#1D1F1E]': orderChat.order_id == id,
+      })}
+    >
       <div className='flex gap-[10px]'>
         {avatar && (
           <div className='min-max-60 sm:min-max-80 rounded-[10px] overflow-hidden'>
@@ -65,7 +67,11 @@ const OrderCard = ({ item, setChat, isAssign }: IProps) => {
         {!avatar && <span className='min-max-60 sm:min-max-80 rounded-[10px] bg-[#D9D9D9]' />}
         <div className='text-gray'>
           <div className='flex items-center gap-[5px]'>
-            <span className='w-[10px] h-[10px] bg-success rounded-full' />
+            <span
+              className={cn('w-[10px] h-[10px] bg-success rounded-full', {
+                'bg-admin': status == '"Cancelled"',
+              })}
+            />
             <p className='text-xs'>{result}</p>
           </div>
           <h3 className='my-[5px] lg:text-2xl text-white font-medium'>{username || 'User'}</h3>
@@ -74,12 +80,21 @@ const OrderCard = ({ item, setChat, isAssign }: IProps) => {
           </p>
         </div>
       </div>
-      <Button
-        variant='admin'
-        className='px-2 min-w-[76px]'
-        label='К заказу'
-        onClick={!isAssign ? () => handleCreate() : () => handleAssign()}
-      />
+      <div className='flex flex-col justify-between items-center'>
+        <span
+          className={cn('text-success', {
+            'text-admin': status == '"Cancelled"',
+          })}
+        >
+          {getStatus(status)}
+        </span>
+        <Button
+          variant='admin'
+          className='px-2 min-w-[76px]'
+          label='К заказу'
+          onClick={!isAssign ? () => handleCreate() : () => handleAssign()}
+        />
+      </div>
     </div>
   );
 };

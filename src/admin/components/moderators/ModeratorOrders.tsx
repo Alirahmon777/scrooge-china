@@ -5,7 +5,7 @@ import { TStoredAdmin } from '@/admin/types/types';
 import { ChatContext } from '@/admin/context/ChatContext';
 
 const ModeratorOrders = () => {
-  const { data, isSuccess } = useGetModeratorOrderQuery();
+  const { data, isSuccess } = useGetModeratorOrderQuery(undefined, { pollingInterval: 30000 });
   const storedAdmin = localStorage.getItem('admin');
   const { setOrderChat } = useContext(ChatContext);
   const adminLocal: TStoredAdmin = storedAdmin ? JSON.parse(storedAdmin) : null;

@@ -1,7 +1,7 @@
-import { IAdmin } from '@/types/interfaces';
+import { IAdmin, IOrder } from '@/types/interfaces';
 import { setAdmin } from '../../slices/auth/authReducer';
 import { adminBasicService } from '../../basics/adminService';
-import { IChangePassBody, ILoginData, IModeratorRes } from '@/admin/types/interfaces';
+import { IChangePassBody, ILoginData, IModeratorRes, IQueryStartEndTime } from '@/admin/types/interfaces';
 
 export const adminService = adminBasicService
   .enhanceEndpoints({ addTagTypes: ['MODERATOR'], endpoints: () => {} })
@@ -18,6 +18,15 @@ export const adminService = adminBasicService
           }
         },
       }),
+
+      getHistory: builder.mutation<IOrder[], IQueryStartEndTime>({
+        query: (body) => ({
+          url: `/admin/order/all-in-period`,
+          method: 'POST',
+          body,
+        }),
+      }),
+
       getModerators: builder.query<IModeratorRes[], void>({
         query: () => '/admin/moderator',
         providesTags: ['MODERATOR'],
@@ -54,6 +63,7 @@ export const adminService = adminBasicService
 export const {
   useGetSelfQuery,
   useLazyGetSelfQuery,
+  useGetHistoryMutation,
   useGetModeratorsQuery,
   useAddModeratorMutation,
   useDeleteModeratorMutation,

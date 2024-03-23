@@ -2,12 +2,16 @@ import PaymentCard from '@/components/payment/PaymentCard';
 import PaymentChat from '@/components/payment/PaymentChat';
 import { ChatContextUser, initialOrderChat } from '@/context/ChatContext';
 import Seo from '@/layout/seo/Seo';
-import { useCreateOrPatchChatMutation, useGetUserOrderWithIdQuery } from '@/redux/features/services/user/userService';
+import {
+  useCreateOrPatchChatMutation,
+  useGetUserOrderQuery,
+  useGetUserOrderWithIdQuery,
+} from '@/redux/features/services/user/userService';
 import { selectCurrentUser } from '@/redux/features/slices/auth/authReducer';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { TStoreOrderUser } from '@/types/types';
 import { handleSimpleError } from '@/utils/handleError';
-import { toastSuccess } from '@/utils/toast/toast';
+import { toastCustom, toastSuccess } from '@/utils/toast/toast';
 import { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -18,9 +22,21 @@ const PaymentPage = () => {
   const user = useAppSelector(selectCurrentUser);
   const bigMobile = useMediaQuery('(min-width: 560px)');
   const { orderChat, setOrderChat } = useContext(ChatContextUser);
-  const { data: order, isSuccess } = useGetUserOrderWithIdQuery(orderChat.order_id, {
+  const { data: order, isSuccess } = useGetUserOrderQuery(undefined, {
     skip: !user?.steam_id,
+    selectFromResult: ({ data, isSuccess }) => {
+      return {
+        data: data?.filter((order) => order.moderator_id && order.status == '"Created"').at(-1),
+        isSuccess,
+      };
+    },
   });
+  const { data: orderWithId, isSuccess: orderWithIdSuccess } = useGetUserOrderWithIdQuery(orderChat.order_id, {
+    skip: !orderChat.order_id,
+    pollingInterval: 25000,
+    refetchOnFocus: true,
+  });
+
   const [addChat] = useCreateOrPatchChatMutation();
 
   const {
@@ -34,7 +50,7 @@ const PaymentPage = () => {
   };
 
   const createChat = async (order_id?: string, status?: string, moderator_id?: string) => {
-    if (!order_id || !status || !moderator_id) {
+    if (!order_id || !status) {
       setOrderChat(initialOrderChat);
       return;
     }
@@ -63,17 +79,31 @@ const PaymentPage = () => {
   };
 
   useEffect(() => {
-    (() => {
-      if (!user) {
-        setOrderChat(initialOrderChat);
-        return;
-      }
-      if (isSuccess) {
-        if (!order) return;
-        createChat(order?.id, order?.status, order?.moderator_id);
-      }
-    })();
+    if (isSuccess) {
+      if (!order) return;
+      createChat(order?.id, order?.status, order?.moderator_id);
+    }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (!user) {
+      setOrderChat(initialOrderChat);
+    }
+    if (orderChat.status == '"Cancelled"') {
+      setOrderChat(initialOrderChat);
+      localStorage.removeItem('user-last-order-chat');
+      toastCustom('этот заказ был отменен');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (orderWithIdSuccess) {
+      setOrderChat((prev) => {
+        if (!orderWithId?.status || !orderWithId?.moderator_id) return { ...prev };
+        return { ...prev, status: orderWithId.status, moderator_id: orderWithId.moderator_id };
+      });
+    }
+  }, [orderWithId]);
 
   return (
     <Seo metaTitle='Scrooge China - Пополнить'>

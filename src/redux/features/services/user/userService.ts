@@ -62,6 +62,12 @@ export const userService = userBasicQuery.injectEndpoints({
         body,
       }),
     }),
+    cancelOrder: builder.mutation<void, string>({
+      query: (id) => ({
+        method: 'PATCH',
+        url: `/user/order/${id}/cancel`,
+      })
+    }),
 
     //profile
     changeEmail: builder.mutation<void, IChangeEmail>({
@@ -109,6 +115,7 @@ export const {
   useGetUserOrderQuery,
   useGetUserOrderWithIdQuery,
   useAddUserOrderMutation,
+  useCancelOrderMutation,
 
   //review
   useAddReviewMutation,
