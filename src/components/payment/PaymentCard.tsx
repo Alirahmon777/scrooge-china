@@ -12,6 +12,7 @@ import { useGetCurrencyIdQuery } from '@/redux/features/services/public/publicSe
 import { currencies } from '../layout/header/header-data';
 import { ChatContextUser } from '@/context/ChatContext';
 import { toastError } from '@/utils/toast/toast';
+import { selectAuth } from '@/redux/features/slices/auth/authReducer';
 
 interface IProps {
   handleRedirect: () => void;
@@ -21,6 +22,7 @@ interface IProps {
 const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
   const notTablet = useMediaQuery('(min-width: 1024px)');
   const currency = useAppSelector(selectCurrency);
+  const { user, token } = useAppSelector(selectAuth);
   const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as string);
   const initialForm: IOrderBody = { payment_method: '', amount: '', currency: isSuccess ? data?.symbol : '' };
   const [form, setForm] = useState(initialForm);
@@ -31,11 +33,18 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
   const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!user || !token) {
+      toastError('Войдите в аккаунт, чтобы создать заказ');
+      return;
+    }
+
     if (!form.payment_method || !form.amount) {
       toastError('credentials required!');
       return;
     }
-    e.preventDefault();
+
     try {
       if (!orderChat.order_id) {
         const order = await addOrder({ ...form, currency: isSuccess ? data?.symbol : '' }).unwrap();

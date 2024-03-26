@@ -55,7 +55,7 @@ const ReviewCard = ({ created_at, review, stars, starsIcons, steam_id }: IProps)
             </div>
           </>
         )}
-        <p>{review}</p>
+        <p className='line-clamp truncate whitespace-pre-wrap line-clamp-4'>{review}</p>
       </div>
       <div className='flex items-center gap-[1px]'>
         {!notMobile &&

@@ -9,12 +9,15 @@ import { selectAuth } from '@/redux/features/slices/auth/authReducer';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useLockedBody, useMediaQuery } from 'usehooks-ts';
 
 const ReviewPage = () => {
   const auth = useAppSelector(selectAuth);
   const [pagination, setPagination] = useState({ offset: 0, limit: 6 });
-  const [open, setOpen] = useState(false);
+  const [queryParam] = useSearchParams();
+  const openModal = !!auth.user && !!auth.token && queryParam.get('modal') == 'true';
+  const [open, setOpen] = useState(openModal);
   const notMobile = useMediaQuery('(min-width: 425px)');
   const { data, isSuccess } = useGetReviewsQuery(
     { limit: pagination.limit, offset: pagination.offset },

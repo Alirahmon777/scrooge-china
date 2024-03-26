@@ -1,5 +1,6 @@
 import LoginModal from '@/admin/components/LoginModal';
 import { ILoginData } from '@/admin/types/interfaces';
+import Seo from '@/layout/seo/Seo';
 import { useLazyGetSelfQuery } from '@/redux/features/services/admin/adminService';
 import { useLoginAdminMutation } from '@/redux/features/services/auth/authService';
 import { isError } from '@/utils/isError';
@@ -73,14 +74,16 @@ const Login = () => {
   }, []);
 
   return (
-    <LoginModal
-      form={formState}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      labelAddBtn={'Войти'}
-      title='Войти'
-    />
+    <Seo faviconPath='favicon/admin'>
+      <LoginModal
+        form={formState}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        isLoading={isLoading}
+        labelAddBtn={'Войти'}
+        title='Войти'
+      />
+    </Seo>
   );
 };
 

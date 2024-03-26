@@ -6,19 +6,18 @@ import { IInfoTabs } from '@/admin/types/interfaces';
 import { cn } from '@/lib/utils';
 import { TMonthWeekDay } from '@/admin/types/types';
 import { useGetAmountUsersQuery } from '@/redux/features/services/admin/adminSettings';
-import { subYears } from 'date-fns';
+import { getActiveTimeByString } from '@/utils/getActiveTime';
 interface IProps {
   activeTab: TMonthWeekDay;
   setActiveTab: React.Dispatch<React.SetStateAction<TMonthWeekDay>>;
 }
 
 const Info = ({ activeTab, setActiveTab }: IProps) => {
-  const date = subYears(new Date(), 100);
-  const isoStringWithoutTimezone = date.toISOString().slice(0, -1);
+  const isoStringWithoutTimezone = getActiveTimeByString(activeTab).toISOString().slice(0, -5);  
 
   const { data } = useGetAmountUsersQuery({
     start_datetime: isoStringWithoutTimezone,
-    end_datetime: new Date().toISOString().slice(0, -1),
+    end_datetime: new Date().toISOString().slice(0, -5),
   });
 
   return (

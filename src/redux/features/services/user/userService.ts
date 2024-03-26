@@ -37,7 +37,7 @@ export const userService = userBasicQuery.injectEndpoints({
         }
       },
     }),
-    patchStatus: builder.query<void, void>({
+    patchStatus: builder.mutation<void, void>({
       query: () => ({ url: '/status/user', method: 'PATCH' }),
     }),
 
@@ -110,7 +110,7 @@ export const {
   useGetProfileQuery,
   useLazyGetProfileQuery,
   usePrefetch: useUserRefetch,
-  usePatchStatusQuery,
+  usePatchStatusMutation,
   //orders
   useGetUserOrderQuery,
   useGetUserOrderWithIdQuery,
