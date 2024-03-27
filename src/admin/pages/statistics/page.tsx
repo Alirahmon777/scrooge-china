@@ -3,7 +3,6 @@ import Info from '@/admin/components/statistics/Info';
 import { charts } from '@/admin/static/statistics-data';
 import { TMonthWeekDay } from '@/admin/types/types';
 import { useState } from 'react';
-
 const StatisticsPage = () => {
   const [activeTab, setActiveTab] = useState<TMonthWeekDay>('month');
 

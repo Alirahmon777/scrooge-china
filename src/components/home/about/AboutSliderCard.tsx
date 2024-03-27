@@ -17,7 +17,7 @@ const AboutSliderCard = ({ review, steam_id }: IReview) => {
           </div>
           <div className='flex-col justify-start items-start gap-2.5 inline-flex mt-4'>
             <h4 className='text-white text-base font-bold'>{username || 'НИК НЭЙМ'}</h4>
-            <p className='text-neutral-500 text-base font-normal whitespace-pre-wrap truncate w-[220px]'>{review}</p>
+            <p className='text-neutral-500 text-base font-normal line-clamp-3 w-[220px]'>{review}</p>
           </div>
         </div>
         <div className='items-center gap-2.5 flex'>

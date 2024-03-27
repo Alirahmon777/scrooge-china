@@ -1,14 +1,45 @@
-import { IExchangeChartCategories, IExchangeChartOptions } from '../types/interfaces';
+import { setDate, setHours, subDays, subMonths } from 'date-fns';
+import { IExchangeChartCategories, IExchangeChartData, IExchangeChartOptions } from '../types/interfaces';
+
+const getMonth = () => {
+  const months = [];
+  for (let i = 0; i < 12; i++) {
+    const month = subMonths(new Date(), i);
+    const firstDayOfMonth = setDate(month, 1);
+    months.push(firstDayOfMonth);
+  }
+  return months.reverse();
+};
+
+const getDay = () => {
+  const days = [];
+  for (let i = 0; i < 7; i++) {
+    days.push(subDays(new Date().setHours(0, 0, 0, 0), i));
+  }
+  return days.reverse();
+};
+
+const getTimesForToday = () => {
+  const times = [];
+  const currentDate = new Date().setHours(0, 0, 0, 0);
+
+  for (let i = 0; i <= 22; i += 2) {
+    const time = setHours(currentDate, i);
+    times.push(time);
+  }
+
+  return times;
+};
 
 const xaxis = {
   categories: {
-    month: ['ЯНВ', 'ФЕВР', 'МАРТ', 'АПР', 'МАЙ', 'ИЮНЬ', 'ИЮЛЬ', 'АВГ', 'СЕНТ', 'ОКТ', 'НОЯБ', 'ДЕК'],
-    week: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
-    day: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00', '00:00', '02:00', '04:00'],
-  },
+    month: getMonth(),
+    week: getDay(),
+    day: getTimesForToday(),
+  } as IExchangeChartCategories,
 };
 
-const static_char_data: IExchangeChartCategories = {
+const static_char_data: IExchangeChartData = {
   month: ['¥200', '¥380', '¥460', '¥300', '¥210', '¥530', '¥600', '¥700', '¥500', '¥300', '¥400', '¥500'],
   week: ['¥400', '¥210', '¥360', '¥100', '¥610', '¥430', '¥160'],
   day: ['¥300', '¥180', '¥420', '¥400', '¥110', '¥610', '¥340', '¥233', '¥124', '¥452', '¥342', '¥653'],

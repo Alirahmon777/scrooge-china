@@ -1,4 +1,4 @@
-import { StringOrNumberArray } from '@/types/types';
+import { StringOrDateArray, StringOrNumberArray } from '@/types/types';
 import React, { HTMLAttributes } from 'react';
 import { TMonthWeekDay } from './types';
 
@@ -20,11 +20,11 @@ export interface IInfoTabs {
 
 export interface IExchangeChartOptions {
   title: string;
-  xaxis?: {
+  xaxis: {
     categories: IExchangeChartCategories;
   };
   yaxis?: IYaxisOption;
-  data: { categories: IExchangeChartCategories };
+  data: { categories: IExchangeChartData };
   chartColor?: string;
 }
 
@@ -34,6 +34,12 @@ export interface IYaxisOption {
 }
 
 export interface IExchangeChartCategories {
+  month: StringOrDateArray;
+  week: StringOrDateArray;
+  day: StringOrDateArray;
+}
+
+export interface IExchangeChartData {
   month: StringOrNumberArray;
   week: StringOrNumberArray;
   day: StringOrNumberArray;
