@@ -80,7 +80,7 @@ const Seo: React.FC<SeoProps> = ({
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:description' content={metaDescription} />
 
-        {/* {hasChat && <script src='//code.jivosite.com/widget/0GbKOqyDNC' async></script>} */}
+        {hasChat && <script src='//code.jivosite.com/widget/0GbKOqyDNC' async></script>}
       </Helmet>
       <>{children}</>
     </>
