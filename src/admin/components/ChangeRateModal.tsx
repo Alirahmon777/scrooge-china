@@ -9,7 +9,12 @@ interface IProps {
 }
 
 const ChangeRateModal = ({ isLoading, title, handleClose }: IProps) => {
-  const { data, isSuccess } = useGetCurrencyQuery();
+  const { data, isSuccess } = useGetCurrencyQuery(undefined, {
+    selectFromResult: ({ data, isSuccess }) => ({
+      data: data ? [...data].sort((a, b) => +a.id - +b.id) : [],
+      isSuccess,
+    }),
+  });
 
   return (
     <div

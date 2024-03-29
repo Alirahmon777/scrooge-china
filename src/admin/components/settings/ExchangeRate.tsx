@@ -5,7 +5,13 @@ import ChangeRateModal from '../ChangeRateModal';
 import { useLockedBody } from 'usehooks-ts';
 
 const ExchangeRate = () => {
-  const { data, isSuccess } = useGetCurrencyQuery();
+  const { data, isSuccess } = useGetCurrencyQuery(undefined, {
+    selectFromResult: ({ data, isSuccess }) => ({
+      data: data ? [...data].sort((a, b) => +a.id - +b.id) : [],
+      isSuccess,
+    }),
+  });
+
   const [showModal, setShowModal] = useState(false);
 
   const [_, setlocked] = useLockedBody(false, 'root');
@@ -24,7 +30,7 @@ const ExchangeRate = () => {
           <p className='text-gray mb-[10px]'>Курс 1¥</p>
           <ul className='grid grid-cols-[150px,150px,150px,120px] items-center gap-5 [&_li]:p-[10px] [&_li]:bg-[#1D1F1E] [&_li]:rounded-[10px]'>
             {isSuccess &&
-              data.map(({  rate, symbol }, idx) => (
+              data?.map(({ rate, symbol }, idx) => (
                 <li key={idx}>
                   {rate} {symbol}
                 </li>
