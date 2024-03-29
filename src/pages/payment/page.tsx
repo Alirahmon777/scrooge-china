@@ -31,7 +31,11 @@ const PaymentPage = () => {
       };
     },
   });
-  const { data: orderWithId, isSuccess: orderWithIdSuccess } = useGetUserOrderWithIdQuery(orderChat.order_id, {
+  const {
+    data: orderWithId,
+    isSuccess: orderWithIdSuccess,
+    isError,
+  } = useGetUserOrderWithIdQuery(orderChat.order_id, {
     skip: !orderChat.order_id,
     pollingInterval: 25000,
     refetchOnFocus: true,
@@ -59,7 +63,7 @@ const PaymentPage = () => {
         toastSuccess('Ваш заказ в ожидании');
         return;
       }
-      const chat = await addChat({ id: moderator_id }).unwrap();
+      const chat = await addChat({ id: moderator_id, order_id }).unwrap();
       let chatInfo: TStoreOrderUser = {
         isChat: true,
         order_id,
@@ -80,7 +84,9 @@ const PaymentPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      if (!order) return;
+      if (!order) {
+        return;
+      }
       createChat(order?.id, order?.status, order?.moderator_id);
     }
   }, [isSuccess]);
@@ -88,6 +94,7 @@ const PaymentPage = () => {
   useEffect(() => {
     if (!user) {
       setOrderChat(initialOrderChat);
+      return;
     }
     if (orderChat.status == '"Cancelled"') {
       setOrderChat(initialOrderChat);
@@ -98,12 +105,22 @@ const PaymentPage = () => {
 
   useEffect(() => {
     if (orderWithIdSuccess) {
+      if (!orderWithId) {
+        setOrderChat(initialOrderChat);
+        localStorage.removeItem('user-last-order-chat');
+        return;
+      }
       setOrderChat((prev) => {
         if (!orderWithId?.status || !orderWithId?.moderator_id) return { ...prev };
         return { ...prev, status: orderWithId.status, moderator_id: orderWithId.moderator_id };
       });
     }
-  }, [orderWithId]);
+    if (isError && !orderWithId) {
+      setOrderChat(initialOrderChat);
+      localStorage.removeItem('user-last-order-chat');
+      return;
+    }
+  }, [orderWithIdSuccess, isError]);
 
   return (
     <Seo metaTitle='Scrooge China - Пополнить' hasChat>

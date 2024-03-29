@@ -27,9 +27,9 @@ const RatingsPage = () => {
 
           <ul className='flex flex-wrap max-sm:[&_li]:flex-grow justify-center xl:grid xl:grid-cols-3 gap-5 my-10 mx-auto'>
             {isSuccess &&
-              data.map(({ amount }, idx) => {
+              data.map(({ amount, steam_id }, idx) => {
                 if (idx == 0 || idx == 1 || idx == 2) {
-                  return <RatingsCard desc={amount} ratings={idx} key={idx} />;
+                  return <RatingsCard desc={amount} steam_id={steam_id} ratings={idx} key={idx} />;
                 }
               })}
           </ul>
@@ -37,11 +37,11 @@ const RatingsPage = () => {
           <div className='h-[1px] w-full bg-[#1D1F1E]' />
           <ul className='flex flex-wrap [&_li]:flex-grow sm:flex-grow-0 justify-center md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10 lg:mt-[50px]'>
             {isSuccess &&
-              data.map(({ amount }, idx) => {
+              data.map(({ amount, steam_id }, idx) => {
                 if (idx == 0 || idx == 1 || idx == 2) {
                   return;
                 }
-                return <RatingsCard desc={amount} key={idx} />;
+                return <RatingsCard desc={amount} steam_id={steam_id} key={idx} />;
               })}
           </ul>
           <div>{isLoading && <BeatLoader color='#52EA73' />}</div>
@@ -56,6 +56,5 @@ const RatingsPage = () => {
     </Seo>
   );
 };
-
 
 export default RatingsPage;

@@ -9,6 +9,8 @@ import {
   IReviewBody,
   IMessageBody,
   IPatchChat,
+  IAssignOrder,
+  ISetRequisites,
 } from '@/types/interfaces';
 import { userService as userBasicQuery } from '../../basics/userService';
 import { setUser } from '../../slices/auth/authReducer';
@@ -66,7 +68,7 @@ export const userService = userBasicQuery.injectEndpoints({
       query: (id) => ({
         method: 'PATCH',
         url: `/user/order/${id}/cancel`,
-      })
+      }),
     }),
 
     //profile
@@ -95,7 +97,15 @@ export const userService = userBasicQuery.injectEndpoints({
       },
     }),
 
-    createOrPatchChat: builder.mutation<IPatchChat, IPatchChat>({
+    setOrderRequisites: builder.mutation<void, IPatchChat & ISetRequisites>({
+      query: ({ id, requisites }) => ({
+        url: `/user/order/${id}/requisites`,
+        method: 'PATCH',
+        body: { requisites },
+      }),
+    }),
+
+    createOrPatchChat: builder.mutation<IPatchChat, IPatchChat & IAssignOrder>({
       query: (id) => ({
         url: `/user/chat`,
         method: 'PATCH',
@@ -116,6 +126,7 @@ export const {
   useGetUserOrderWithIdQuery,
   useAddUserOrderMutation,
   useCancelOrderMutation,
+  useSetOrderRequisitesMutation,
 
   //review
   useAddReviewMutation,

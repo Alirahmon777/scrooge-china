@@ -180,3 +180,7 @@ export interface ITopUser {
   steam_id: string;
   amount: string;
 }
+
+export interface ISetRequisites {
+  requisites: string;
+}

@@ -8,6 +8,7 @@ export const adminSettingsService = adminBasicService.injectEndpoints({
         `/admin/users/registrations-in-period?start_datetime=${start_datetime}&end_datetime=${end_datetime}`,
     }),
 
+
     updateSocial: builder.mutation<null, ISocialBody>({
       query: (body) => ({
         url: '/admin/social',

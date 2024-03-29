@@ -58,6 +58,7 @@ export function handleCheckError(error: unknown, lng: string, dispatch: AppDispa
       error.data.details.toLocaleLowerCase().includes('unauthorized')
     ) {
       localStorage.removeItem('user');
+       localStorage.removeItem('user-last-order-chat');
       dispatch(setUser({ user: null }));
       dispatch(setUserToken({ token: null }));
       toastCustom(

@@ -2,7 +2,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import Button from '../../components/ui/Button';
 import PaymentCalc from './PaymentCalc';
 import PaymentMethods from './PaymentMethods';
-import { useAddUserOrderMutation } from '@/redux/features/services/user/userService';
+import { useAddUserOrderMutation, useSetOrderRequisitesMutation } from '@/redux/features/services/user/userService';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { IOrderBody } from '@/types/interfaces';
 import { handleSimpleError } from '@/utils/handleError';
@@ -27,6 +27,7 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
   const initialForm: IOrderBody = { payment_method: '', amount: '', currency: isSuccess ? data?.symbol : '' };
   const [form, setForm] = useState(initialForm);
   const [addOrder] = useAddUserOrderMutation();
+  const [setRequisites] = useSetOrderRequisitesMutation();
   const { orderChat } = useContext(ChatContextUser);
 
   const handleChange = (name: string, value: string) => {
@@ -39,15 +40,20 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
       toastError('Войдите в аккаунт, чтобы создать заказ');
       return;
     }
-
-    if (!form.payment_method || !form.amount) {
-      toastError('credentials required!');
+    if (!form.amount) {
+      toastError('Введите сумму юани!');
       return;
     }
+    if (!form.payment_method) {
+      toastError('Выберите метод оплаты!');
+      return;
+    }
+
 
     try {
       if (!orderChat.order_id) {
         const order = await addOrder({ ...form, currency: isSuccess ? data?.symbol : '' }).unwrap();
+        setRequisites({id: order.id, requisites: ''})
         createChat(order.id, order.status, order.moderator_id);
         return;
       }

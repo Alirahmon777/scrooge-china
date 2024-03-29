@@ -5,5 +5,6 @@ export const handleAdminLogout = () => {
 
 export const handleUserLogout = () => {
   localStorage.removeItem('user');
+  localStorage.removeItem('user-last-order-chat');
   window.location.reload();
 };

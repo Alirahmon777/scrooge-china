@@ -27,7 +27,7 @@ const AboutSlider: React.FC<IProps> = ({ data, isSuccess }) => {
     arrows: true,
     speed: 500,
     autoplaySpeed: 3000,
-    autoplay: true,
+    autoplay: slidesShow > 2,
     afterChange: (crnt) => {
       setCurrentSlide(crnt);
     },
@@ -50,7 +50,8 @@ const AboutSlider: React.FC<IProps> = ({ data, isSuccess }) => {
   };
 
   return (
-    isSuccess && (
+    isSuccess &&
+    data?.length && (
       <Slider {...settings} className='xl:max-w-[667px] max-xl:pb-[40px]' ref={slider}>
         {data?.map((items, idx) => (
           <AboutSliderCard {...items} key={idx} />

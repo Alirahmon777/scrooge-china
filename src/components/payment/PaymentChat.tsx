@@ -57,8 +57,8 @@ const PaymentChat = () => {
     setForm((prev) => ({ ...prev, [name]: files ? files[0] : '' }));
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.ctrlKey && e.key === 'Enter') {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement | HTMLTextAreaElement>) => {
+    if (orderChat.status == '"Created"' && e.key === 'Enter') {
       sendMessage();
     }
   };
@@ -91,7 +91,7 @@ const PaymentChat = () => {
       })}
       onKeyDown={handleKeyDown}
     >
-    {orderChat.status == '"Succeeded"' && <PaymentChatSuccess />}
+      {orderChat.status == '"Succeeded"' && <PaymentChatSuccess />}
 
       <div className='flex flex-col gap-5 h-full'>
         <PaymentInfo id={orderChat.order_id} />

@@ -15,7 +15,7 @@ import { toastError, toastSuccess } from '@/utils/toast/toast';
 
 const ModeratorChat = () => {
   const [form, setForm] = useState<IMessageBody>({ text: '', image: null });
-  const { orderChat } = useContext(ChatContext);
+  const { orderChat, setOrderChat } = useContext(ChatContext);
   const [triger] = useAddMessageMutation();
   const [successTriger] = useSuccessOrderMutation();
   const notTable = useMediaQuery('(min-width: 1024px)');
@@ -30,7 +30,7 @@ const ModeratorChat = () => {
         toastError("text and image can't be empty");
         return;
       }
-      await triger({ id: orderChat.chat_id, ...form });
+      await triger({ id: orderChat.chat_id, text: form.text.trim(), image: form.image });
       setForm({ text: '' });
     } catch (error) {
       handleSimpleError(error);
@@ -49,8 +49,8 @@ const ModeratorChat = () => {
     setForm((prev) => ({ ...prev, [name]: files ? files[0] : '' }));
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.ctrlKey && e.key === 'Enter') {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement | HTMLTextAreaElement>) => {
+    if (orderChat.status == '"Created"' && e.key === 'Enter') {
       sendMessage();
     }
   };
@@ -58,7 +58,8 @@ const ModeratorChat = () => {
   const handleSuccess = async () => {
     try {
       await successTriger(orderChat.order_id);
-
+      localStorage.setItem('moderator-last-order-chat', JSON.stringify({ ...orderChat, status: '"Succeeded"' }));
+      setOrderChat({ ...orderChat, status: '"Succeeded"' });
       toastSuccess('заказ успешно совершен');
     } catch (err) {
       handleSimpleError(err);
@@ -84,7 +85,7 @@ const ModeratorChat = () => {
               cols={30}
               rows={10}
               value={form.text}
-              autoFocus
+              autoFocus={orderChat.status == '"Created"'}
               name='text'
               onChange={handleChange}
               className='py-[10px] bg-transparent min-h-[44px] max-h-[44px] resize-none flex-grow placeholder:text-gray pr-1 live-scroll'

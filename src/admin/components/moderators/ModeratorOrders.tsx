@@ -12,7 +12,7 @@ const ModeratorOrders = () => {
   adminLocal?.admin_token;
 
   return (
-    <div className='flex flex-col gap-5 max-w-[564px] min-h-full'>
+    <div className='flex flex-col gap-5 max-w-[564px] min-h-full overflow-y-auto max-h-[686px]'>
       {isSuccess && data.map((item, idx) => <OrderCard key={idx} item={item} setChat={setOrderChat} />)}
     </div>
   );

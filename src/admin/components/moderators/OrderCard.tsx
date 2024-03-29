@@ -31,7 +31,7 @@ const OrderCard = ({ item, setChat, isAssign }: IProps) => {
 
   const handleCreate = async () => {
     try {
-      const data = await createChat({ id: steam_id }).unwrap();
+      const data = await createChat({ id: steam_id, order_id: id }).unwrap();
       let chatInfo: TStoreOrderModerator = { steam_id, isChat: true, order_id: id, chat_id: data.id, status };
       setChat && setChat(chatInfo);
       localStorage.setItem('moderator-last-order-chat', JSON.stringify(chatInfo));
@@ -86,7 +86,7 @@ const OrderCard = ({ item, setChat, isAssign }: IProps) => {
             'text-admin': status == '"Cancelled"',
           })}
         >
-          {getStatus(status)}
+          {status != '"Created"' && getStatus(status)}
         </span>
         <Button
           variant='admin'

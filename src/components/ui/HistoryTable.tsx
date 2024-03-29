@@ -5,6 +5,7 @@ import { getAmount } from '@/utils/getAmount';
 import { getStatus } from '@/utils/getStatus';
 import decline from '@svgs/layout/decline.svg';
 import success from '@svgs/layout/successfull.svg';
+import waiting from '@svgs/waiting.svg';
 import { HTMLAttributes } from 'react';
 
 interface IProps extends HTMLAttributes<HTMLTableElement> {
@@ -37,7 +38,12 @@ const HistoryTable = ({ className, requisites, items, ...props }: IProps) => {
               {currency_symbol}
             </td>
             <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
-              <img src={getStatus(status) == 'Отклонен' ? decline : success} alt='status:' />
+              <img
+                width={24}
+                height={24}
+                src={status == '"Cancelled"' ? decline : status == '"Succeeded"' ? success : waiting}
+                alt='status:'
+              />
               {getStatus(status)}
             </td>
           </tr>

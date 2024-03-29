@@ -22,15 +22,10 @@ const SteamCallbackPage = () => {
       if (isSuccess) {
         try {
           const data = await trigger().unwrap();
-          console.log('data');
-
           localStorage.setItem('user', JSON.stringify({ ...data, ...token }));
         } catch (error) {
           handleError(error);
-          console.log('error');
         } finally {
-          console.log('finall');
-
           window.location.replace('about:blank');
           window.history.replaceState({}, document.title, window.location.href);
           window.close();

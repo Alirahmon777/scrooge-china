@@ -5,4 +5,7 @@ export const getStatus = (status: string) => {
   if (status == '"Succeeded"') {
     return 'Успешно';
   }
+  if(status == '"Created"') {
+    return 'Ожидании';
+  }
 };

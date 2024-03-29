@@ -11,6 +11,14 @@ export const ChatContext = React.createContext<IChatContext>(null!);
 
 const lastOrder = JSON.parse(localStorage.getItem('moderator-last-order-chat') || '{}') as TStoreOrderModerator;
 
+export const initialOrderChatAdmin = {
+  steam_id: '',
+  isChat: false,
+  order_id: '',
+  chat_id: '',
+  status: '',
+};
+
 const ChatContextProvider: React.FC<IChildProps> = ({ children }) => {
   const [orderChat, setOrderChat] = useState<TStoreOrderModerator>({
     steam_id: lastOrder?.steam_id || '',

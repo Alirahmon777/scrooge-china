@@ -1,4 +1,10 @@
-const LiveCard = () => {
+import { ITopUser } from "@/types/interfaces";
+
+interface IProps {
+ item: ITopUser 
+}
+
+const LiveCard = ({item}: IProps) => {
   return (
     <div className='max-w-[200px]'>
       <div className='py-[16px] px-[35px] bg-[#1D1F1E] rounded-[10px]'>
@@ -11,7 +17,7 @@ const LiveCard = () => {
             <div className="w-[130px] text-neutral-500 text-base font-normal font-['SF Pro Display']">
               Пополнил buff.163
             </div>
-            <div className="w-[91px] text-white text-base font-bold font-['SF Pro Display']">50 ¥ - 700 ₽</div>
+            <div className="w-[91px] text-white text-base font-bold font-['SF Pro Display']">{item.amount} ¥ - 700 ₽</div>
           </div>
         </div>
       </div>

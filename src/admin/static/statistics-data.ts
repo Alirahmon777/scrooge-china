@@ -4,7 +4,7 @@ import { IExchangeChartCategories, IExchangeChartData, IExchangeChartOptions } f
 const getMonth = () => {
   const months = [];
   for (let i = 0; i < 12; i++) {
-    const month = subMonths(new Date(), i);
+    const month = subMonths(new Date().setUTCHours(0, 0, 0, 0), i);
     const firstDayOfMonth = setDate(month, 1);
     months.push(firstDayOfMonth);
   }
@@ -13,8 +13,9 @@ const getMonth = () => {
 
 const getDay = () => {
   const days = [];
+
   for (let i = 0; i < 7; i++) {
-    days.push(subDays(new Date().setHours(0, 0, 0, 0), i));
+    days.push(subDays(new Date().setUTCHours(0, 0, 0, 0), i));
   }
   return days.reverse();
 };
@@ -52,6 +53,7 @@ export const charts: IExchangeChartOptions[] = [
     yaxis: { labels: ['¥600', '¥500', '¥400', '¥300', '¥200', '¥100', '¥0'], max: 600 },
     chartColor: '#52EA73',
     data: { categories: static_char_data },
+    isExchange: true,
   },
   {
     title: 'Все посещения',

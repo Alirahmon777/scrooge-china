@@ -1,9 +1,11 @@
 import AnimatedCounter from '@/utils/animated-counter';
 import LiveCard from './LiveCard';
 import { useRef } from 'react';
+import { useGetRatingQuery } from '@/redux/features/services/public/publicService';
 
 const LiveRibbon = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const { data, isSuccess } = useGetRatingQuery({ offset: 0, limit: 20 });
   return (
     <section className='max-tablet:mt-[50px] mt-[145px]'>
       <div className='container bg-neutral-900 rounded-[20px] p-[25px] pr-0'>
@@ -20,9 +22,7 @@ const LiveRibbon = () => {
           </h3>
         </div>
         <div className='mt-5 gap-5 overflow-x-auto live-scroll pr-[47px] flex' ref={ref}>
-          {new Array(7).fill(undefined).map((_, idx) => (
-            <LiveCard key={idx} />
-          ))}
+          {isSuccess && data.map((item, idx) => <LiveCard item={item} key={idx} />)}
         </div>
       </div>
     </section>

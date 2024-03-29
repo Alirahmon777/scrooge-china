@@ -26,6 +26,7 @@ export interface IExchangeChartOptions {
   yaxis?: IYaxisOption;
   data: { categories: IExchangeChartData };
   chartColor?: string;
+  isExchange?: boolean;
 }
 
 export interface IYaxisOption {

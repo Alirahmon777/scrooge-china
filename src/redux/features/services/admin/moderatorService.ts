@@ -57,7 +57,7 @@ export const adminService = adminBasicService
         },
       }),
 
-      createOrPatchChat: builder.mutation<IPatchChat, IPatchChat>({
+      createOrPatchChat: builder.mutation<IPatchChat, IPatchChat & IAssignOrder>({
         query: (id) => ({
           url: `/admin/moderator/chat`,
           method: 'PATCH',
