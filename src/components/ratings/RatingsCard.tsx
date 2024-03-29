@@ -28,7 +28,7 @@ const RatingsCard = ({ desc = '25000', steam_id, ratings }: IProps) => {
         <div className='text-start'>
           <h3 className='text-2xl font-bold'>{username || 'Ник Нэйм'}</h3>
           <p className='text-gray max-mobile:text-sm text-nowrap max-320:text-wrap'>
-            Пополнить buff.163: <span>{desc}¥</span>
+            Пополнил buff.163: <span>{desc}¥</span>
           </p>
         </div>
       </div>
