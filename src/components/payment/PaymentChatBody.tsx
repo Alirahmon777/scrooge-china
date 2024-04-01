@@ -26,10 +26,11 @@ const PaymentChatBody = () => {
   const isMobile = useMediaQuery('(max-width: 375px)');
   const { data: avatar } = useGetAvatarUrlQuery(order?.steam_id as string, { skip: !orderSuccess });
 
-  useWebSocket(`${cfg.USER_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
+  const { sendMessage } = useWebSocket(`${cfg.USER_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
     onMessage: () => {
       refetch();
     },
+
     shouldReconnect: () => !!(orderChat.chat_id && token),
     reconnectAttempts: 10,
     reconnectInterval: (attemptNumber) => Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
@@ -39,6 +40,12 @@ const PaymentChatBody = () => {
     const timer = setTimeout(() => ScrollToBottom(scrollRef, 'instant'), 500);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (orderChat.status == '"Paid"') {
+      sendMessage('is_user_paid');
+    }
+  }, [orderChat.status]);
 
   useEffect(() => {
     ScrollToBottom(scrollRef, 'smooth');
@@ -75,7 +82,9 @@ const PaymentChatBody = () => {
             if (messages[0].sender == '"Moderator"') {
               return (
                 <div className='flex items-start gap-[10px]' key={idx}>
-                  {!isMobile && <span className='min-max-20 mobile:min-max-24 bg-success rounded-sm' />}
+                  {!isMobile && (
+                    <img src={'/favicon/favicon.ico'} className='min-max-20 mobile:min-max-24 rounded-sm' />
+                  )}
                   <ul className='flex flex-grow flex-col gap-[10px]'>
                     <li className='flex'>
                       <Message

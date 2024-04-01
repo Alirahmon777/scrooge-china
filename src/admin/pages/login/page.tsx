@@ -3,11 +3,10 @@ import { ILoginData } from '@/admin/types/interfaces';
 import Seo from '@/layout/seo/Seo';
 import { useLazyGetSelfQuery } from '@/redux/features/services/admin/adminService';
 import { useLoginAdminMutation } from '@/redux/features/services/auth/authService';
-import { isError } from '@/utils/isError';
+import { handleSimpleError } from '@/utils/handleError';
 import { toastError, toastSuccess } from '@/utils/toast/toast';
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { v4 } from 'uuid';
 
 const Login = () => {
   const initialData: ILoginData = { login: '', password: '' };
@@ -23,10 +22,10 @@ const Login = () => {
     try {
       e.preventDefault();
       if (!formState.login || !formState.password) {
-        throw new Error('credentials required');
+        throw new Error('требуются учетные данные');
       }
       const { token } = await login(formState).unwrap();
-      const { data } = await triger();
+      const data  = await triger().unwrap();
 
       if (token) {
         localStorage.setItem('admin', JSON.stringify({ ...data, admin_token: token }));
@@ -35,15 +34,9 @@ const Login = () => {
         data?.role == '"Admin"' ? navigate('/admin/statistics') : navigate('/moderator');
         return;
       }
-      throw new Error('login failed!');
+      throw new Error('Ошибка входа!');
     } catch (error) {
-      if (isError(error)) {
-        toastError(error.data.details, v4());
-      } else if (error instanceof Error) {
-        toastError(error.message, v4());
-      } else {
-        toastError('An unknown error occurred', v4());
-      }
+      handleSimpleError(error);
     }
   };
 
@@ -59,13 +52,7 @@ const Login = () => {
         return navigate('/moderator');
       }
     } catch (error) {
-      if (isError(error)) {
-        toastError(error.data.details);
-      } else if (error instanceof Error) {
-        toastError(error.message, v4());
-      } else {
-        toastError('An unknown error occurred', v4());
-      }
+      handleSimpleError(error);
     }
   };
 

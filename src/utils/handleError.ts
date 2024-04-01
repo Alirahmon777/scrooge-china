@@ -13,7 +13,7 @@ export function handleAdminError(error: unknown) {
     }
     toastError(error.data.details);
     if (
-      error.data.details == 'Bad or expired token!' ||
+      error.data.details == 'Токен неверный или срок действия истек!' ||
       error.data.details.toLocaleLowerCase().includes('unauthorized')
     ) {
       handleAdminLogout();
@@ -21,7 +21,7 @@ export function handleAdminError(error: unknown) {
   } else if (error instanceof Error) {
     toastError(error.message, v4());
   } else {
-    toastError('An unknown error occurred', v4());
+    toastError('Произошла неизвестная ошибка', v4());
   }
 }
 
@@ -38,7 +38,7 @@ export function handleError(error: unknown) {
   } else if (error instanceof Error) {
     toastError(error.message, v4());
   } else {
-    toastError('An unknown error occurred', v4());
+    toastError('Произошла неизвестная ошибка', v4());
   }
 }
 export function handleSimpleError(error: unknown) {
@@ -47,7 +47,7 @@ export function handleSimpleError(error: unknown) {
   } else if (error instanceof Error) {
     toastError(error.message, v4());
   } else {
-    toastError('An unknown error occurred', v4());
+    toastError('Произошла неизвестная ошибка', v4());
   }
 }
 
@@ -69,6 +69,6 @@ export function handleCheckError(error: unknown, lng: string, dispatch: AppDispa
   } else if (error instanceof Error) {
     toastError(error.message);
   } else {
-    toastError('An unknown error occurred');
+    toastError('Произошла неизвестная ошибка');
   }
 }

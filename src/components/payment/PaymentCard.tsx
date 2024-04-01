@@ -57,7 +57,7 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
         createChat(order.id, order.status, order.moderator_id);
         return;
       }
-      toastError('Should be cancel last order when creating new');
+      toastError('Следует завершить последний заказ при создании нового');
     } catch (error) {
       handleSimpleError(error);
     }

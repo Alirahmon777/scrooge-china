@@ -35,7 +35,7 @@ const PaymentChat = () => {
   const sendMessage = async () => {
     try {
       if (!form.text && !form.image) {
-        toastError("text and image can't be empty");
+        toastError('текст и изображение не могут быть пустыми');
         return;
       }
       await triger({ id: orderChat.chat_id, ...form });
@@ -80,7 +80,8 @@ const PaymentChat = () => {
   };
 
   const handleSuccess = async () => {
-    await triger({ id: orderChat.chat_id, text: getSuccessText() });
+    setOrderChat((prev) => ({ ...prev, status: '"Paid"' }));
+    // await triger({ id: orderChat.chat_id, text: getSuccessText() });
   };
 
   return (
@@ -127,8 +128,23 @@ const PaymentChat = () => {
           </div>
         </form>
         <div className='flex gap-2 mobile:gap-4 max-320:[&_button]:font-medium items-center'>
-          <Button label='Отменить заказ' variant='outline' onClick={handleCancel} />
-          <Button label='Оплачено' className='w-full py-[10px] rounded-[10px] justify-center' onClick={handleSuccess} />
+          {orderChat.status != '"Paid"' && (
+            <>
+              <Button label='Отменить заказ' variant='outline' onClick={handleCancel} />
+              <Button
+                label='Оплачено'
+                className='w-full py-[10px] rounded-[10px] justify-center'
+                onClick={handleSuccess}
+              />
+            </>
+          )}
+          {orderChat.status == '"Paid"' && (
+            <Button
+              label='Завершить заказ и оставить отзыв'
+              className='w-full py-[10px] rounded-[10px] justify-center'
+              onClick={handleSuccess}
+            />
+          )}
         </div>
       </div>
     </div>

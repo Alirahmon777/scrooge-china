@@ -18,7 +18,7 @@ const ModeratorChatBody = () => {
   const isMobile = useMediaQuery('(max-width: 375px)');
   const { data: avatar } = useGetAvatarUrlQuery(orderChat?.steam_id as string, { skip: !orderChat.steam_id });
 
-  useWebSocket(`${cfg.ADMIN_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
+  const { lastMessage } = useWebSocket(`${cfg.ADMIN_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
     onMessage: () => {
       refetch();
     },
@@ -26,6 +26,7 @@ const ModeratorChatBody = () => {
     reconnectAttempts: 10,
     reconnectInterval: (attemptNumber) => Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
   });
+  console.log(lastMessage);
 
   useEffect(() => {
     const timer = setTimeout(() => ScrollToBottom(scrollRef, 'instant'), 500);
@@ -67,7 +68,9 @@ const ModeratorChatBody = () => {
             if (messages[0].sender == '"Moderator"') {
               return (
                 <div className='flex items-start gap-[10px] flex-row-reverse' key={idx}>
-                  {!isMobile && <span className='min-max-20 mobile:min-max-24 bg-admin rounded-sm' />}
+                  {!isMobile && (
+                    <img src='/favicon/admin/favicon.ico' className='min-max-20 mobile:min-max-24 rounded-sm' />
+                  )}
                   <ul className='flex flex-grow flex-col gap-[10px]'>
                     <li className='flex items-end justify-end'>
                       <Message
