@@ -38,7 +38,7 @@ const ProtectedRoute = ({ children, isModerator, isAdmin }: IProps) => {
       dispatch(setAdminToken({ admin_token: admin.admin_token }));
 
       checkAdminToken();
-    }
+    } 
   }, [dispatch, storedAdmin]);
 
   if (!adminLocal) {

@@ -26,7 +26,9 @@ const PaymentPage = () => {
     skip: !user?.steam_id,
     selectFromResult: ({ data, isSuccess }) => {
       return {
-        data: data?.filter((order) => order.moderator_id && order.status == '"Created"').at(-1),
+        data: data
+          ?.filter((order) => order.moderator_id && (order.status == '"Created"' || order.status == '"Maybepayed"'))
+          .at(-1),
         isSuccess,
       };
     },

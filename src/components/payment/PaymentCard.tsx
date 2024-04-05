@@ -2,7 +2,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import Button from '../../components/ui/Button';
 import PaymentCalc from './PaymentCalc';
 import PaymentMethods from './PaymentMethods';
-import { useAddUserOrderMutation, useSetOrderRequisitesMutation } from '@/redux/features/services/user/userService';
+import { useAddUserOrderMutation } from '@/redux/features/services/user/userService';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { IOrderBody } from '@/types/interfaces';
 import { handleSimpleError } from '@/utils/handleError';
@@ -24,10 +24,14 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
   const currency = useAppSelector(selectCurrency);
   const { user, token } = useAppSelector(selectAuth);
   const { data, isSuccess } = useGetCurrencyIdQuery(currencies.find((c) => c.label == currency)?.id as string);
-  const initialForm: IOrderBody = { payment_method: '', amount: '', currency: isSuccess ? data?.symbol : '' };
+  const initialForm: IOrderBody = {
+    payment_method: '',
+    amount: '',
+    currency: isSuccess ? data?.symbol : '',
+    requisites_id: '',
+  };
   const [form, setForm] = useState(initialForm);
   const [addOrder] = useAddUserOrderMutation();
-  const [setRequisites] = useSetOrderRequisitesMutation();
   const { orderChat } = useContext(ChatContextUser);
 
   const handleChange = (name: string, value: string) => {
@@ -49,11 +53,9 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
       return;
     }
 
-
     try {
       if (!orderChat.order_id) {
         const order = await addOrder({ ...form, currency: isSuccess ? data?.symbol : '' }).unwrap();
-        setRequisites({id: order.id, requisites: ''})
         createChat(order.id, order.status, order.moderator_id);
         return;
       }

@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { useGetRequisitesQuery } from '@/redux/features/services/public/publicService';
 import { IOrder } from '@/types/interfaces';
 import { getFormatedDate } from '@/utils/dateAgo';
 import { getAmount } from '@/utils/getAmount';
@@ -14,6 +15,8 @@ interface IProps extends HTMLAttributes<HTMLTableElement> {
 }
 
 const HistoryTable = ({ className, requisites, items, ...props }: IProps) => {
+  const { data: all_requisites } = useGetRequisitesQuery();
+
   return (
     <table className={cn('w-full border-separate border-spacing-y-5', className)} {...props}>
       <thead className='text-gray'>
@@ -27,27 +30,37 @@ const HistoryTable = ({ className, requisites, items, ...props }: IProps) => {
         </tr>
       </thead>
       <tbody className='[&_td]:bg-[#1D1F1E]'>
-        {items.map(({ amount, created_at, id, payment_method, status, fixed_currency_rate, currency_symbol }, idx) => (
-          <tr key={idx}>
-            <td className='py-3 pl-6 rounded-l-[10px]'>{id}</td>
-            <td className=''>{getFormatedDate(created_at, 'yyyy.MM.dd/HH:mm')}</td>
-            <td className=''>{payment_method}</td>
-            <td className={requisites ? requisites : 'text-center'}>2200 7009 3558 9290</td>
-            <td className=''>
-              {amount}¥ - {getAmount(amount, fixed_currency_rate)}
-              {currency_symbol}
-            </td>
-            <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
-              <img
-                width={24}
-                height={24}
-                src={status == '"Cancelled"' ? decline : status == '"Succeeded"' ? success : waiting}
-                alt='status:'
-              />
-              {getStatus(status)}
-            </td>
-          </tr>
-        ))}
+        {items.map(
+          (
+            { amount, created_at, id, payment_method, status, fixed_currency_rate, currency_symbol, requisites_id },
+            idx
+          ) => {
+            const requisite = all_requisites?.find((req) => req.id == requisites_id)?.data;
+            return (
+              <tr key={idx}>
+                <td className='py-3 pl-6 rounded-l-[10px]'>{id}</td>
+                <td className=''>{getFormatedDate(created_at, 'yyyy.MM.dd/HH:mm')}</td>
+                <td className=''>{payment_method}</td>
+                <td className={requisites ? requisites : 'text-center w-[300px]'}>
+                  <p className='max-w-[300px] truncate'>{requisite || ''}</p>
+                </td>
+                <td className=''>
+                  {amount}¥ - {getAmount(amount, fixed_currency_rate)}
+                  {currency_symbol}
+                </td>
+                <td className='rounded-r-[10px] flex gap-1 min-h-full py-3'>
+                  <img
+                    width={24}
+                    height={24}
+                    src={status == '"Cancelled"' ? decline : status == '"Succeeded"' ? success : waiting}
+                    alt='status:'
+                  />
+                  {getStatus(status)}
+                </td>
+              </tr>
+            );
+          }
+        )}
       </tbody>
     </table>
   );

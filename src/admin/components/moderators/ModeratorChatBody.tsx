@@ -7,6 +7,7 @@ import { useAppSelector } from '@/redux/hooks/hooks';
 import { ScrollToBottom } from '@/utils/ScrollToBottom';
 import Message from '@components/payment/Message';
 import { useContext, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import useWebSocket from 'react-use-websocket';
 import { useMediaQuery } from 'usehooks-ts';
 
@@ -14,11 +15,12 @@ const ModeratorChatBody = () => {
   const token = useAppSelector(selectCurrentAdminToken);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { orderChat } = useContext(ChatContext);
+  const { t } = useTranslation('chat', { lng: 'ru' });
   const { data: historyMessages, isSuccess, refetch } = useGetMessagesQuery(orderChat.chat_id);
   const isMobile = useMediaQuery('(max-width: 375px)');
   const { data: avatar } = useGetAvatarUrlQuery(orderChat?.steam_id as string, { skip: !orderChat.steam_id });
 
-  const { lastMessage } = useWebSocket(`${cfg.ADMIN_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
+  useWebSocket(`${cfg.ADMIN_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
     onMessage: () => {
       refetch();
     },
@@ -26,7 +28,6 @@ const ModeratorChatBody = () => {
     reconnectAttempts: 10,
     reconnectInterval: (attemptNumber) => Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
   });
-  console.log(lastMessage);
 
   useEffect(() => {
     const timer = setTimeout(() => ScrollToBottom(scrollRef, 'instant'), 500);
@@ -40,6 +41,27 @@ const ModeratorChatBody = () => {
   return (
     <div className='min-h-[330px] max-h-[340px] overflow-y-auto flex-grow pr-1 max-[375px]:pr-2' ref={scrollRef}>
       <div className='flex flex-col gap-5'>
+        <div className='flex items-start gap-[10px] flex-row-reverse'>
+          {!isMobile && <img src='/favicon/admin/favicon.ico' className='min-max-20 mobile:min-max-24 rounded-sm' />}
+          <ul className='flex flex-grow flex-col gap-[10px]'>
+            <li className='flex items-end justify-end'>
+              <Message
+                content={t('automessage-guide', { ns: 'chat' })}
+                isCurrentUser={true}
+                currentMessageBg={'bg-[#2B1818]'}
+                sender={'Moderator'}
+              />
+            </li>
+            <li className='flex items-end justify-end'>
+              <Message
+                content={t('automessage-requisite', { ns: 'chat' })}
+                isCurrentUser={true}
+                currentMessageBg={'bg-[#2B1818]'}
+                sender={'Moderator'}
+              />
+            </li>
+          </ul>
+        </div>
         {isSuccess &&
           historyMessages.messages.map((messages, idx) => {
             if (messages[0].sender != '"Moderator"') {
@@ -74,7 +96,11 @@ const ModeratorChatBody = () => {
                   <ul className='flex flex-grow flex-col gap-[10px]'>
                     <li className='flex items-end justify-end'>
                       <Message
-                        content={messages[0].text}
+                        content={
+                          messages[0].text == 'automessage-payed'
+                            ? t('automessage-payed', { ns: 'chat' })
+                            : messages[0].text
+                        }
                         img_id={messages[1][0]}
                         chat_id={messages[0].chat_id}
                         isCurrentUser={true}

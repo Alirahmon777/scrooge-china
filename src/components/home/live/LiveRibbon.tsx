@@ -1,11 +1,25 @@
 import AnimatedCounter from '@/utils/animated-counter';
 import LiveCard from './LiveCard';
-import { useRef } from 'react';
-import { useGetRatingQuery } from '@/redux/features/services/public/publicService';
+import { useEffect, useRef, useState } from 'react';
+import useWebSocket from 'react-use-websocket';
+import { cfg } from '@/config/site.config';
+import { IOrder } from '@/types/interfaces';
 
 const LiveRibbon = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const { data, isSuccess } = useGetRatingQuery({ offset: 0, limit: 20 });
+  const [data, setData] = useState<IOrder[]>([]);
+  const { lastJsonMessage } = useWebSocket(cfg.LIVE_SOCKET_URL, {
+    shouldReconnect: () => false,
+    reconnectAttempts: 10,
+    reconnectInterval: (attemptNumber) => Math.min(Math.pow(2, attemptNumber) * 1000, 10000),
+  });
+
+  useEffect(() => {
+    if (lastJsonMessage) {
+      setData((prev) => [...prev, lastJsonMessage as IOrder]);
+    }
+  }, [lastJsonMessage]);
+
   return (
     <section className='max-tablet:mt-[50px] mt-[145px]'>
       <div className='container bg-neutral-900 rounded-[20px] p-[25px] pr-0'>
@@ -22,7 +36,9 @@ const LiveRibbon = () => {
           </h3>
         </div>
         <div className='mt-5 gap-5 overflow-x-auto live-scroll pr-[47px] flex' ref={ref}>
-          {isSuccess && data.map((item, idx) => <LiveCard item={item} key={idx} />)}
+          {data.map((item, idx) => (
+            <LiveCard item={item} key={idx} />
+          ))}
         </div>
       </div>
     </section>

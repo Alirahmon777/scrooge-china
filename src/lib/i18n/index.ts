@@ -8,7 +8,7 @@ i18n
   .use(detector)
   .use(backend)
   .init({
-    ns: ['layout', 'home'],
+    ns: ['layout', 'home', 'chat'],
     supportedLngs: ['ru', 'en'],
     backend: { loadPath: '/locales/{{lng}}/{{ns}}.json' },
     fallbackLng: 'ru',

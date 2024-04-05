@@ -18,9 +18,12 @@ const PaymentMethods = ({ handleChange, form }: IProps) => {
             <p className='text-gray mb-[10px]'>{title}</p>
 
             <div className='flex gap-[5px] flex-wrap'>
-              {buttons.map(({ label, leftIcon }, idx) => (
+              {buttons.map(({ id, label, leftIcon }, idx) => (
                 <Button
-                  onClick={() => handleChange('payment_method', label)}
+                  onClick={() => {
+                    handleChange('payment_method', label);
+                    handleChange('requisites_id', id || '');
+                  }}
                   key={idx}
                   className={cn(
                     'py-2 px-2 bg-[#1D1F1E] hover:bg-success transition-all flex-grow justify-center rounded-[10px] [&_p]:text-white',

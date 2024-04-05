@@ -50,7 +50,7 @@ const ModeratorChat = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement | HTMLTextAreaElement>) => {
-    if (orderChat.status == '"Created"' && e.key === 'Enter') {
+    if (isClosedChat && e.key === 'Enter') {
       sendMessage();
     }
   };
@@ -65,7 +65,7 @@ const ModeratorChat = () => {
       handleSimpleError(err);
     }
   };
-
+  const isClosedChat = orderChat.status == '"Created"' || orderChat.status == '"Maybepayed"';
   return (
     <div
       className={cn('max-w-[564px] min-h-full', {
@@ -78,14 +78,20 @@ const ModeratorChat = () => {
         <ModeratorChatInfo id={orderChat.order_id} />
         <div className='w-full h-[1px] bg-gray' />
         <ModeratorChatBody />
-        <form onSubmit={handleSubmit} className={cn({ 'pointer-events-none': orderChat.status != '"Created"' })}>
+        <form
+          onSubmit={handleSubmit}
+          className={cn({
+            'pointer-events-none': !isClosedChat,
+          })}
+        >
           <div className='flex bg-[#1d1f1e] items-center rounded-[10px] px-5'>
             <textarea
-              placeholder={orderChat.status == '"Created"' ? 'Напишите сообщение...' : 'чат завершён'}
+              placeholder={isClosedChat ? 'Напишите сообщение...' : 'чат завершён'}
               cols={30}
               rows={10}
               value={form.text}
-              autoFocus={orderChat.status == '"Created"'}
+              autoFocus={isClosedChat}
+              disabled={!isClosedChat}
               name='text'
               onChange={handleChange}
               className='py-[10px] bg-transparent min-h-[44px] max-h-[44px] resize-none flex-grow placeholder:text-gray pr-1 live-scroll'

@@ -14,6 +14,7 @@ export function handleAdminError(error: unknown) {
     toastError(error.data.details);
     if (
       error.data.details == 'Токен неверный или срок действия истек!' ||
+      error.data.details == 'Bad or expired token!' ||
       error.data.details.toLocaleLowerCase().includes('unauthorized')
     ) {
       handleAdminLogout();
@@ -58,7 +59,7 @@ export function handleCheckError(error: unknown, lng: string, dispatch: AppDispa
       error.data.details.toLocaleLowerCase().includes('unauthorized')
     ) {
       localStorage.removeItem('user');
-       localStorage.removeItem('user-last-order-chat');
+      localStorage.removeItem('user-last-order-chat');
       dispatch(setUser({ user: null }));
       dispatch(setUserToken({ token: null }));
       toastCustom(

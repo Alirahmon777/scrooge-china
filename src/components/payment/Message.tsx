@@ -14,7 +14,7 @@ interface IProps {
   sender: string;
 }
 
-const Message = ({ content, isCurrentUser, currentMessageBg, img_id, sender }: IProps) => {
+const Message = ({ content, isCurrentUser, currentMessageBg, img_id, sender, chat_id }: IProps) => {
   const [img, setImg] = useState('');
   const { admin_token, token } = useAppSelector(selectAuth);
 
@@ -22,7 +22,7 @@ const Message = ({ content, isCurrentUser, currentMessageBg, img_id, sender }: I
     try {
       if (!img_id) return;
       if (sender == 'Moderator') {
-        const res = await $admin.get(`/admin/moderator/chat/1/image/${img_id}`, {
+        const res = await $admin.get(`/admin/moderator/chat/${chat_id}/image/${img_id}`, {
           responseType: 'blob',
           headers: {
             'Content-Type': 'image/*',
@@ -34,11 +34,11 @@ const Message = ({ content, isCurrentUser, currentMessageBg, img_id, sender }: I
         return;
       }
       if (sender == 'User') {
-        const res = await $user.get(`/user/chat/1/image/${img_id}`, {
+        const res = await $user.get(`/user/chat/${chat_id}/image/${img_id}`, {
           responseType: 'blob',
           headers: {
             'Content-Type': 'image/*',
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         const imageUrl = URL.createObjectURL(res.data);
@@ -64,7 +64,9 @@ const Message = ({ content, isCurrentUser, currentMessageBg, img_id, sender }: I
         isCurrentUser && currentMessageBg ? currentMessageBg : null
       )}
     >
-      {img_id && <img src={img} alt='' className='max-w-[150px] lg:max-w-[200px] pb-1 border-b border-gray' />}
+      {img_id && (
+        <img src={img} alt='img message' className='max-w-[150px] lg:max-w-[200px] pb-1 border-b border-gray' />
+      )}
       <div className='whitespace-pre-wrap'>{content}</div>
     </div>
   );

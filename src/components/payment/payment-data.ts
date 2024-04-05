@@ -16,14 +16,14 @@ export const paymentMethods = [
   {
     title: 'Банковские карты - RU',
     buttons: [
-      { label: 'Tinkoff', leftIcon: tinkoff },
-      { label: 'SberBank', leftIcon: sberbank },
-      { label: 'Qiwi', leftIcon: qiwi },
-      { label: 'Yoomoney', leftIcon: yoomoney },
+      { id: '1', label: 'Tinkoff', leftIcon: tinkoff },
+      { id: '2', label: 'SberBank', leftIcon: sberbank },
+      { id: '3', label: 'Qiwi', leftIcon: qiwi },
+      { id: '4', label: 'Yoomoney', leftIcon: yoomoney },
     ],
   },
-  { title: 'Банковские карты - KZ', buttons: [{ label: 'Kaspi Bank', leftIcon: kaspibank }] },
-  { title: 'Криптовалюта', buttons: [{ label: 'USDT', leftIcon: usdt }] },
+  { title: 'Банковские карты - KZ', buttons: [{ id: '5', label: 'Kaspi Bank', leftIcon: kaspibank }] },
+  { title: 'Криптовалюта', buttons: [{ id: '6', label: 'USDT', leftIcon: usdt }] },
 ];
 
 export const paymentMessages = [

@@ -38,7 +38,7 @@ const ProfilePage = () => {
               <HistoryTable
                 items={data}
                 className='[&_th]:py-[20px] [&_tbody]:before:content-[""] [&_tbody]:before:table-row'
-                requisites='text-left'
+                requisites='text-left w-[300px]'
               />
             ) : (
               <div className='mt-9 grid tablet:grid-cols-2 gap-6'>

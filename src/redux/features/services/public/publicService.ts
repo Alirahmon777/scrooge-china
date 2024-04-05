@@ -63,6 +63,7 @@ export const publicService = createApi({
 export const {
   useGetRatingQuery,
   useGetRequisitesQuery,
+  useLazyGetRequisitesQuery,
   useGetCurrencyQuery,
   useGetCurrencyIdQuery,
   useLazyGetCurrencyIdQuery,

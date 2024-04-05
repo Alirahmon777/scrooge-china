@@ -93,12 +93,14 @@ export interface IOrder {
   amount: string;
   fixed_currency_rate: string;
   currency_symbol: string;
+  requisites_id: string;
 }
 
 export interface IOrderBody {
   payment_method: string;
   amount: string;
   currency: string;
+  requisites_id: string;
 }
 
 export interface IReview {
@@ -179,8 +181,4 @@ export interface IHistoryMessage {
 export interface ITopUser {
   steam_id: string;
   amount: string;
-}
-
-export interface ISetRequisites {
-  requisites: string;
 }
