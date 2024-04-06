@@ -15,9 +15,9 @@ interface IProps {
 }
 
 const ReviewModal = ({ setShow, limit, offset }: IProps) => {
-  const initialForm: IReviewBody = { review: '', stars: 0 };
+  const initialForm: IReviewBody = { review: '', stars: 5 };
   const [form, setForm] = useState(initialForm);
-  const [hoveredStar, setHoveredStar] = useState<number>(0);
+  const [hoveredStar, setHoveredStar] = useState<number>(5);
   const [addReview] = useAddReviewMutation();
   const [getReview] = useLazyGetReviewsQuery();
   const [getReviewCount] = useLazyGetReviewsCountQuery();
@@ -33,7 +33,7 @@ const ReviewModal = ({ setShow, limit, offset }: IProps) => {
     e.preventDefault();
     try {
       await addReview(form).unwrap();
-      if (limit && offset) {
+      if (limit && (offset != undefined || offset != null)) {
         await getReview({ limit, offset }).unwrap();
       }
       await getReviewCount().unwrap();
