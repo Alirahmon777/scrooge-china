@@ -20,7 +20,7 @@ const ModeratorChat = () => {
   const [successTriger] = useSuccessOrderMutation();
   const notTable = useMediaQuery('(min-width: 1024px)');
 
-  if (!orderChat.isChat) {
+  if (!orderChat.isChat || orderChat.status == '"Cancelled"' || orderChat.status == '"Succeeded"') {
     return <ModeratorChatEmpty />;
   }
 

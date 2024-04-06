@@ -8,7 +8,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { cfg } from '@/config/site.config';
 import useWebSocket from 'react-use-websocket';
 import { ScrollToBottom } from '@/utils/ScrollToBottom';
-import { useGetAvatarUrlQuery } from '@/redux/features/services/public/publicService';
+import { useGetAvatarUrlQuery, useGetRequisitesQuery } from '@/redux/features/services/public/publicService';
 import { useTranslation } from 'react-i18next';
 
 const PaymentChatBody = () => {
@@ -17,6 +17,9 @@ const PaymentChatBody = () => {
   const { orderChat } = useContext(ChatContextUser);
   const { data: order, isSuccess: orderSuccess } = useGetUserOrderWithIdQuery(orderChat.order_id, {
     skip: !orderChat.order_id,
+  });
+  const { data: all_requisites } = useGetRequisitesQuery(undefined, {
+    skip: !order?.requisites_id,
   });
   const {
     data: historyMessages,
@@ -57,7 +60,14 @@ const PaymentChatBody = () => {
               <Message content={t('automessage-guide', { ns: 'chat' })} isCurrentUser={false} sender={'User'} />
             </li>
             <li className='flex'>
-              <Message content={t('automessage-requisite', { ns: 'chat' })} isCurrentUser={false} sender={'User'} />
+              <Message
+                content={
+                  t(`automessage-requisite-${order?.payment_method.toLocaleLowerCase()}`, { ns: 'chat' }) +
+                  ` ${all_requisites?.find((req) => req.id == order?.requisites_id)?.data}`
+                }
+                isCurrentUser={false}
+                sender={'User'}
+              />
             </li>
           </ul>
         </div>

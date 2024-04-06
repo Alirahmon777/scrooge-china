@@ -1,7 +1,7 @@
 import { ChatContext } from '@/admin/context/ChatContext';
 import { cfg } from '@/config/site.config';
-import { useGetMessagesQuery } from '@/redux/features/services/admin/moderatorService';
-import { useGetAvatarUrlQuery } from '@/redux/features/services/public/publicService';
+import { useGetMessagesQuery, useGetModeratorOrderQuery } from '@/redux/features/services/admin/moderatorService';
+import { useGetAvatarUrlQuery, useGetRequisitesQuery } from '@/redux/features/services/public/publicService';
 import { selectCurrentAdminToken } from '@/redux/features/slices/auth/authReducer';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { ScrollToBottom } from '@/utils/ScrollToBottom';
@@ -15,10 +15,19 @@ const ModeratorChatBody = () => {
   const token = useAppSelector(selectCurrentAdminToken);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { orderChat } = useContext(ChatContext);
+  const { data: order } = useGetModeratorOrderQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      data: data?.find((order) => order.id == orderChat.order_id),
+    }),
+    skip: !orderChat.order_id,
+  });
   const { t } = useTranslation('chat', { lng: 'ru' });
   const { data: historyMessages, isSuccess, refetch } = useGetMessagesQuery(orderChat.chat_id);
   const isMobile = useMediaQuery('(max-width: 375px)');
   const { data: avatar } = useGetAvatarUrlQuery(orderChat?.steam_id as string, { skip: !orderChat.steam_id });
+  const { data: all_requisites } = useGetRequisitesQuery(undefined, {
+    skip: !order?.requisites_id,
+  });
 
   useWebSocket(`${cfg.ADMIN_SOCKET_URL}/${orderChat.chat_id}?authorization=Bearer ${token}`, {
     onMessage: () => {
@@ -54,7 +63,10 @@ const ModeratorChatBody = () => {
             </li>
             <li className='flex items-end justify-end'>
               <Message
-                content={t('automessage-requisite', { ns: 'chat' })}
+                content={
+                  t(`automessage-requisite-${order?.payment_method.toLocaleLowerCase()}`, { ns: 'chat' }) +
+                  ` ${all_requisites?.find((req) => req.id == order?.requisites_id)?.data}`
+                }
                 isCurrentUser={true}
                 currentMessageBg={'bg-[#2B1818]'}
                 sender={'Moderator'}

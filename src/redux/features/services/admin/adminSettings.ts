@@ -1,5 +1,6 @@
 import { ICount, IQueryStartEndTime, IRecomVideoBody, IRequisitesBody, ISocialBody } from '@/admin/types/interfaces';
 import { adminBasicService } from '../../basics/adminService';
+import { ICurrencyBody } from '@/types/interfaces';
 
 export const adminSettingsService = adminBasicService.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,7 +8,6 @@ export const adminSettingsService = adminBasicService.injectEndpoints({
       query: ({ end_datetime, start_datetime }) =>
         `/admin/users/registrations-in-period?start_datetime=${start_datetime}&end_datetime=${end_datetime}`,
     }),
-
 
     updateSocial: builder.mutation<null, ISocialBody>({
       query: (body) => ({
@@ -42,6 +42,22 @@ export const adminSettingsService = adminBasicService.injectEndpoints({
         },
       }),
     }),
+
+    addCurrency: builder.mutation<null, ICurrencyBody>({
+      query: (body) => ({
+        url: '/admin/currency',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    addVideo: builder.mutation<null, IRecomVideoBody>({
+      query: (body) => ({
+        url: '/admin/review/video',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -50,6 +66,8 @@ export const {
   useUpdateSocialMutation,
   useUpdateCurrencyMutation,
   useUpdateRecomVideoMutation,
+  useAddCurrencyMutation,
+  useAddVideoMutation,
   useGetAmountUsersQuery,
   useLazyGetAmountUsersQuery,
 } = adminSettingsService;

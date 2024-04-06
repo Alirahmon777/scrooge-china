@@ -10,8 +10,8 @@ import { useLazyGetReviewsCountQuery, useLazyGetReviewsQuery } from '@/redux/fea
 import { motion } from 'framer-motion';
 interface IProps {
   setShow: Dispatch<SetStateAction<boolean>>;
-  limit: number;
-  offset: number;
+  limit?: number;
+  offset?: number;
 }
 
 const ReviewModal = ({ setShow, limit, offset }: IProps) => {
@@ -33,7 +33,9 @@ const ReviewModal = ({ setShow, limit, offset }: IProps) => {
     e.preventDefault();
     try {
       await addReview(form).unwrap();
-      await getReview({ limit, offset }).unwrap();
+      if (limit && offset) {
+        await getReview({ limit, offset }).unwrap();
+      }
       await getReviewCount().unwrap();
     } catch (error) {
       handleSimpleError(error);

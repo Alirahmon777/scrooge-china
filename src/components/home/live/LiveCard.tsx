@@ -1,8 +1,9 @@
 import { useGetAvatarUrlQuery, useGetUsernameQuery } from '@/redux/features/services/public/publicService';
-import { ITopUser } from '@/types/interfaces';
+import { IOrder } from '@/types/interfaces';
+import { getAmount } from '@/utils/getAmount';
 
 interface IProps {
-  item: ITopUser;
+  item: IOrder;
 }
 
 const LiveCard = ({ item }: IProps) => {
@@ -21,7 +22,9 @@ const LiveCard = ({ item }: IProps) => {
             <div className="w-[130px] text-neutral-500 text-base font-normal font-['SF Pro Display']">
               Пополнил buff.163
             </div>
-            <div className=" text-white text-base font-bold font-['SF Pro Display']">{item.amount} ¥ - 700 ₽</div>
+            <div className=" text-white text-base font-bold font-['SF Pro Display']">
+              {item.amount} ¥ - {getAmount(item.amount, item.fixed_currency_rate)} {item.currency_symbol}
+            </div>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import downloadIcon from '@svgs/payment/download.svg';
 import PaymentInfo from './PaymentInfo';
 import { useMediaQuery } from 'usehooks-ts';
 import { cn } from '@/lib/utils';
-import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useState } from 'react';
 import PaymentChatEmpty from './PaymentChatEmpty';
 import { ChatContextUser, initialOrderChat } from '@/context/ChatContext';
 import { IMessageBody } from '@/types/interfaces';
@@ -18,12 +18,13 @@ import { handleSimpleError } from '@/utils/handleError';
 import { Icons } from '@/admin/components/Icons';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { selectCurrentUser } from '@/redux/features/slices/auth/authReducer';
-// import { useTranslation } from 'react-i18next';
 import PaymentChatSuccess from './PaymentChatSuccess';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
-const PaymentChat = () => {
+interface IProps {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const PaymentChat = ({ setOpen }: IProps) => {
   const [form, setForm] = useState<IMessageBody>({ text: '' });
   const user = useAppSelector(selectCurrentUser);
   const { orderChat, setOrderChat } = useContext(ChatContextUser);
@@ -31,10 +32,6 @@ const PaymentChat = () => {
   const [cancelTrigger] = useCancelOrderMutation();
   const [triger] = useAddMessageMutation();
   const [payTriger] = usePayedOrderMutation();
-  const navigate = useNavigate();
-  const {
-    i18n: { language },
-  } = useTranslation();
 
   if (!orderChat.isChat || (!user && orderChat.isChat) || orderChat.status == '"Cancelled"') {
     return <PaymentChatEmpty />;
@@ -84,7 +81,7 @@ const PaymentChat = () => {
 
   const handleSuccess = async () => {
     try {
-      await payTriger(orderChat.order_id);
+      await payTriger(orderChat.order_id).unwrap();
       setOrderChat((prev) => ({ ...prev, status: '"Maybepayed"' }));
       localStorage.setItem('user-last-order-chat', JSON.stringify(orderChat));
       toastSuccess('вы успешно отметили заказ успешным');
@@ -96,73 +93,75 @@ const PaymentChat = () => {
   const handleClose = () => {
     setOrderChat(initialOrderChat);
     localStorage.removeItem('user-last-order-chat');
-    navigate(`/${language}/reviews?modal=true`);
+    setOpen(true);
   };
 
   return (
-    <div
-      className={cn('max-w-[564px] min-h-full relative overflow-hidden', {
-        'p-6 xl:p-6 xl:pb-[38px] bg-header rounded-[10px]': notTablet,
-        'w-full': !notTablet,
-      })}
-      onKeyDown={handleKeyDown}
-    >
-      {orderChat.status == '"Succeeded"' && <PaymentChatSuccess handleClose={handleClose} />}
+    <>
+      <div
+        className={cn('max-w-[564px] min-h-full relative overflow-hidden', {
+          'p-6 xl:p-6 xl:pb-[38px] bg-header rounded-[10px]': notTablet,
+          'w-full': !notTablet,
+        })}
+        onKeyDown={handleKeyDown}
+      >
+        {orderChat.status == '"Succeeded"' && <PaymentChatSuccess handleClose={handleClose} />}
 
-      <div className='flex flex-col gap-5 h-full'>
-        <PaymentInfo id={orderChat.order_id} />
-        <div className='w-full h-[1px] bg-gray' />
-        <PaymentChatBody />
-        <form onSubmit={handleSubmit}>
-          <div className='flex bg-[#1d1f1e] rounded-[10px] px-5'>
-            <textarea
-              placeholder='Напишите сообщение...'
-              cols={30}
-              rows={10}
-              value={form.text}
-              name='text'
-              onChange={handleChange}
-              className='py-[10px] bg-transparent min-h-[44px] max-h-[44px] resize-none flex-grow placeholder:text-gray pr-1 live-scroll'
-            />
-            <input type='file' className='hidden' name='image' id='image-input' onChange={handleChangeFile} />
-
-            <div className='flex items-center gap-2'>
-              <label
-                htmlFor='image-input'
-                className={cn('text-gray flex cursor-pointer', {
-                  'border-gray border-solid pl-0.5 border-l': form.image?.name,
-                })}
-              >
-                {form.image?.name && <p className='w-[80px] truncate'>{form.image?.name}</p>}
-                <Icons.imageIcon />
-              </label>
-              <button type='submit' title='send message. ctrl + enter'>
-                <img src={downloadIcon} alt='download icon' width={24} height={24} />
-              </button>
-            </div>
-          </div>
-        </form>
-        <div className='flex gap-2 mobile:gap-4 max-320:[&_button]:font-medium items-center'>
-          {orderChat.status != '"Maybepayed"' && (
-            <>
-              <Button label='Отменить заказ' variant='outline' onClick={handleCancel} />
-              <Button
-                label='Оплачено'
-                className='w-full py-[10px] rounded-[10px] justify-center'
-                onClick={handleSuccess}
+        <div className='flex flex-col gap-5 h-full'>
+          <PaymentInfo id={orderChat.order_id} />
+          <div className='w-full h-[1px] bg-gray' />
+          <PaymentChatBody />
+          <form onSubmit={handleSubmit}>
+            <div className='flex bg-[#1d1f1e] rounded-[10px] px-5'>
+              <textarea
+                placeholder='Напишите сообщение...'
+                cols={30}
+                rows={10}
+                value={form.text}
+                name='text'
+                onChange={handleChange}
+                className='py-[10px] bg-transparent min-h-[44px] max-h-[44px] resize-none flex-grow placeholder:text-gray pr-1 live-scroll'
               />
-            </>
-          )}
-          {orderChat.status == '"Maybepayed"' && (
-            <Button
-              label='Завершить заказ и оставить отзыв'
-              className='w-full py-[10px] rounded-[10px] justify-center'
-              onClick={handleClose}
-            />
-          )}
+              <input type='file' className='hidden' name='image' id='image-input' onChange={handleChangeFile} />
+
+              <div className='flex items-center gap-2'>
+                <label
+                  htmlFor='image-input'
+                  className={cn('text-gray flex cursor-pointer', {
+                    'border-gray border-solid pl-0.5 border-l': form.image?.name,
+                  })}
+                >
+                  {form.image?.name && <p className='w-[80px] truncate'>{form.image?.name}</p>}
+                  <Icons.imageIcon />
+                </label>
+                <button type='submit' title='send message. ctrl + enter'>
+                  <img src={downloadIcon} alt='download icon' width={24} height={24} />
+                </button>
+              </div>
+            </div>
+          </form>
+          <div className='flex gap-2 mobile:gap-4 max-320:[&_button]:font-medium items-center'>
+            {orderChat.status != '"Maybepayed"' && (
+              <>
+                <Button label='Отменить заказ' variant='outline' onClick={handleCancel} />
+                <Button
+                  label='Оплачено'
+                  className='w-full py-[10px] rounded-[10px] justify-center'
+                  onClick={handleSuccess}
+                />
+              </>
+            )}
+            {orderChat.status == '"Maybepayed"' && (
+              <Button
+                label='Завершить заказ и оставить отзыв'
+                className='w-full py-[10px] rounded-[10px] justify-center'
+                onClick={handleClose}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

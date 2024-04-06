@@ -62,6 +62,11 @@ export interface ICurrencyRes {
   rate: string;
 }
 
+export interface ICurrencyBody {
+  symbol: string;
+  rate: string;
+}
+
 export interface ICurrency {
   rub: string;
   usd: string;

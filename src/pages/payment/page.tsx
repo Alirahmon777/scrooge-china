@@ -1,5 +1,6 @@
 import PaymentCard from '@/components/payment/PaymentCard';
 import PaymentChat from '@/components/payment/PaymentChat';
+import ReviewModal from '@/components/review/ReviewModal';
 import { ChatContextUser, initialOrderChat } from '@/context/ChatContext';
 import Seo from '@/layout/seo/Seo';
 import {
@@ -12,7 +13,8 @@ import { useAppSelector } from '@/redux/hooks/hooks';
 import { TStoreOrderUser } from '@/types/types';
 import { handleSimpleError } from '@/utils/handleError';
 import { toastCustom, toastSuccess } from '@/utils/toast/toast';
-import { useContext, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'usehooks-ts';
@@ -42,7 +44,7 @@ const PaymentPage = () => {
     pollingInterval: 25000,
     refetchOnFocus: true,
   });
-
+  const [open, setOpen] = useState(false);
   const [addChat] = useCreateOrPatchChatMutation();
 
   const {
@@ -126,6 +128,7 @@ const PaymentPage = () => {
 
   return (
     <Seo metaTitle='Scrooge China - Пополнить' hasChat>
+      <AnimatePresence>{open && <ReviewModal setShow={setOpen} />}</AnimatePresence>
       <section className='my-[55px] sm:mt-[66px] sm:mb-[200px]'>
         <div className='container'>
           {bigMobile && (
@@ -135,7 +138,7 @@ const PaymentPage = () => {
           )}
           <div className='flex lg:grid lg:grid-cols-2 justify-center lg:justify-between mt-[55px] gap-5'>
             <PaymentCard handleRedirect={handleRedirect} createChat={createChat} />
-            {notTablet && <PaymentChat />}
+            {notTablet && <PaymentChat setOpen={setOpen} />}
           </div>
         </div>
       </section>

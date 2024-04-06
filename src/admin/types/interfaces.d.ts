@@ -70,14 +70,6 @@ export interface IRequisitesBody {
   data: string;
 }
 
-export interface IRecomVideoBody {
-  id: string;
-  url: string;
-  name: string;
-  subscribers: string;
-  avatar: string;
-}
-
 export interface IRequisitesRes {
   id: string;
   name: string;
@@ -88,6 +80,13 @@ export interface ISocialRes {
   id: string;
   name: string;
   url: string | null;
+}
+
+export interface IRecomVideoBody {
+  url: string;
+  name: string;
+  subscribers: string;
+  avatar: string;
 }
 
 export interface IRecomVideoRes {
