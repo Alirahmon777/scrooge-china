@@ -3,7 +3,7 @@ import Button from '../ui/Button';
 import { useContext } from 'react';
 
 interface IProps {
-  handleClose: () => void;
+  handleClose: (isModal: boolean) => void;
 }
 const PaymentChatSuccess = ({ handleClose }: IProps) => {
   const { setOrderChat } = useContext(ChatContextUser);
@@ -11,6 +11,7 @@ const PaymentChatSuccess = ({ handleClose }: IProps) => {
     setOrderChat(initialOrderChat);
     localStorage.removeItem('user-last-order-chat');
   };
+
   return (
     <div className='backdrop-blur-md absolute w-full h-full left-0 top-0 rounded-[10px] flex items-center justify-center'>
       <div className='w-[90%] sm:max-w-[60%]'>
@@ -24,7 +25,7 @@ const PaymentChatSuccess = ({ handleClose }: IProps) => {
           <Button
             label='оставить отзыв'
             variant='outline'
-            onClick={handleClose}
+            onClick={() => handleClose(true)}
             className='w-full py-[10px] rounded-[10px] justify-center border-white hover:bg-white'
           />
         </div>

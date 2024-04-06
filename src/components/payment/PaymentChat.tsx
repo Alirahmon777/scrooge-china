@@ -90,10 +90,10 @@ const PaymentChat = ({ setOpen }: IProps) => {
     }
   };
 
-  const handleClose = () => {
-    setOrderChat(initialOrderChat);
+  const handleClose = (isModal: boolean) => {
+    setOrderChat({ ...initialOrderChat, isChat: !isModal, status: '"Succeeded"' });
     localStorage.removeItem('user-last-order-chat');
-    setOpen(true);
+    if (isModal) setOpen(true);
   };
 
   return (
@@ -155,7 +155,7 @@ const PaymentChat = ({ setOpen }: IProps) => {
               <Button
                 label='Завершить заказ и оставить отзыв'
                 className='w-full py-[10px] rounded-[10px] justify-center'
-                onClick={handleClose}
+                onClick={() => handleClose(false)}
               />
             )}
           </div>
