@@ -187,3 +187,10 @@ export interface ITopUser {
   steam_id: string;
   amount: string;
 }
+
+export interface IStats {
+  icon: string;
+  count: number;
+  symbol?: string;
+  desc: string;
+}
