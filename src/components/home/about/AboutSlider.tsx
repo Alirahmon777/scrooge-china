@@ -51,7 +51,7 @@ const AboutSlider: React.FC<IProps> = ({ data, isSuccess }) => {
 
   return (
     isSuccess &&
-    data?.length && (
+    !!data?.length && (
       <Slider {...settings} className='xl:max-w-[667px] max-xl:pb-[40px]' ref={slider}>
         {data?.map((items, idx) => (
           <AboutSliderCard {...items} key={idx} />
