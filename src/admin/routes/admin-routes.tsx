@@ -7,6 +7,8 @@ import ModeratorLayout from '../layout/ModeratorLayout';
 import ProtectedRoute from '@/routes/protected-route';
 
 const History = lazy(() => import('../pages/history/page'));
+const HistoryChat = lazy(() => import('../pages/history-chat/page'));
+const Blacklist = lazy(() => import('../pages/blacklist/page'));
 const Moderators = lazy(() => import('../pages/moderators/page'));
 const Settings = lazy(() => import('../pages/settings/page'));
 const Statistics = lazy(() => import('../pages/statistics/page'));
@@ -18,6 +20,9 @@ const LoginPage = lazy(() => import('../pages/login/page'));
 const adminSubRoutes: IRoutes[] = [
   { path: '', element: <Navigate to={'statistics'} replace /> },
   { path: 'history-orders', component: History },
+  { path: 'history-chat', component: HistoryChat },
+  { path: 'history-chat/:id', component: HistoryChat },
+  { path: 'blacklist', component: Blacklist },
   { path: 'moderators', component: Moderators },
   { path: 'settings', component: Settings },
   { path: 'statistics', component: Statistics },

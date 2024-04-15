@@ -1,3 +1,4 @@
+import { theadItems } from '@/admin/static/history-orders-thead';
 import HistoryTable from '@/components/ui/HistoryTable';
 import { useGetHistoryMutation } from '@/redux/features/services/admin/adminService';
 import { IOrder } from '@/types/interfaces';
@@ -9,8 +10,7 @@ const HistoryOrdersPage = () => {
   const date = subYears(new Date(), 100);
   const isoStringWithoutTimezone = date.toISOString().slice(0, -1);
 
-  const [getHistory, isSuccess] = useGetHistoryMutation();
-
+  const [getHistory, { isSuccess }] = useGetHistoryMutation();
   const [data, setData] = useState<IOrder[]>([]);
 
   useEffect(() => {
@@ -20,16 +20,18 @@ const HistoryOrdersPage = () => {
           start_datetime: isoStringWithoutTimezone,
           end_datetime: new Date().toISOString().slice(0, -1),
         }).unwrap();
-        if (isSuccess) {
-          setData(data);
-        }
+        setData(data);
       } catch (err) {
         handleSimpleError(err);
       }
     })();
   }, []);
 
-  return <section className='my-[45px] pr-[32px]'>{isSuccess && <HistoryTable items={data} />}</section>;
+  return (
+    <section className='my-[45px] pr-[32px]'>
+      {isSuccess && <HistoryTable items={data} h_items={theadItems} isAdmin />}
+    </section>
+  );
 };
 
 export default HistoryOrdersPage;

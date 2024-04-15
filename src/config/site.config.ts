@@ -3,6 +3,7 @@ export const cfg = {
   ADMIN_SOCKET_URL: import.meta.env.VITE_ADMIN_SOCKET_URL,
   USER_SOCKET_URL: import.meta.env.VITE_USER_SOCKET_URL,
   LIVE_SOCKET_URL: import.meta.env.VITE_LIVE_SOCKET_URL,
+  INSTRUCTION_URL: import.meta.env.VITE_INSTRUCTION_URL,
 };
 
 export const siteConfig = {

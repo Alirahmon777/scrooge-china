@@ -1,6 +1,7 @@
 import Button from '@/components/ui/Button';
 import Iframe from '@/components/ui/Iframe';
 import PlayButton from '@/components/ui/PlayButton';
+import { cfg } from '@/config/site.config';
 import market from '@svgs/market.svg';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -19,11 +20,7 @@ const Hero = () => {
 
   return (
     <>
-      <Iframe
-        src='https://www.youtube.com/embed/LBGqkYHd7ek?si=7KqpG63Kyuvqi5JQ'
-        show={showIframe}
-        handleShow={handleShowIframe}
-      />
+      <Iframe src={cfg.INSTRUCTION_URL} show={showIframe} handleShow={handleShowIframe} />
       <section className='base:mt-5 tablet:mt-[73px]'>
         <div className='container flex flex-col gap-5 text-center items-center justify-between tablet:flex-row  tablet:text-start'>
           <div className='tablet:max-w-[55%] flex flex-col gap-[15px] tablet:gap-[30px] tablet:items-start items-stretch'>

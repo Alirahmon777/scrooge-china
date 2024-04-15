@@ -1,10 +1,10 @@
-import { IAdmin, IOrder } from '@/types/interfaces';
+import { IAdmin, IOrder, IReqId, IReqSteamId } from '@/types/interfaces';
 import { setAdmin } from '../../slices/auth/authReducer';
 import { adminBasicService } from '../../basics/adminService';
 import { IChangePassBody, ILoginData, IModeratorRes, IQueryStartEndTime } from '@/admin/types/interfaces';
 
 export const adminService = adminBasicService
-  .enhanceEndpoints({ addTagTypes: ['MODERATOR'], endpoints: () => {} })
+  .enhanceEndpoints({ addTagTypes: ['MODERATOR', 'BLACKLIST'], endpoints: () => {} })
   .injectEndpoints({
     endpoints: (builder) => ({
       getSelf: builder.query<IAdmin, void>({
@@ -56,6 +56,38 @@ export const adminService = adminBasicService
           body,
         }),
       }),
+
+      deleteReview: builder.mutation<void, IReqId>({
+        query: (body) => ({
+          url: `/admin/review`,
+          method: 'DELETE',
+          body,
+        }),
+      }),
+
+      //blacklist
+      getBlacklist: builder.query<string[], void>({
+        query: () => '/admin/blacklist',
+        providesTags: ['BLACKLIST'],
+      }),
+
+      addBlacklist: builder.mutation<void, IReqSteamId>({
+        query: (body: IReqSteamId) => ({
+          url: '/admin/blacklist',
+          method: 'POST',
+          body,
+        }),
+        invalidatesTags: ['BLACKLIST'],
+      }),
+
+      deleteBlacklist: builder.mutation<void, IReqSteamId>({
+        query: (body: IReqSteamId) => ({
+          url: '/admin/blacklist',
+          method: 'DELETE',
+          body,
+        }),
+        invalidatesTags: ['BLACKLIST'],
+      }),
     }),
     overrideExisting: false,
   });
@@ -67,5 +99,9 @@ export const {
   useGetModeratorsQuery,
   useAddModeratorMutation,
   useDeleteModeratorMutation,
+  useDeleteReviewMutation,
   useChangePasswordMutation,
+  useAddBlacklistMutation,
+  useDeleteBlacklistMutation,
+  useGetBlacklistQuery
 } = adminService;

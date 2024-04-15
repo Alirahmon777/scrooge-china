@@ -44,6 +44,10 @@ export const adminService = adminBasicService
         query: (id) => `/admin/moderator/chat/${id}/history`,
       }),
 
+      getOrderMessages: builder.query<IHistoryMessage, string>({
+        query: (id) => `/admin/moderator/order/${id}/chat/history`,
+      }),
+
       addMessage: builder.mutation<void, { id: string } & IMessageBody>({
         query: ({ id, image, text }) => {
           const formdata = new FormData();
@@ -75,7 +79,7 @@ export const {
   useAssignOrderMutation,
   useCancelOrderMutation,
   useSuccessOrderMutation,
-
+  useGetOrderMessagesQuery,
   useAddMessageMutation,
   useGetMessagesQuery,
 } = adminService;

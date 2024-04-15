@@ -62,8 +62,9 @@ const PaymentChatBody = () => {
             <li className='flex'>
               <Message
                 content={
-                  t(`automessage-requisite-${order?.payment_method.toLocaleLowerCase()}`, { ns: 'chat' }) +
-                  ` ${all_requisites?.find((req) => req.id == order?.requisites_id)?.data}`
+                  t(`automessage-requisite-${order?.payment_method.toLocaleLowerCase().replace(' ', '')}`, {
+                    ns: 'chat',
+                  }) + ` ${all_requisites?.find((req) => req.id == order?.requisites_id)?.data}`
                 }
                 isCurrentUser={false}
                 sender={'User'}

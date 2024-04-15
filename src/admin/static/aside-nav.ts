@@ -1,4 +1,5 @@
 import { Icons } from '../components/Icons';
+import GlobalIcons from '@components/Icons';
 import { IAsideNav } from '../types/interfaces';
 
 export const asideNav: IAsideNav[] = [
@@ -8,7 +9,9 @@ export const asideNav: IAsideNav[] = [
       { label: 'Статистика', path: 'statistics', icon: Icons.folder },
       { label: 'Модераторы', path: 'moderators', icon: Icons.user },
       { label: 'История Заказов', path: 'history-orders', icon: Icons.globe },
+      { label: 'История чата', path: 'history-chat', icon: Icons.chat },
       { label: 'Настройки', path: 'settings', icon: Icons.settings },
+      { label: 'Черный список', path: 'blacklist', icon: GlobalIcons.blockIcon },
     ],
   },
   {

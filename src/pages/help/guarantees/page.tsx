@@ -13,11 +13,10 @@ const page = () => {
           ))}
           <div className='md:text-2xl font-medium [&_span]:text-success flex-col flex gap-5'>
             <p>
-              <span>Криптовалюты:</span> Bitcoin Wallet, Ethereum Wallet, Tether, Monero & другие.
+              <span>Криптовалюты:</span> USDT
             </p>
             <p>
-              <span>Банки и эл. деньги:</span> VISA, MasterCard, YooMoney (ex. Yandex.Money), QIWI, Privat24 Bitcoin
-              Wallet, Ethereum Wallet, Tether, PayPal, Monero & другие.
+              <span>Банки и эл. деньги:</span> Tinkoff, SberBank, QIWI, YooMoney, KaspiBank
             </p>
           </div>
         </div>

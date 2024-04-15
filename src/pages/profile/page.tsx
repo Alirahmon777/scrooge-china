@@ -11,7 +11,18 @@ import { useMediaQuery } from 'usehooks-ts';
 const ProfilePage = () => {
   const maxSm = useMediaQuery('not all and (min-width: 640px)');
   const laptop = useMediaQuery('(min-width: 1024px)');
-  const { data, isSuccess } = useGetUserOrderQuery();
+  const { data, isSuccess } = useGetUserOrderQuery(undefined, {
+    selectFromResult: ({ data, isSuccess }) => {
+      if (!isSuccess || !data || data.length === 0) {
+        return { data: [], isSuccess };
+      }
+      const sortedOrders = [...data].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      return { data: sortedOrders, isSuccess };
+    },
+  });
+
   return (
     <Seo metaTitle='Scrooge China | Profile' hasChat>
       <section className='my-10 tablet:my-[60px] profile'>
@@ -36,6 +47,7 @@ const ProfilePage = () => {
             </div>
             {isSuccess && laptop ? (
               <HistoryTable
+                h_items={theadItems}
                 items={data}
                 className='[&_th]:py-[20px] [&_tbody]:before:content-[""] [&_tbody]:before:table-row'
                 requisites='text-left w-[300px]'
@@ -53,3 +65,12 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
+export const theadItems = [
+  { className: 'text-left pl-6 py-3 rounded-l-[10px]', label: 'Номер заказа' },
+  { className: 'text-left', label: 'Дата/Время' },
+  { className: 'text-left', label: 'Метод оплаты' },
+  { className: 'text-left', label: 'Реквизиты' },
+  { className: 'text-left', label: 'Сумма ¥ - ₽' },
+  { className: 'text-left rounded-r-[10px] pr-6', label: 'Статус' },
+];

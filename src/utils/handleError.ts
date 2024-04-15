@@ -45,6 +45,13 @@ export function handleError(error: unknown) {
 export function handleSimpleError(error: unknown) {
   if (isError(error)) {
     toastError(error.data.details);
+
+    if (
+      error.data.details == 'Bad or expired token!' ||
+      error.data.details.toLocaleLowerCase().includes('unauthorized')
+    ) {
+      return handleUserLogout();
+    }
   } else if (error instanceof Error) {
     toastError(error.message, v4());
   } else {

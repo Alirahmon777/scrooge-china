@@ -35,6 +35,7 @@ const ReviewModal = ({ setShow, limit, offset }: IProps) => {
       await addReview(form).unwrap();
       if (limit && (offset != undefined || offset != null)) {
         await getReview({ limit, offset }).unwrap();
+        await getReview({ limit: 9999, offset: 0 }).unwrap();
       }
       await getReviewCount().unwrap();
     } catch (error) {

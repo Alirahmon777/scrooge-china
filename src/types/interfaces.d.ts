@@ -183,8 +183,7 @@ export interface IHistoryMessage {
   ][];
 }
 
-export interface ITopUser {
-  steam_id: string;
+export interface ITopUser extends IReqSteamId {
   amount: string;
 }
 
@@ -193,4 +192,15 @@ export interface IStats {
   count: number;
   symbol?: string;
   desc: string;
+}
+
+export interface IReqId extends IPatchChat {}
+
+export interface IReqSteamId {
+  steam_id: string;
+}
+
+export interface ITheadItem {
+  className: string;
+  label: string;
 }

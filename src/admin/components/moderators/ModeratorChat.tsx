@@ -9,7 +9,11 @@ import ModeratorChatEmpty from './ModeratorChatEmpty';
 import { IMessageBody } from '@/types/interfaces';
 import { Icons } from '../Icons';
 import { handleSimpleError } from '@/utils/handleError';
-import { useAddMessageMutation, useSuccessOrderMutation } from '@/redux/features/services/admin/moderatorService';
+import {
+  useAddMessageMutation,
+  useGetModeratorOrderQuery,
+  useSuccessOrderMutation,
+} from '@/redux/features/services/admin/moderatorService';
 import { ChatContext } from '@/admin/context/ChatContext';
 import { toastError, toastSuccess } from '@/utils/toast/toast';
 
@@ -19,6 +23,13 @@ const ModeratorChat = () => {
   const [triger] = useAddMessageMutation();
   const [successTriger] = useSuccessOrderMutation();
   const notTable = useMediaQuery('(min-width: 1024px)');
+  const { data: order } = useGetModeratorOrderQuery(undefined, {
+    selectFromResult: ({ data, isSuccess }) => ({
+      data: data?.find((order) => order.id == orderChat.order_id),
+      isSuccess,
+    }),
+    skip: !orderChat.order_id,
+  });
 
   if (!orderChat.isChat || orderChat.status == '"Cancelled"' || orderChat.status == '"Succeeded"') {
     return <ModeratorChatEmpty />;
@@ -66,6 +77,7 @@ const ModeratorChat = () => {
     }
   };
   const isClosedChat = orderChat.status == '"Created"' || orderChat.status == '"Maybepayed"';
+
   return (
     <div
       className={cn('max-w-[564px] min-h-full', {
@@ -75,7 +87,7 @@ const ModeratorChat = () => {
       onKeyDown={handleKeyDown}
     >
       <div className='flex flex-col gap-5 h-full'>
-        <ModeratorChatInfo id={orderChat.order_id} />
+        <ModeratorChatInfo order={order} />
         <div className='w-full h-[1px] bg-gray' />
         <ModeratorChatBody />
         <form

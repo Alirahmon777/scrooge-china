@@ -4,9 +4,12 @@ import ReviewModal from '@/components/review/ReviewModal';
 import Button from '@/components/ui/Button';
 import Seo from '@/layout/seo/Seo';
 import { cn } from '@/lib/utils';
+import { useAddBlacklistMutation, useDeleteReviewMutation } from '@/redux/features/services/admin/adminService';
 import { useGetReviewsCountQuery, useGetReviewsQuery } from '@/redux/features/services/public/publicService';
 import { selectAuth } from '@/redux/features/slices/auth/authReducer';
 import { useAppSelector } from '@/redux/hooks/hooks';
+import { handleSimpleError } from '@/utils/handleError';
+import { toastSuccess } from '@/utils/toast/toast';
 import { AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -19,22 +22,25 @@ const ReviewPage = () => {
   const openModal = !!auth.user && !!auth.token && queryParam.get('modal') == 'true';
   const [open, setOpen] = useState(openModal);
   const notMobile = useMediaQuery('(min-width: 425px)');
-  const { data, isSuccess } = useGetReviewsQuery(
+  const { data: overallStars, refetch: refetchAll } = useGetReviewsQuery({ limit: 9999, offset: 0 });
+  const { data, isSuccess, refetch } = useGetReviewsQuery(
     { limit: pagination.limit, offset: pagination.offset },
     {
       pollingInterval: 150000,
     }
   );
-  const { data: amount_rewievs } = useGetReviewsCountQuery();
-
+  const { data: amount_rewievs, refetch: refetchCount } = useGetReviewsCountQuery();
   const [_, setLocked] = useLockedBody();
+  const [deleteReview] = useDeleteReviewMutation();
+  const [blockUser] = useAddBlacklistMutation();
+
   const handleShow = () => {
     setOpen(true);
     setLocked(true);
   };
-  const overallStar = data?.reduce((a, b) => ({ stars: a.stars + b.stars }), { stars: 0 });
-  const num = ((overallStar?.stars || 0) / (data?.length || 0)).toFixed(1);
 
+  const overallStar = overallStars?.reduce((a, b) => ({ stars: a.stars + b.stars }), { stars: 0 });
+  const num = ((overallStar?.stars || 0) / (overallStars?.length || 0)).toFixed(1);
   const formattedNum = !isNaN(+num) ? parseFloat(num).toString() : '0';
 
   const handlePaginate = (limit: number) => {
@@ -50,6 +56,35 @@ const ReviewPage = () => {
   }, [open]);
 
   const starsIcons = [1, 2, 3, 4, 5];
+
+  const refetchReview = async () => {
+    try {
+      await refetchAll().unwrap();
+      await refetch().unwrap();
+      await refetchCount().unwrap();
+    } catch (error) {
+      handleSimpleError(error);
+    }
+  };
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteReview({ id }).unwrap();
+      await refetchReview();
+      toastSuccess('успешно удален');
+    } catch (error) {
+      handleSimpleError(error);
+    }
+  };
+
+  const handleBlockUser = async (id: string) => {
+    try {
+      await blockUser({ steam_id: id }).unwrap();
+      await refetchReview();
+      toastSuccess('успешно заблокирован');
+    } catch (error) {
+      handleSimpleError(error);
+    }
+  };
 
   return (
     <Seo metaTitle='Scrooge China | Reviews' hasChat>
@@ -102,7 +137,16 @@ const ReviewPage = () => {
           </div>
           <div className='h-0.5 w-full bg-header tablet:block hidden' />
           <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[26px] gap-y-[35px] w-full max-tablet:mt-6'>
-            {isSuccess && data.map((review, idx) => <ReviewCard key={idx} {...review} starsIcons={starsIcons} />)}
+            {isSuccess &&
+              data.map((review, idx) => (
+                <ReviewCard
+                  handleDelete={handleDelete}
+                  handleBlockUser={handleBlockUser}
+                  key={idx}
+                  {...review}
+                  starsIcons={starsIcons}
+                />
+              ))}
           </ul>
           <Button
             label='Загрузить ещё'

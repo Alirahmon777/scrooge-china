@@ -15,7 +15,10 @@ export function SliderBtn({ slideHandler, customClass }: ISliderBtnProps) {
   return (
     <button
       onClick={slideHandler}
-      className={cn('rounded-[50%] p-[14px] bg-[#1D1F1E] absolute z-10 top-1/2 -translate-y-1/2', customClass)}
+      className={cn(
+        'rounded-[50%] p-[14px] bg-[#1D1F1E] absolute z-10 top-1/2 -translate-y-1/2',
+        customClass
+      )}
     >
       <img src={right} alt='arrow right' />
     </button>

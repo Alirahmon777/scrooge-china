@@ -1,24 +1,21 @@
-import { useGetModeratorOrderQuery } from '@/redux/features/services/admin/moderatorService';
 import { useGetAvatarUrlQuery, useGetUsernameQuery } from '@/redux/features/services/public/publicService';
+import { IOrder } from '@/types/interfaces';
 import { getAmount } from '@/utils/getAmount';
 import { useMediaQuery } from 'usehooks-ts';
 
 interface IProps {
-  id: string;
+  order?: IOrder;
 }
 
-const ModeratorChatInfo = ({ id }: IProps) => {
-  const { data, isSuccess } = useGetModeratorOrderQuery(undefined, {
-    selectFromResult: ({ data, isSuccess }) => ({
-      data: data?.find((order) => order.id == id),
-      isSuccess,
-    }),
+const ModeratorChatInfo = ({ order }: IProps) => {
+  const { data: avatar } = useGetAvatarUrlQuery(order?.steam_id as string, {
+    skip: !order?.steam_id,
   });
-
-  const { data: avatar } = useGetAvatarUrlQuery(data?.steam_id as string, { skip: !isSuccess });
-  const { data: username } = useGetUsernameQuery(data?.steam_id as string, { skip: !isSuccess });
-
+  const { data: username } = useGetUsernameQuery(order?.steam_id as string, {
+    skip: !order?.steam_id,
+  });
   const maxSm = useMediaQuery('not all and (min-width:640px)');
+
   return (
     <div className='flex max-sm:flex-col items-start gap-[10px]'>
       <div className='flex items-start gap-[10px]'>
@@ -32,7 +29,7 @@ const ModeratorChatInfo = ({ id }: IProps) => {
           <div className=''>
             <h4 className='text-2xl font-bold'>{username || 'User 1'}</h4>
             <p className='text-gray mt-[5px]'>
-              Номер заказа: <span>{data?.id}</span>
+              Номер заказа: <span>{order?.id}</span>
             </p>
           </div>
         )}
@@ -42,7 +39,7 @@ const ModeratorChatInfo = ({ id }: IProps) => {
           <div className=''>
             <h4 className='text-2xl font-bold'>{username || 'User 1'}</h4>
             <p className='text-gray mt-[5px]'>
-              Номер заказа: <span>{data?.id}</span>
+              Номер заказа: <span>{order?.id}</span>
             </p>
           </div>
         )}
@@ -50,18 +47,18 @@ const ModeratorChatInfo = ({ id }: IProps) => {
           <li className='flex flex-col gap-[5px]'>
             <p className='text-gray'>Сумма</p>
             <p>
-              {data?.currency_symbol} {getAmount(data?.amount, data?.fixed_currency_rate)}
+              {order?.currency_symbol} {getAmount(order?.amount, order?.fixed_currency_rate)}
             </p>
           </li>
           <li className='flex flex-col gap-[5px]'>
             <p className='text-gray'>Курс</p>
             <p>
-              1¥ ≈ <span>{data?.fixed_currency_rate}</span>
+              1¥ ≈ <span>{order?.fixed_currency_rate}</span>
             </p>
           </li>
           <li className='flex flex-col gap-[5px]'>
             <p className='text-gray'>Получите в ¥</p>
-            <p>{data?.amount} ¥</p>
+            <p>{order?.amount} ¥</p>
           </li>
         </ul>
       </div>
