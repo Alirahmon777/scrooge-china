@@ -8,7 +8,7 @@ import { useAddBlacklistMutation, useDeleteReviewMutation } from '@/redux/featur
 import { useGetReviewsCountQuery, useGetReviewsQuery } from '@/redux/features/services/public/publicService';
 import { selectAuth } from '@/redux/features/slices/auth/authReducer';
 import { useAppSelector } from '@/redux/hooks/hooks';
-import { handleSimpleError } from '@/utils/handleError';
+import { handleAdminError, handleSimpleError } from '@/utils/handleError';
 import { toastSuccess } from '@/utils/toast/toast';
 import { AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -72,7 +72,7 @@ const ReviewPage = () => {
       await refetchReview();
       toastSuccess('успешно удален');
     } catch (error) {
-      handleSimpleError(error);
+      handleAdminError(error);
     }
   };
 
@@ -82,7 +82,7 @@ const ReviewPage = () => {
       await refetchReview();
       toastSuccess('успешно заблокирован');
     } catch (error) {
-      handleSimpleError(error);
+      handleAdminError(error);
     }
   };
 

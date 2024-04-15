@@ -1,6 +1,6 @@
 export const handleAdminLogout = () => {
   localStorage.removeItem('admin');
-  window.location.reload();
+  window.location.href = '/admin/login';
 };
 
 export const handleUserLogout = () => {

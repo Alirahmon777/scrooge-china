@@ -5,7 +5,7 @@ import PaymentMethods from './PaymentMethods';
 import { useAddUserOrderMutation } from '@/redux/features/services/user/userService';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { IOrderBody } from '@/types/interfaces';
-import { handleSimpleError } from '@/utils/handleError';
+import { handleError } from '@/utils/handleError';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { selectCurrency } from '@/redux/features/slices/appReducer';
 import { useGetCurrencyIdQuery } from '@/redux/features/services/public/publicService';
@@ -61,7 +61,7 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
       }
       toastError('Следует завершить последний заказ при создании нового');
     } catch (error) {
-      handleSimpleError(error);
+      handleError(error);
     }
   };
 
