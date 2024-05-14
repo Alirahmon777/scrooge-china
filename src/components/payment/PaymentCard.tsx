@@ -37,6 +37,7 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
   const handleChange = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -44,8 +45,12 @@ const PaymentCard = ({ handleRedirect, createChat }: IProps) => {
       toastError('Войдите в аккаунт, чтобы создать заказ');
       return;
     }
-    if (!form.amount) {
-      toastError('Введите сумму юани!');
+    if (!form.amount || !+form.amount) {
+      toastError('Введите сумму юани! минимум 50¥');
+      return;
+    }
+    if (+form.amount < 50) {
+      toastError('Минимальная сумма - 50¥ (юани)!');
       return;
     }
     if (!form.payment_method) {

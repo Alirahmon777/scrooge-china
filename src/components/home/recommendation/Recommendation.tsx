@@ -76,7 +76,7 @@ const breakpoints = {
   },
 
   425: {
-    effect: 'slide',
+    effect: 'slide',  
     spaceBetween: 40,
   },
 

@@ -16,7 +16,9 @@ const LiveCard = ({ item }: IProps) => {
           <div className='flex-col justify-start items-center gap-[5px] flex'>
             {avatar && <img src={avatar} className='w-[100px] h-[100px] rounded-[10px]' />}
             {!avatar && <div className='w-[100px] h-[100px] bg-zinc-300 rounded-[10px]' />}
-            <div className="text-white text-base font-bold font-['SF Pro Display']">{username || 'НикНэйм'}</div>
+            <p className="text-white text-base font-bold font-['SF Pro Display'] truncate w-[180px] text-center">
+              {username || 'НикНэйм'}
+            </p>
           </div>
           <div className='flex-col justify-start items-center flex'>
             <div className="w-[130px] text-neutral-500 text-base font-normal font-['SF Pro Display']">

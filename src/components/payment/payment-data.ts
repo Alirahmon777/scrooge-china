@@ -18,7 +18,7 @@ export const paymentMethods = [
     buttons: [
       { id: '1', label: 'Tinkoff', leftIcon: tinkoff },
       { id: '2', label: 'SberBank', leftIcon: sberbank },
-      { id: '3', label: 'Qiwi', leftIcon: qiwi },
+      { id: '3', label: 'SPB', leftIcon: qiwi },
       { id: '4', label: 'Yoomoney', leftIcon: yoomoney },
     ],
   },

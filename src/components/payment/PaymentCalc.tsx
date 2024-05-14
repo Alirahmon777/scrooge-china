@@ -51,6 +51,7 @@ const PaymentCalc = ({ handleChange, form }: IProps) => {
         <input
           id='rate-input'
           type='number'
+          min={50}
           value={form.amount != '0' ? form.amount : ''}
           onFocus={handleDisable}
           onChange={handleSumm}
