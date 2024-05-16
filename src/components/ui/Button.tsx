@@ -42,7 +42,7 @@ const Button = ({
       {fullImg && <img src={fullImg} className='absolute z-50 top-0 left-0 wh-full-important' />}
       {LeftSvg && LeftSvg}
       {loadingElement && loadingElement}
-      {leftIcon && <img src={leftIcon} alt={'button left icon'} className={imageClass} />}
+      {leftIcon && <img src={leftIcon} alt={'button left icon'} width={24} height={24} className={imageClass} />}
       {label && <p className='text-black'>{label}</p>}
       {rightIcon && <img src={rightIcon} alt={'button right icon'} className={imageClass} />}
     </button>

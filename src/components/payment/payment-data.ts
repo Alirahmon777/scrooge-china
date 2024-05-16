@@ -1,5 +1,5 @@
 import tinkoff from '@svgs/payment/tinkoff.svg';
-import qiwi from '@svgs/payment/qiwi.svg';
+import sbp from '@svgs/payment/sbp.svg';
 import sberbank from '@svgs/payment/sberbank.svg';
 import yoomoney from '@svgs/payment/yoomoney.svg';
 import kaspibank from '@svgs/payment/kaspi-bank.svg';
@@ -18,7 +18,7 @@ export const paymentMethods = [
     buttons: [
       { id: '1', label: 'Tinkoff', leftIcon: tinkoff },
       { id: '2', label: 'SberBank', leftIcon: sberbank },
-      { id: '3', label: 'SPB', leftIcon: qiwi },
+      { id: '3', label: 'SBP', leftIcon: sbp },
       { id: '4', label: 'Yoomoney', leftIcon: yoomoney },
     ],
   },

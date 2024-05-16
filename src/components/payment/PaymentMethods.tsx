@@ -31,6 +31,7 @@ const PaymentMethods = ({ handleChange, form }: IProps) => {
                       'bg-success': form.payment_method == label,
                     }
                   )}
+                  imageClass='h-6'
                   label={label}
                   leftIcon={leftIcon}
                 />
