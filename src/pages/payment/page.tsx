@@ -29,7 +29,11 @@ const PaymentPage = () => {
     selectFromResult: ({ data, isSuccess }) => {
       return {
         data: data
-          ?.filter((order) => order.moderator_id && (order.status == '"Created"' || order.status == '"Maybepayed"'))
+          ?.filter(
+            (order) =>
+              order.moderator_id &&
+              (order.status == '"Created"' || order.status == '"Maybepayed"' || order.status == '"Cancelled"')
+          )
           .at(-1),
         isSuccess,
       };
@@ -91,9 +95,14 @@ const PaymentPage = () => {
       if (!order) {
         return;
       }
+      if (order.status == '"Cancelled"') {
+        setOrderChat(initialOrderChat);
+        localStorage.removeItem('user-last-order-chat');
+        return;
+      }
       createChat(order?.id, order?.status, order?.moderator_id);
     }
-  }, [isSuccess]);
+  }, [isSuccess, order]);
 
   useEffect(() => {
     if (!user) {

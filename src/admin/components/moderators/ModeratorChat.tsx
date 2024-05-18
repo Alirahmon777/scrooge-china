@@ -11,17 +11,21 @@ import { Icons } from '../Icons';
 import { handleSimpleError } from '@/utils/handleError';
 import {
   useAddMessageMutation,
+  useCancelOrderMutation,
   useGetModeratorOrderQuery,
   useSuccessOrderMutation,
 } from '@/redux/features/services/admin/moderatorService';
-import { ChatContext } from '@/admin/context/ChatContext';
+import { ChatContext, initialOrderChatAdmin } from '@/admin/context/ChatContext';
 import { toastError, toastSuccess } from '@/utils/toast/toast';
+import { useTranslation } from 'react-i18next';
 
 const ModeratorChat = () => {
   const [form, setForm] = useState<IMessageBody>({ text: '', image: null });
+  const { t } = useTranslation();
   const { orderChat, setOrderChat } = useContext(ChatContext);
   const [triger] = useAddMessageMutation();
   const [successTriger] = useSuccessOrderMutation();
+  const [cancelTrigger] = useCancelOrderMutation();
   const notTable = useMediaQuery('(min-width: 1024px)');
   const { data: order } = useGetModeratorOrderQuery(undefined, {
     selectFromResult: ({ data, isSuccess }) => ({
@@ -76,6 +80,19 @@ const ModeratorChat = () => {
       handleSimpleError(err);
     }
   };
+
+  const handleCancel = async () => {
+    try {
+      await triger({ id: orderChat.chat_id, text: t('automessage-cancelled', { ns: 'chat' }), image: form.image });
+      await cancelTrigger(orderChat.order_id);
+      localStorage.removeItem('user-last-order-chat');
+      setOrderChat(initialOrderChatAdmin);
+      toastSuccess('заказ успешно отменен!');
+    } catch (error) {
+      handleSimpleError(error);
+    }
+  };
+
   const isClosedChat = orderChat.status == '"Created"' || orderChat.status == '"Maybepayed"';
 
   return (
@@ -126,12 +143,16 @@ const ModeratorChat = () => {
             </div>
           </div>
         </form>
-        <Button
-          label='Перевод совершён закрыть чат с покупателем'
-          onClick={handleSuccess}
-          className='justify-center'
-          variant='admin'
-        />
+
+        <div className='flex gap-2 mobile:gap-4 max-320:[&_button]:font-medium items-center'>
+          <Button label='Отменить заказ' variant='outline' className='w-auto px-2' onClick={handleCancel} />
+          <Button
+            label='Перевод совершён закрыть чат с покупателем'
+            onClick={handleSuccess}
+            className='justify-center w-auto px-2 flex-1'
+            variant='admin'
+          />
+        </div>
       </div>
     </div>
   );

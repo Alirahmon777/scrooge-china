@@ -153,9 +153,10 @@ const PaymentChat = ({ setOpen }: IProps) => {
             )}
             {orderChat.status == '"Maybepayed"' && (
               <Button
-                label='Завершить заказ и оставить отзыв'
+                label='Отменить заказ'
+                variant='admin'
                 className='w-full py-[10px] rounded-[10px] justify-center'
-                onClick={() => handleClose(false)}
+                onClick={handleCancel}
               />
             )}
           </div>
